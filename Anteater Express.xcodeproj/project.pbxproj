@@ -46,6 +46,7 @@
 		1A16D1CC1BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1C61BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m */; };
 		1A16D1CD1BFA9E1E003B3C2D /* AnnouncementsAndNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1C81BFA9E1E003B3C2D /* AnnouncementsAndNews.m */; };
 		1A16D1CE1BFA9E1E003B3C2D /* AnnouncementsPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1CA1BFA9E1E003B3C2D /* AnnouncementsPost.m */; };
+		1A16D1CF1BFAA0BD003B3C2D /* ANTEX_MAC_APP-ICON-114px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571DB1559B374007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
 		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
@@ -85,15 +86,10 @@
 		4A76A709155903FB00D99B14 /* iPhone_HighRes_Background-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A76A706155903FB00D99B14 /* iPhone_HighRes_Background-1.png */; };
 		4A76A70A155903FB00D99B14 /* iPhone_HighRes_Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A76A707155903FB00D99B14 /* iPhone_HighRes_Background.png */; };
 		4A9571D31559B313007AE958 /* ANTEX_MAC_APP-ICON-1024px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571CD1559B313007AE958 /* ANTEX_MAC_APP-ICON-1024px_V2.png */; };
-		4A9571D41559B313007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571CE1559B313007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png */; };
 		4A9571D51559B313007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571CF1559B313007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png */; };
 		4A9571D61559B313007AE958 /* ANTEX_MAC_APP-ICON-512px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571D01559B313007AE958 /* ANTEX_MAC_APP-ICON-512px_V2.png */; };
 		4A9571D71559B313007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571D11559B313007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png */; };
 		4A9571D81559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571D21559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png */; };
-		4A9571DA1559B31D007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571D91559B31D007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png */; };
-		4A9571DC1559B374007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571DB1559B374007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png */; };
-		4A9571DE1559B37C007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571DD1559B37C007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png */; };
-		4A9571E01559B381007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571DF1559B381007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png */; };
 		4AA1A1AF1696B34F00CC527B /* 75-phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA1A1AB1696B34F00CC527B /* 75-phone.png */; };
 		4AA1A1B01696B34F00CC527B /* 112-group.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA1A1AC1696B34F00CC527B /* 112-group.png */; };
 		4AA1A1B11696B34F00CC527B /* 162-receipt.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AA1A1AD1696B34F00CC527B /* 162-receipt.png */; };
@@ -619,7 +615,7 @@
 		4A76A6D11559016100D99B14 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0710;
 			};
 			buildConfigurationList = 4A76A6D41559016100D99B14 /* Build configuration list for PBXProject "Anteater Express" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -649,15 +645,11 @@
 				4A76A709155903FB00D99B14 /* iPhone_HighRes_Background-1.png in Resources */,
 				4A76A70A155903FB00D99B14 /* iPhone_HighRes_Background.png in Resources */,
 				4A9571D31559B313007AE958 /* ANTEX_MAC_APP-ICON-1024px_V2.png in Resources */,
-				4A9571D41559B313007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png in Resources */,
+				1A16D1CF1BFAA0BD003B3C2D /* ANTEX_MAC_APP-ICON-114px_V2.png in Resources */,
 				4A9571D51559B313007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png in Resources */,
 				4A9571D61559B313007AE958 /* ANTEX_MAC_APP-ICON-512px_V2.png in Resources */,
 				4A9571D71559B313007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png in Resources */,
 				4A9571D81559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png in Resources */,
-				4A9571DA1559B31D007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png in Resources */,
-				4A9571DC1559B374007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png in Resources */,
-				4A9571DE1559B37C007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png in Resources */,
-				4A9571E01559B381007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png in Resources */,
 				4AD1FA00155DA45D00978EAA /* iPad_HighRes_Background.png in Resources */,
 				4AD1FA10155DD43F00978EAA /* alert_lt_gray_ios_high_res.png in Resources */,
 				4AD1FA11155DD43F00978EAA /* map_lt_gray_ios_high_res.png in Resources */,
@@ -791,16 +783,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -808,10 +805,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -822,18 +823,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
@@ -855,6 +863,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Anteater Express\"",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "UCI.AnteaterExpress.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Anteater Ex";
 				WRAPPER_EXTENSION = app;
 			};
@@ -871,6 +880,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Anteater Express\"",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "UCI.AnteaterExpress.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Anteater Ex";
 				WRAPPER_EXTENSION = app;
 			};
@@ -880,19 +890,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Student Government Association University of California At Irvine";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Student Government Association University of California At Irvine";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
@@ -915,6 +932,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Anteater Express\"",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "UCI.AnteaterExpress.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Anteater Ex";
 				WRAPPER_EXTENSION = app;
 			};
