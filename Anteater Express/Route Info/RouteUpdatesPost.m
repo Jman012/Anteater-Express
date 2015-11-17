@@ -10,13 +10,13 @@
 
 @implementation RouteUpdatesPost
 
-NSString *routeName;
+NSString *routeName_updatesPost;
 
 - (id)initWithRouteName: (NSString*) routeNamePassed {
     self = [super init];
     if (self) {
         //initializations.
-        routeName = routeNamePassed;
+        routeName_updatesPost = routeNamePassed;
     }
     return self;
 }
@@ -28,7 +28,7 @@ NSString *routeName;
     
     [pairs  addObject:[[NameValuePair alloc] initWithName:@"EntityTypeParam" andValue:@"ROUTE_ALERTS"]];
     [pairs addObject:[[NameValuePair alloc] initWithName:@"PayloadFormatParam" andValue:@"JSON"]];
-    [pairs addObject:[[NameValuePair alloc] initWithName:@"RouteNameParam" andValue:[NSString stringWithFormat:@"%@",routeName]]];
+    [pairs addObject:[[NameValuePair alloc] initWithName:@"RouteNameParam" andValue:[NSString stringWithFormat:@"%@",routeName_updatesPost]]];
     
     HttpPostExecute* post = [[HttpPostExecute alloc] init]; 
     
