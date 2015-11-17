@@ -24,7 +24,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 RoutesAndAnnounceDAO* dao;
-RouteUpdatesDAO* routeUpdatesDAO_viewController;
+RouteUpdatesDAO* routeUpdatesDAO;
 
 @interface ViewController ()
 
@@ -56,7 +56,7 @@ NSInteger hasNetworkConnection;
 	// Do any additional setup after loading the view, typically from a nib.
     
     dao = [[RoutesAndAnnounceDAO alloc] init];
-    routeUpdatesDAO_viewController = [[RouteUpdatesDAO alloc] initWithRouteName: @"All"];
+    routeUpdatesDAO = [[RouteUpdatesDAO alloc] initWithRouteName: @"All"];
     
     [[self navigationController] setNavigationBarHidden:YES animated:NO];
     
@@ -171,7 +171,7 @@ NSInteger hasNetworkConnection;
     //Route Updates DAO repopulated on every reappearance so that it will not just show only 1 route if the user has already looked at a route
     
     dao = [[RoutesAndAnnounceDAO alloc] init];
-    routeUpdatesDAO_viewController = [[RouteUpdatesDAO alloc] initWithRouteName: @"All"];
+    routeUpdatesDAO = [[RouteUpdatesDAO alloc] initWithRouteName: @"All"];
     
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -319,8 +319,8 @@ NSInteger hasNetworkConnection;
         
         AllRouteUpdates *viewController = [segue destinationViewController];
         
-        routeUpdatesDAO_viewController = [[RouteUpdatesDAO alloc] initWithRouteName: @"All"];
-        viewController.updatesData = [routeUpdatesDAO_viewController getRouteUpdates];
+        routeUpdatesDAO = [[RouteUpdatesDAO alloc] initWithRouteName: @"All"];
+        viewController.updatesData = [routeUpdatesDAO getRouteUpdates];
     }
     else if([[segue identifier]
              isEqualToString:@"ShowSelectRoutes"])

@@ -10,13 +10,13 @@
 
 @implementation RouteSchedulesPost
 
-NSString *routeName_schedulesPost;
+NSString *routeName;
 
 - (id)initWithRouteName: (NSString*) routeNamePassed {
 self = [super init];
 if (self) {
     //initializations.
-    routeName_schedulesPost = routeNamePassed;
+    routeName = routeNamePassed;
 }
 return self;
 }
@@ -28,7 +28,7 @@ NSMutableArray* pairs = [[NSMutableArray alloc] init];
 
 [pairs addObject:[[NameValuePair alloc] initWithName:@"EntityTypeParam" andValue:@"ROUTE_SCHEDULES"]];
 [pairs addObject:[[NameValuePair alloc] initWithName:@"PayloadFormatParam" andValue:@"JSON"]];
-[pairs addObject:[[NameValuePair alloc] initWithName:@"RouteNameParam" andValue:[NSString stringWithFormat:@"%@",routeName_schedulesPost]]];
+[pairs addObject:[[NameValuePair alloc] initWithName:@"RouteNameParam" andValue:[NSString stringWithFormat:@"%@",routeName]]];
     
 HttpPostExecute* post = [[HttpPostExecute alloc] init]; 
 

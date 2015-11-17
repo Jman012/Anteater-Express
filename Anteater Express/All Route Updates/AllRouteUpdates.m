@@ -21,7 +21,7 @@
 @synthesize updatesList; //UITableView
 @synthesize noUpdatesMessage;
 
-MessagesDAL* messagesDAL_allRouteUpdates;
+MessagesDAL* messagesDAL;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -41,7 +41,7 @@ MessagesDAL* messagesDAL_allRouteUpdates;
     [[self navigationController] setNavigationBarHidden:NO animated:NO];
     
     //Setup Messages DAL for the data displayed on this view
-    messagesDAL_allRouteUpdates = [[MessagesDAL alloc] initWithArray:updatesData basedOnType:NO forOneRoute:NO];
+    messagesDAL = [[MessagesDAL alloc] initWithArray:updatesData basedOnType:NO forOneRoute:NO];
     
     self.updatesList.dataSource = self;
     
@@ -74,7 +74,7 @@ MessagesDAL* messagesDAL_allRouteUpdates;
         NSString* routeAlertID  = [[[updatesData objectAtIndex: [self.updatesList indexPathForSelectedRow].row] valueForKey:@"RouteAlertId"] stringValue];
         NSString* objectStringIdentifier  = [routeID stringByAppendingString:@"_"];
         objectStringIdentifier  = [objectStringIdentifier stringByAppendingString:routeAlertID];
-        [messagesDAL_allRouteUpdates markAsRead: objectStringIdentifier];
+        [messagesDAL markAsRead: objectStringIdentifier];
         
         AnnouncementCustomCell *tempCell = (AnnouncementCustomCell*)[self.updatesList cellForRowAtIndexPath: [self.updatesList indexPathForSelectedRow]];
         tempCell.unreadImage.hidden = YES;
@@ -163,7 +163,7 @@ MessagesDAL* messagesDAL_allRouteUpdates;
     NSString* routeAlertID  = [[tempAnnouncement valueForKey:@"RouteAlertId"] stringValue];
     NSString* objectString  = [routeID stringByAppendingString:@"_"];
     objectString  = [objectString stringByAppendingString:routeAlertID];
-    if([messagesDAL_allRouteUpdates isRead: objectString])
+    if([messagesDAL isRead: objectString])
     {
         cell.unreadImage.hidden = YES;
     }

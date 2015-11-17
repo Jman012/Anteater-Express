@@ -22,7 +22,7 @@
 @synthesize noUpdatesMessage;
 @synthesize progressView; // progress Indicator between pages.
 
-MessagesDAL* messagesDAL_announcesmentsAndNews;
+MessagesDAL* messagesDAL;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -42,7 +42,7 @@ MessagesDAL* messagesDAL_announcesmentsAndNews;
     [[self navigationController] setNavigationBarHidden:NO animated:NO];
     
     //Setup Messages DAL for the data displayed on this view
-    messagesDAL_announcesmentsAndNews = [[MessagesDAL alloc] initWithArray:announcementsData basedOnType:YES forOneRoute:NO];
+    messagesDAL = [[MessagesDAL alloc] initWithArray:announcementsData basedOnType:YES forOneRoute:NO];
     
     self.announcementsList.dataSource = self;
     
@@ -87,7 +87,7 @@ MessagesDAL* messagesDAL_announcesmentsAndNews;
         detailsViewController.newsData = [announcementsData objectAtIndex: [self.announcementsList indexPathForSelectedRow].row];
         
         //Mark message as read in the NSUserDefault Memory
-        [messagesDAL_announcesmentsAndNews markAsRead: [[[announcementsData objectAtIndex: [self.announcementsList indexPathForSelectedRow].row] valueForKey:@"GlobalAlertId"] stringValue]];
+        [messagesDAL markAsRead: [[[announcementsData objectAtIndex: [self.announcementsList indexPathForSelectedRow].row] valueForKey:@"GlobalAlertId"] stringValue]];
     }
 }
 -(void)viewDidDisappear:(BOOL)animated
@@ -174,7 +174,7 @@ MessagesDAL* messagesDAL_announcesmentsAndNews;
     //Formats the Arrow on the Right Side of each cell
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    if([messagesDAL_announcesmentsAndNews isRead:[[tempAnnouncement valueForKey:@"GlobalAlertId"] stringValue]])
+    if([messagesDAL isRead:[[tempAnnouncement valueForKey:@"GlobalAlertId"] stringValue]])
     {
         cell.unreadImage.hidden = YES;
     }
