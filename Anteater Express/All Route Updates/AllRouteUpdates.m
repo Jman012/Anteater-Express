@@ -36,7 +36,7 @@ MessagesDAL* messagesDAL;
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    self.trackedViewName = @"Message List : Route : All";
+    self.screenName = @"Message List : Route : All";
 	// Do any additional setup after loading the view.
     [[self navigationController] setNavigationBarHidden:NO animated:NO];
     

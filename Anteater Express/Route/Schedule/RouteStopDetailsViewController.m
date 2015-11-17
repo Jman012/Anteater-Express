@@ -49,7 +49,7 @@ int  nextDepartureTimeRow;
     viewName = [viewName stringByAppendingString:routeName];
     viewName = [viewName stringByAppendingString:@" : "];
     viewName = [viewName stringByAppendingString:[specificStopData objectForKey:@"StopName"]];
-    self.trackedViewName = viewName;
+    self.screenName = viewName;
     
 	// Do any additional setup after loading the view.
     [[self navigationController] setNavigationBarHidden:NO animated:NO];

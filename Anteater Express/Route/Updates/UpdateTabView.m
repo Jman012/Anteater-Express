@@ -90,7 +90,7 @@ MessagesDAL* messagesDAL;
     
     NSString* viewName = @"Message List : Route : ";
     viewName = [viewName stringByAppendingString:routeName];
-    self.trackedViewName = viewName;
+    self.screenName = viewName;
     
     //Get Route Updates Information
     routeUpdatesDAO = [[RouteUpdatesDAO alloc] initWithRouteName: routeName];

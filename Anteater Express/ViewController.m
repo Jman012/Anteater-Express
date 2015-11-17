@@ -52,7 +52,7 @@ NSInteger hasNetworkConnection;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.trackedViewName = @"Welcome";
+    self.screenName = @"Welcome";
 	// Do any additional setup after loading the view, typically from a nib.
     
     dao = [[RoutesAndAnnounceDAO alloc] init];

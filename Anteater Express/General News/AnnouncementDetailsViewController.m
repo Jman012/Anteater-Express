@@ -31,7 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.trackedViewName = @"Message : General News";
+    self.screenName = @"Message : General News";
 	// Do any additional setup after loading the view.
     
     self.navigationItem.backBarButtonItem.title = @"Back";

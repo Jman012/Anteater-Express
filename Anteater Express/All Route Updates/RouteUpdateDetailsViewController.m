@@ -43,7 +43,7 @@
     
     NSString* viewName = @"Message : Route : ";
     viewName = [viewName stringByAppendingString:[updateData valueForKey:@"RouteName"]];
-    self.trackedViewName = viewName;
+    self.screenName = viewName;
 }
 
 - (void)viewWillAppear:(BOOL)animated  

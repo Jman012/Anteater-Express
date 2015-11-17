@@ -30,7 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.trackedViewName = @"No Connection Screen";
+    self.screenName = @"No Connection Screen";
 	// Do any additional setup after loading the view.
     [[self navigationController] setNavigationBarHidden:YES animated:NO];
 }

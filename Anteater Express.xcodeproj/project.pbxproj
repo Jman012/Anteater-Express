@@ -110,19 +110,14 @@
 		4AD1FA1C1561CCA700978EAA /* menu_graphic2_25px.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AD1FA1B1561CCA700978EAA /* menu_graphic2_25px.png */; };
 		4AD1FA1F1561CD4D00978EAA /* menu_graphic_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AD1FA1D1561CD4D00978EAA /* menu_graphic_2.png */; };
 		4AE5282216E2CD6E003FCA0E /* mobile_net_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AE5282116E2CD6E003FCA0E /* mobile_net_close.png */; };
-		4AE5282B16E3483B003FCA0E /* libGoogleAnalytics_debug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5282916E34837003FCA0E /* libGoogleAnalytics_debug.a */; };
-		4AE5282C16E3483B003FCA0E /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5282A16E34839003FCA0E /* libGoogleAnalytics.a */; };
 		4AE5283316E348A6003FCA0E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5283216E348A6003FCA0E /* CoreData.framework */; };
+		FCFD59A2FC2955222032106E /* libPods-Anteater Express.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0466F324477296E7A00CE578 /* libPods-Anteater Express.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0466F324477296E7A00CE578 /* libPods-Anteater Express.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Anteater Express.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A16D1511BFA9DCB003B3C2D /* ColorConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorConverter.h; path = Utils/ColorConverter.h; sourceTree = "<group>"; };
 		1A16D1521BFA9DCB003B3C2D /* ColorConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorConverter.m; path = Utils/ColorConverter.m; sourceTree = "<group>"; };
-		1A16D1541BFA9DCB003B3C2D /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
-		1A16D1551BFA9DCB003B3C2D /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
-		1A16D1561BFA9DCB003B3C2D /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
-		1A16D1571BFA9DCB003B3C2D /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransaction.h; sourceTree = "<group>"; };
-		1A16D1581BFA9DCB003B3C2D /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
 		1A16D1591BFA9DCB003B3C2D /* HttpPostExecute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpPostExecute.h; path = Utils/HttpPostExecute.h; sourceTree = "<group>"; };
 		1A16D15A1BFA9DCB003B3C2D /* HttpPostExecute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpPostExecute.m; path = Utils/HttpPostExecute.m; sourceTree = "<group>"; };
 		1A16D15B1BFA9DCB003B3C2D /* NameValuePair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NameValuePair.h; path = Utils/NameValuePair.h; sourceTree = "<group>"; };
@@ -199,6 +194,7 @@
 		1A16D1C81BFA9E1E003B3C2D /* AnnouncementsAndNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnnouncementsAndNews.m; path = "General News/AnnouncementsAndNews.m"; sourceTree = "<group>"; };
 		1A16D1C91BFA9E1E003B3C2D /* AnnouncementsPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnouncementsPost.h; path = "General News/AnnouncementsPost.h"; sourceTree = "<group>"; };
 		1A16D1CA1BFA9E1E003B3C2D /* AnnouncementsPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnnouncementsPost.m; path = "General News/AnnouncementsPost.m"; sourceTree = "<group>"; };
+		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
 		4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoConnectionViewController.m; sourceTree = "<group>"; };
@@ -273,9 +269,9 @@
 		4AD1FA1B1561CCA700978EAA /* menu_graphic2_25px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_graphic2_25px.png; sourceTree = "<group>"; };
 		4AD1FA1D1561CD4D00978EAA /* menu_graphic_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_graphic_2.png; sourceTree = "<group>"; };
 		4AE5282116E2CD6E003FCA0E /* mobile_net_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mobile_net_close.png; sourceTree = "<group>"; };
-		4AE5282916E34837003FCA0E /* libGoogleAnalytics_debug.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics_debug.a; path = ../../libGoogleAnalytics_debug.a; sourceTree = "<group>"; };
-		4AE5282A16E34839003FCA0E /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = ../../libGoogleAnalytics.a; sourceTree = "<group>"; };
 		4AE5283216E348A6003FCA0E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		6039B7833C1FBE36EB0317D8 /* Pods-Anteater Express.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.release.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.release.xcconfig"; sourceTree = "<group>"; };
+		7AFD7B2691FFE1B7F66B0DFE /* Pods-Anteater Express.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,27 +286,21 @@
 				4A76A6DF1559016100D99B14 /* UIKit.framework in Frameworks */,
 				4A76A6E11559016100D99B14 /* Foundation.framework in Frameworks */,
 				4A76A6E31559016100D99B14 /* CoreGraphics.framework in Frameworks */,
-				4AE5282B16E3483B003FCA0E /* libGoogleAnalytics_debug.a in Frameworks */,
-				4AE5282C16E3483B003FCA0E /* libGoogleAnalytics.a in Frameworks */,
+				FCFD59A2FC2955222032106E /* libPods-Anteater Express.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A16D1531BFA9DCB003B3C2D /* Google Analytics */ = {
+		0C29AFF851399825FD1216B7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1A16D1541BFA9DCB003B3C2D /* GAI.h */,
-				1A16D1551BFA9DCB003B3C2D /* GAITrackedViewController.h */,
-				1A16D1561BFA9DCB003B3C2D /* GAITracker.h */,
-				1A16D1571BFA9DCB003B3C2D /* GAITransaction.h */,
-				1A16D1581BFA9DCB003B3C2D /* GAITransactionItem.h */,
-				4AE5282916E34837003FCA0E /* libGoogleAnalytics_debug.a */,
-				4AE5282A16E34839003FCA0E /* libGoogleAnalytics.a */,
+				7AFD7B2691FFE1B7F66B0DFE /* Pods-Anteater Express.debug.xcconfig */,
+				6039B7833C1FBE36EB0317D8 /* Pods-Anteater Express.release.xcconfig */,
+				2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */,
 			);
-			name = "Google Analytics";
-			path = "Utils/Google Analytics";
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		1A16D1911BFA9E02003B3C2D /* Route Map */ = {
@@ -391,7 +381,6 @@
 			children = (
 				1A16D1511BFA9DCB003B3C2D /* ColorConverter.h */,
 				1A16D1521BFA9DCB003B3C2D /* ColorConverter.m */,
-				1A16D1531BFA9DCB003B3C2D /* Google Analytics */,
 				1A16D1591BFA9DCB003B3C2D /* HttpPostExecute.h */,
 				1A16D15A1BFA9DCB003B3C2D /* HttpPostExecute.m */,
 				1A16D15B1BFA9DCB003B3C2D /* NameValuePair.h */,
@@ -482,6 +471,7 @@
 				4A76A6DD1559016100D99B14 /* Frameworks */,
 				4A9571CC1559B313007AE958 /* images */,
 				4A76A6DB1559016100D99B14 /* Products */,
+				0C29AFF851399825FD1216B7 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -499,6 +489,7 @@
 				4A76A6DE1559016100D99B14 /* UIKit.framework */,
 				4A76A6E01559016100D99B14 /* Foundation.framework */,
 				4A76A6E21559016100D99B14 /* CoreGraphics.framework */,
+				0466F324477296E7A00CE578 /* libPods-Anteater Express.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -596,9 +587,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A76A6FB1559016100D99B14 /* Build configuration list for PBXNativeTarget "Anteater Express" */;
 			buildPhases = (
+				50DEA027BE0E8FB15A870EE2 /* Check Pods Manifest.lock */,
 				4A76A6D61559016100D99B14 /* Sources */,
 				4A76A6D71559016100D99B14 /* Frameworks */,
 				4A76A6D81559016100D99B14 /* Resources */,
+				7BB49FE631ABF6D5C0E4287C /* Embed Pods Frameworks */,
+				25ACBF16D3E84C852A9C5A3A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -697,6 +691,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		25ACBF16D3E84C852A9C5A3A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		50DEA027BE0E8FB15A870EE2 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7BB49FE631ABF6D5C0E4287C /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A76A6D61559016100D99B14 /* Sources */ = {
@@ -854,11 +896,12 @@
 		};
 		4A76A6FC1559016100D99B14 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AFD7B2691FFE1B7F66B0DFE /* Pods-Anteater Express.debug.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anteater Express/Anteater Express-Prefix.pch";
 				INFOPLIST_FILE = "Anteater Express/Anteater Express-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Anteater Express\"",
@@ -871,11 +914,12 @@
 		};
 		4A76A6FD1559016100D99B14 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6039B7833C1FBE36EB0317D8 /* Pods-Anteater Express.release.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anteater Express/Anteater Express-Prefix.pch";
 				INFOPLIST_FILE = "Anteater Express/Anteater Express-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Anteater Express\"",
@@ -923,11 +967,12 @@
 		};
 		4A7F56FD16EC406E009D5EB2 /* AppStore */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anteater Express/Anteater Express-Prefix.pch";
 				INFOPLIST_FILE = "Anteater Express/Anteater Express-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Anteater Express\"",

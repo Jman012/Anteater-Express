@@ -26,7 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.trackedViewName = @"Info : How to Ride";
+    self.screenName = @"Info : How to Ride";
 	// Do any additional setup after loading the view.
     [[self navigationController] setNavigationBarHidden:NO animated:NO];
     
