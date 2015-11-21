@@ -14,7 +14,7 @@
 #import "Utilities.h"
 #import "MessagesDAL.h"
 
-RouteUpdatesDAO* routeUpdatesDAO;
+RouteUpdatesDAO* routeUpdatesDAO_updateTabView;
 
 @interface UpdateTabView ()
 
@@ -90,13 +90,13 @@ MessagesDAL* messagesDAL;
     
     NSString* viewName = @"Message List : Route : ";
     viewName = [viewName stringByAppendingString:routeName];
-    self.trackedViewName = viewName;
+    self.screenName = viewName;
     
     //Get Route Updates Information
-    routeUpdatesDAO = [[RouteUpdatesDAO alloc] initWithRouteName: routeName];
+    routeUpdatesDAO_updateTabView = [[RouteUpdatesDAO alloc] initWithRouteName: routeName];
     
     //Load updates into arrays
-    updatesDataArray    = [routeUpdatesDAO getRouteUpdates];
+    updatesDataArray    = [routeUpdatesDAO_updateTabView getRouteUpdates];
     
     self.noUpdatesMessage.text = [[NSString alloc] initWithFormat:@"No Route Updates are Currently Posted for %@", routeName];
     

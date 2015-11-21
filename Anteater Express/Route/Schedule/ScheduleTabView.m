@@ -51,7 +51,7 @@ RouteSchedulesDAO* routeSchedulesDAO;
     
     NSString* viewName = @"Route Schedule : ";
     viewName = [viewName stringByAppendingString:routeName];
-    self.trackedViewName = viewName;
+    self.screenName = viewName;
     
     //Get Route Updates Information
     routeSchedulesDAO = [[RouteSchedulesDAO alloc] initWithRouteName: routeName];

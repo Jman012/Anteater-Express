@@ -10,13 +10,13 @@
 
 @implementation RouteSchedulesPost
 
-NSString *routeName;
+NSString *routeName_routeSchedulesPost;
 
 - (id)initWithRouteName: (NSString*) routeNamePassed {
 self = [super init];
 if (self) {
     //initializations.
-    routeName = routeNamePassed;
+    routeName_routeSchedulesPost = routeNamePassed;
 }
 return self;
 }
@@ -24,31 +24,31 @@ return self;
 - (NSArray*) processResponse
 {
 
-NSMutableArray* pairs = [[NSMutableArray alloc] init];
+    NSMutableArray* pairs = [[NSMutableArray alloc] init];
 
-[pairs addObject:[[NameValuePair alloc] initWithName:@"EntityTypeParam" andValue:@"ROUTE_SCHEDULES"]];
-[pairs addObject:[[NameValuePair alloc] initWithName:@"PayloadFormatParam" andValue:@"JSON"]];
-[pairs addObject:[[NameValuePair alloc] initWithName:@"RouteNameParam" andValue:[NSString stringWithFormat:@"%@",routeName]]];
-    
-HttpPostExecute* post = [[HttpPostExecute alloc] init]; 
+    [pairs addObject:[[NameValuePair alloc] initWithName:@"EntityTypeParam" andValue:@"ROUTE_SCHEDULES"]];
+    [pairs addObject:[[NameValuePair alloc] initWithName:@"PayloadFormatParam" andValue:@"JSON"]];
+    [pairs addObject:[[NameValuePair alloc] initWithName:@"RouteNameParam" andValue:[NSString stringWithFormat:@"%@",routeName_routeSchedulesPost]]];
+        
+    HttpPostExecute* post = [[HttpPostExecute alloc] init]; 
 
-[post sendRequest:@"http://apps.shuttle.uci.edu:8080/AE_Data_Service/DataAccessServlet" withNameValuePairs:pairs];
+    [post sendRequest:@"http://apps.shuttle.uci.edu:8080/AE_Data_Service/DataAccessServlet" withNameValuePairs:pairs];
 
 
-NSData* data = [post responseData];
+    NSData* data = [post responseData];
 
-if([data length] <= 0)
-{
-    NSLog(@"Route Updates returned no data");
-    return nil;
-}
-else
-{
-    NSError* e = nil;
-    NSArray* jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-    
-    return jsonData;
-}
+    if([data length] <= 0)
+    {
+        NSLog(@"Route Updates returned no data");
+        return nil;
+    }
+    else
+    {
+        NSError* e = nil;
+        NSArray* jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
+        
+        return jsonData;
+    }
 }
 
 

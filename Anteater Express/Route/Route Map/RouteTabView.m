@@ -87,7 +87,7 @@ const double MAP_LENGTH_PADDING = MAP_POINT_PADDING * 2;
     
     NSString* viewName = @"Route Map : ";
     viewName = [viewName stringByAppendingString:routeName];
-    self.trackedViewName = viewName;
+    self.screenName = viewName;
     
     tabNavBar.topItem.title     = routeName;
     

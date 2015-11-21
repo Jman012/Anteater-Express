@@ -22,7 +22,7 @@
 @synthesize noUpdatesMessage;
 @synthesize progressView; // progress Indicator between pages.
 
-MessagesDAL* messagesDAL;
+MessagesDAL* messagesDAL_announcementsAndNews;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -37,12 +37,12 @@ MessagesDAL* messagesDAL;
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    self.trackedViewName = @"Message List : General News";
+    self.screenName = @"Message List : General News";
 	// Do any additional setup after loading the view.
     [[self navigationController] setNavigationBarHidden:NO animated:NO];
     
     //Setup Messages DAL for the data displayed on this view
-    messagesDAL = [[MessagesDAL alloc] initWithArray:announcementsData basedOnType:YES forOneRoute:NO];
+    messagesDAL_announcementsAndNews = [[MessagesDAL alloc] initWithArray:announcementsData basedOnType:YES forOneRoute:NO];
     
     self.announcementsList.dataSource = self;
     
@@ -87,7 +87,7 @@ MessagesDAL* messagesDAL;
         detailsViewController.newsData = [announcementsData objectAtIndex: [self.announcementsList indexPathForSelectedRow].row];
         
         //Mark message as read in the NSUserDefault Memory
-        [messagesDAL markAsRead: [[[announcementsData objectAtIndex: [self.announcementsList indexPathForSelectedRow].row] valueForKey:@"GlobalAlertId"] stringValue]];
+        [messagesDAL_announcementsAndNews markAsRead: [[[announcementsData objectAtIndex: [self.announcementsList indexPathForSelectedRow].row] valueForKey:@"GlobalAlertId"] stringValue]];
     }
 }
 -(void)viewDidDisappear:(BOOL)animated
@@ -174,7 +174,7 @@ MessagesDAL* messagesDAL;
     //Formats the Arrow on the Right Side of each cell
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    if([messagesDAL isRead:[[tempAnnouncement valueForKey:@"GlobalAlertId"] stringValue]])
+    if([messagesDAL_announcementsAndNews isRead:[[tempAnnouncement valueForKey:@"GlobalAlertId"] stringValue]])
     {
         cell.unreadImage.hidden = YES;
     }
