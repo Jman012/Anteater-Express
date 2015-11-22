@@ -28,7 +28,6 @@
     [self setupRevealButton];
     self.title = @"Anteater Express";
     
-//    self.revealViewController.draggableBorderWidth = 40.0f;
     [self.swipeView addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     self.swipeView.backgroundColor = [UIColor clearColor];
     self.swipeView.userInteractionEnabled = YES;
@@ -45,7 +44,6 @@
     {
         [self.revealButton setTarget: self.revealViewController];
         [self.revealButton setAction: @selector(revealToggle:)];
-//        [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     }
 }
 
