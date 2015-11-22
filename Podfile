@@ -6,6 +6,7 @@
 target 'Anteater Express' do
 
 pod 'Google/Analytics'
+pod 'SWRevealViewController', '~> 2.3'
 
 end
 
