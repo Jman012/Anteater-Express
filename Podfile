@@ -7,6 +7,7 @@ target 'Anteater Express' do
 
 pod 'Google/Analytics'
 pod 'SWRevealViewController', '~> 2.3'
+pod 'TSMessages', '~> 0.9'
 
 end
 
