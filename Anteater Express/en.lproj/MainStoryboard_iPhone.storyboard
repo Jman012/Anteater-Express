@@ -757,6 +757,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Anteater Express" id="xRl-hf-2db">
                         <barButtonItem key="leftBarButtonItem" image="menu_graphic2_25px.png" id="5rG-D3-O0c"/>
+                        <barButtonItem key="rightBarButtonItem" title="Test" id="1kj-me-rQB">
+                            <connections>
+                                <action selector="testButtonPressed:" destination="ZXf-fr-uEJ" id="ME0-Dm-LSP"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="EZm-d9-CBz" id="dah-jB-RL8"/>

@@ -10,6 +10,7 @@
 
 #import <MapKit/MapKit.h>
 #import <SWRevealViewController/SWRevealViewController.h>
+#import <TSMessages/TSMessage.h>
 
 @interface MapViewController ()
 
@@ -45,6 +46,20 @@
         [self.revealButton setTarget: self.revealViewController];
         [self.revealButton setAction: @selector(revealToggle:)];
     }
+}
+
+- (IBAction)testButtonPressed:(id)sender {
+    [TSMessage showNotificationInViewController:self
+                                          title:@"Test notification"
+                                       subtitle:nil
+                                          image:nil
+                                           type:TSMessageNotificationTypeError
+                                       duration:TSMessageNotificationDurationEndless
+                                       callback:nil
+                                    buttonTitle:nil
+                                 buttonCallback:nil
+                                     atPosition:TSMessageNotificationPositionTop
+                           canBeDismissedByUser:YES];
 }
 
 /*
