@@ -15,9 +15,15 @@ PODS:
   - GoogleSymbolUtilities (1.0.3)
   - GoogleUtilities (1.1.0):
     - GoogleSymbolUtilities (~> 1.0.0)
+  - HexColors (2.2.1)
+  - SWRevealViewController (2.3.0)
+  - TSMessages (0.9.12):
+    - HexColors (~> 2.2.0)
 
 DEPENDENCIES:
   - Google/Analytics
+  - SWRevealViewController (~> 2.3)
+  - TSMessages (~> 0.9)
 
 SPEC CHECKSUMS:
   Google: fd33b5fa40fa3aaee5176de49c873a74e3d11dce
@@ -26,5 +32,8 @@ SPEC CHECKSUMS:
   GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
   GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
   GoogleUtilities: 8ed9134debe11719097881711464752900668f10
+  HexColors: abfd172e329dab59888614ccba6f216cec59289d
+  SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
+  TSMessages: c8cc7b80f2a833af533872cd02010cac061532cc
 
 COCOAPODS: 0.39.0
