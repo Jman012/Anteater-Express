@@ -30,6 +30,7 @@
     self.title = @"Anteater Express";
     
     [self.swipeView addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    [self.swipeView addGestureRecognizer:self.revealViewController.tapGestureRecognizer];
     self.swipeView.backgroundColor = [UIColor clearColor];
     self.swipeView.userInteractionEnabled = YES;
 }

@@ -41,6 +41,8 @@ NSString *kCellIdItemCell = @"AEMenuItemCell";
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
+    
+    self.revealViewController.rearViewRevealOverdraw = 0.0f;
 
     [self constructMenu];
     

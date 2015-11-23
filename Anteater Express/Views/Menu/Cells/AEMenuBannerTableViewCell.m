@@ -27,7 +27,7 @@
 }
 
 - (void)setBannerImage:(UIImage *)theImage {
-    self.imageView.image = theImage;
+    self.bannerImageView.image = theImage;
 }
 
 @end
