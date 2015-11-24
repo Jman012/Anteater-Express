@@ -667,6 +667,29 @@
                                 </tableViewCellContentView>
                                 <animations/>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AEMenuLoadingCell" id="wik-R3-mOA" customClass="AEMenuLoadingTableViewCell">
+                                <rect key="frame" x="0.0" y="204" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wik-R3-mOA" id="s9R-pY-bu4">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AHl-Un-cD8">
+                                            <rect key="frame" x="150" y="12" width="20" height="20"/>
+                                            <animations/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstItem="AHl-Un-cD8" firstAttribute="centerX" secondItem="s9R-pY-bu4" secondAttribute="centerX" id="nPU-hG-Iq7"/>
+                                        <constraint firstItem="AHl-Un-cD8" firstAttribute="centerY" secondItem="s9R-pY-bu4" secondAttribute="centerY" id="nv1-sD-rMd"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <animations/>
+                                <connections>
+                                    <outlet property="activityIndicatorView" destination="AHl-Un-cD8" id="Zz0-zz-E5n"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="VNV-Gy-eN8" id="Yi6-Ms-RfP"/>

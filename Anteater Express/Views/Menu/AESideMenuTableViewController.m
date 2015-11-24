@@ -16,21 +16,32 @@
 #import "BannerItemInfo.h"
 #import "LineInfo.h"
 #import "ItemInfo.h"
+#import "LoadingInfo.h"
 
 #import "AEMenuBannerTableViewCell.h"
 #import "AEMenuFreeLineTableViewCell.h"
 #import "AEMenuPaidLineTableViewCell.h"
 #import "AEMenuItemTableViewCell.h"
+#import "AEMenuLoadingTableViewCell.h"
+
+#import "AEGetRoutesOp.h"
 
 NSString *kCellIdBannerCell = @"AEMenuBannerCell";
 NSString *kCellIdFreeLineCell = @"AEMenuFreeLineCell";
 NSString *kCellIdPaidLineCell = @"AEMenuPaidLineCell";
 NSString *kCellIdItemCell = @"AEMenuItemCell";
+NSString *kCellIdLoadingCell = @"AEMenuLoadingCell";
+
+const NSUInteger kSectionBanner = 0;
+const NSUInteger kSectionLines = 1;
+const NSUInteger kSectionLinks = 2;
 
 @interface AESideMenuTableViewController ()
 
-@property(nonatomic, strong) NSArray *menuSections;
-@property(nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
+@property (nonatomic, strong) NSMutableArray *menuSections;
+@property (nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
+
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
 
 @end
 
@@ -42,10 +53,16 @@ NSString *kCellIdItemCell = @"AEMenuItemCell";
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
+    self.operationQueue = [[NSOperationQueue alloc] init];
+    self.operationQueue.name = @"AESideMenu OpQueue";
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
+    
     self.revealViewController.rearViewRevealOverdraw = 0.0f;
 
     [self constructMenu];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,15 +70,27 @@ NSString *kCellIdItemCell = @"AEMenuItemCell";
     // Dispose of any resources that can be recreated.
 }
 
-- (void)constructMenu {
-    // TODO: Background this. It loads stuff over the network!
-    self.routesAndAnnounceDAO = [[RoutesAndAnnounceDAO alloc] init];
+- (NSArray *)constructLineInfos {
+    if (self.routesAndAnnounceDAO == nil) {
+        return nil;
+    }
+    
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
     for (NSDictionary *routeDict in [self.routesAndAnnounceDAO getRoutes]) {
         [lineInfos addObject:[[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO cellIdentifer:kCellIdFreeLineCell]];
     }
+    return lineInfos;
+}
+
+- (void)constructMenu {
+    NSArray *lineInfos = [self constructLineInfos];
+    if (lineInfos == nil) {
+        lineInfos = @[
+                      [[LoadingInfo alloc] initWithCellIdentifer:kCellIdLoadingCell]
+                      ];
+    }
     
-    self.menuSections = @[
+    self.menuSections = [NSMutableArray arrayWithArray:@[
                           @[
                               [[BannerItemInfo alloc] initWithBannerImageName:[UIImage imageNamed:@"AE Banner"] cellIdentifer:kCellIdBannerCell]
                               ],
@@ -70,7 +99,60 @@ NSString *kCellIdItemCell = @"AEMenuItemCell";
                               [[ItemInfo alloc] initWithText:@"All Route Updates" storyboardIdentifier:@"AllRouteUpdates" cellIdentifer:kCellIdItemCell],
                               [[ItemInfo alloc] initWithText:@"News and About" storyboardIdentifier:@"NewsAndAbout" cellIdentifer:kCellIdItemCell]
                               ]
-                          ];
+                          ]];
+    
+    [self refreshAvailableLines];
+}
+
+- (void)refreshAvailableLines {
+    // Check if the loading cell is already there or not
+    // If so, don't change anything just yet
+    // If not, replace all current lines with a loading indicator
+    MenuInfo *loadingInfo;
+    if (self.menuSections[kSectionLines] == nil || [self.menuSections[kSectionLines] count] == 0) {
+        loadingInfo = nil;
+    } else {
+        loadingInfo = self.menuSections[kSectionLines][0];
+    }
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:kSectionLines];
+
+    if (loadingInfo == nil || [loadingInfo.cellIdentifier isEqualToString:kCellIdLoadingCell] == false) {
+        [self.tableView beginUpdates];
+        
+        self.menuSections[kSectionLines] = @[
+                                             [[LoadingInfo alloc] initWithCellIdentifer:kCellIdLoadingCell]
+                                             ];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [self.tableView endUpdates];
+    }
+    
+    // Now that we know the section has the single loading indicator cell,
+    // download the data with an operation object
+    AEGetRoutesOp *getRoutesOp = [[AEGetRoutesOp alloc] init];
+    getRoutesOp.returnBlock = ^(RoutesAndAnnounceDAO *routesAndAnnounceDAO) {
+        [self.tableView beginUpdates];
+        
+        self.routesAndAnnounceDAO = routesAndAnnounceDAO;
+        NSArray *lineInfos = [self constructLineInfos];
+        self.menuSections[kSectionLines] = lineInfos;
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [self.tableView endUpdates];
+        
+        // If the refresh control was pulled to trigger this, turn it off
+        [self.refreshControl endRefreshing];
+    };
+    
+    [self.operationQueue addOperation:getRoutesOp];
+    
+    
+}
+
+#pragma mark - UIRefreshControl
+
+- (void)pullToRefresh {
+    [self constructMenu];
 }
 
 #pragma mark - Table view data source
@@ -127,6 +209,10 @@ NSString *kCellIdItemCell = @"AEMenuItemCell";
         itemCell.userInteractionEnabled = YES;
         itemCell.textLabel.text = itemInfo.text;
         
+    } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdLoadingCell]) {
+        AEMenuLoadingTableViewCell *loadingCell = (AEMenuLoadingTableViewCell *)cell;
+        loadingCell.userInteractionEnabled = NO;
+        [loadingCell.activityIndicatorView startAnimating];
     }
     
 }

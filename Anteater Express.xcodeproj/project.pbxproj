@@ -60,6 +60,9 @@
 		1A16D1FC1C026469003B3C2D /* AE Banner.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A16D1FB1C026469003B3C2D /* AE Banner.png */; };
 		1A16D1FF1C026EFD003B3C2D /* AllRouteUpdatesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1FE1C026EFD003B3C2D /* AllRouteUpdatesViewController.m */; };
 		1A16D2021C026F10003B3C2D /* NewsAndAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2011C026F10003B3C2D /* NewsAndAboutViewController.m */; };
+		1A16D2061C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */; };
+		1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2081C04241C003B3C2D /* LoadingInfo.m */; };
+		1A16D20D1C04E92A003B3C2D /* AEGetRoutesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
 		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
@@ -232,6 +235,12 @@
 		1A16D1FE1C026EFD003B3C2D /* AllRouteUpdatesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AllRouteUpdatesViewController.m; path = "Views/All Route Updates/AllRouteUpdatesViewController.m"; sourceTree = "<group>"; };
 		1A16D2001C026F10003B3C2D /* NewsAndAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsAndAboutViewController.h; path = "Views/News and About/NewsAndAboutViewController.h"; sourceTree = "<group>"; };
 		1A16D2011C026F10003B3C2D /* NewsAndAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsAndAboutViewController.m; path = "Views/News and About/NewsAndAboutViewController.m"; sourceTree = "<group>"; };
+		1A16D2041C0423BE003B3C2D /* AEMenuLoadingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEMenuLoadingTableViewCell.h; path = Views/Menu/Cells/AEMenuLoadingTableViewCell.h; sourceTree = "<group>"; };
+		1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEMenuLoadingTableViewCell.m; path = Views/Menu/Cells/AEMenuLoadingTableViewCell.m; sourceTree = "<group>"; };
+		1A16D2071C04241C003B3C2D /* LoadingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingInfo.h; path = "Views/Menu/Menu Item Info/LoadingInfo.h"; sourceTree = "<group>"; };
+		1A16D2081C04241C003B3C2D /* LoadingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingInfo.m; path = "Views/Menu/Menu Item Info/LoadingInfo.m"; sourceTree = "<group>"; };
+		1A16D20B1C04E92A003B3C2D /* AEGetRoutesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRoutesOp.h; path = "AE Data Retrieval/AEGetRoutesOp.h"; sourceTree = "<group>"; };
+		1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRoutesOp.m; path = "AE Data Retrieval/AEGetRoutesOp.m"; sourceTree = "<group>"; };
 		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
@@ -441,6 +450,8 @@
 				1A16D1E31C024154003B3C2D /* AEMenuPaidLineTableViewCell.m */,
 				1A16D1E51C024310003B3C2D /* AEMenuItemTableViewCell.h */,
 				1A16D1E61C024310003B3C2D /* AEMenuItemTableViewCell.m */,
+				1A16D2041C0423BE003B3C2D /* AEMenuLoadingTableViewCell.h */,
+				1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -456,8 +467,19 @@
 				1A16D1F31C0246B0003B3C2D /* LineInfo.m */,
 				1A16D1F51C025905003B3C2D /* ItemInfo.h */,
 				1A16D1F61C025905003B3C2D /* ItemInfo.m */,
+				1A16D2071C04241C003B3C2D /* LoadingInfo.h */,
+				1A16D2081C04241C003B3C2D /* LoadingInfo.m */,
 			);
 			name = "Menu Item Info";
+			sourceTree = "<group>";
+		};
+		1A16D20A1C04E8FD003B3C2D /* AE Data Retrieval */ = {
+			isa = PBXGroup;
+			children = (
+				1A16D20B1C04E92A003B3C2D /* AEGetRoutesOp.h */,
+				1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */,
+			);
+			name = "AE Data Retrieval";
 			sourceTree = "<group>";
 		};
 		1A52FAC31BF5573E00AF783B /* Route Info */ = {
@@ -614,6 +636,7 @@
 		4A76A6E41559016100D99B14 /* Anteater Express */ = {
 			isa = PBXGroup;
 			children = (
+				1A16D20A1C04E8FD003B3C2D /* AE Data Retrieval */,
 				1A16D1D01C023CDF003B3C2D /* Views */,
 				1A52FAC41BF557CF00AF783B /* Utils */,
 				1A52FAC31BF5573E00AF783B /* Route Info */,
@@ -868,6 +891,7 @@
 				1A16D18A1BFA9DF6003B3C2D /* RouteVehiclesPost.m in Sources */,
 				1A16D1E71C024310003B3C2D /* AEMenuItemTableViewCell.m in Sources */,
 				1A16D1F11C02461E003B3C2D /* BannerItemInfo.m in Sources */,
+				1A16D20D1C04E92A003B3C2D /* AEGetRoutesOp.m in Sources */,
 				1A16D1DB1C023F8C003B3C2D /* AEMenuBannerTableViewCell.m in Sources */,
 				4A76A6EB1559016100D99B14 /* main.m in Sources */,
 				1A16D1841BFA9DF6003B3C2D /* RouteSchedulesDAO.m in Sources */,
@@ -892,12 +916,14 @@
 				1A16D1C11BFA9E16003B3C2D /* AllRouteUpdates.m in Sources */,
 				1A16D1AC1BFA9E02003B3C2D /* StopDepartureTimeCell.m in Sources */,
 				1A16D1FF1C026EFD003B3C2D /* AllRouteUpdatesViewController.m in Sources */,
+				1A16D2061C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m in Sources */,
 				1A16D1CC1BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m in Sources */,
 				1A16D1C21BFA9E16003B3C2D /* RouteUpdateDetailsViewController.m in Sources */,
 				1A16D1BC1BFA9E0D003B3C2D /* ServicesViewController.m in Sources */,
 				1A16D1BB1BFA9E0D003B3C2D /* HowToRideViewController.m in Sources */,
 				1A16D1831BFA9DF6003B3C2D /* RoutesAndAnnounceDAO.m in Sources */,
 				1A16D1DE1C024076003B3C2D /* AEMenuFreeLineTableViewCell.m in Sources */,
+				1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */,
 				1A16D1851BFA9DF6003B3C2D /* RouteSchedulesPost.m in Sources */,
 				1A16D1FA1C026092003B3C2D /* MapViewController.m in Sources */,
 				1A16D1811BFA9DF6003B3C2D /* RouteDefinitionDAO.m in Sources */,
