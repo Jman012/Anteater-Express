@@ -755,23 +755,12 @@
                                     <constraint firstAttribute="height" constant="51" id="eLK-b9-fvM"/>
                                 </constraints>
                             </imageView>
-                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZu-et-IS4">
-                                <rect key="frame" x="-4" y="0.0" width="20" height="480"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="m4C-GA-j2t"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="qMc-T5-YHu" firstAttribute="top" secondItem="EZu-et-IS4" secondAttribute="bottom" id="6he-MM-NTe"/>
                             <constraint firstItem="qMc-T5-YHu" firstAttribute="top" secondItem="EZm-d9-CBz" secondAttribute="bottom" id="E0r-Xo-3fX"/>
-                            <constraint firstItem="EZu-et-IS4" firstAttribute="leading" secondItem="es4-4i-QxX" secondAttribute="leadingMargin" constant="-20" id="KnF-yo-flE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EZm-d9-CBz" secondAttribute="trailing" constant="-20" id="M22-Fa-pej"/>
-                            <constraint firstItem="EZu-et-IS4" firstAttribute="top" secondItem="es4-4i-QxX" secondAttribute="topMargin" id="Wjv-8R-jKF"/>
                             <constraint firstItem="EZm-d9-CBz" firstAttribute="top" secondItem="6Ci-mv-xux" secondAttribute="bottom" id="ayR-8i-Bae"/>
                             <constraint firstItem="Lco-Lo-A1b" firstAttribute="leading" secondItem="es4-4i-QxX" secondAttribute="leadingMargin" constant="-20" id="eP2-hJ-Np4"/>
                             <constraint firstItem="EZm-d9-CBz" firstAttribute="leading" secondItem="es4-4i-QxX" secondAttribute="leadingMargin" constant="-20" id="h3t-95-DZX"/>
@@ -789,7 +778,6 @@
                     <connections>
                         <outlet property="mapView" destination="EZm-d9-CBz" id="dah-jB-RL8"/>
                         <outlet property="revealButton" destination="5rG-D3-O0c" id="jiz-SR-JR3"/>
-                        <outlet property="swipeView" destination="EZu-et-IS4" id="CBc-tQ-vBk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q6l-gN-8kE" userLabel="First Responder" sceneMemberID="firstResponder"/>
