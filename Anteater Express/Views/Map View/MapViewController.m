@@ -127,10 +127,12 @@
 #pragma mark - Route selection methods
 
 - (void)showNewRoute:(NSNumber *)theId {
+    NSLog(@"Showing new route: %@", theId);
     [self.selectedRoutes addObject:theId];
 }
 
 - (void)removeRoute:(NSNumber *)theId {
+    NSLog(@"Removing route: %@", theId);
     [self.selectedRoutes removeObject:theId];
 }
 

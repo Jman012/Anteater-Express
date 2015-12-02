@@ -13,5 +13,8 @@
 @interface MapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate>
 
 - (void)setAllRoutesArray:(NSArray *)allRoutesArray;
+- (void)showNewRoute:(NSNumber *)theId;
+- (void)removeRoute:(NSNumber *)theId;
+- (void)clearAllRoutes;
 
 @end

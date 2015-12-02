@@ -12,7 +12,9 @@
 
 @property (nonatomic, assign) BOOL paid;
 @property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSNumber *routeId;
+@property (nonatomic, assign) BOOL selected;
 
-- (instancetype)initWithText:(NSString *)theText paid:(BOOL)thePaid cellIdentifer:(NSString *)theCellId;
+- (instancetype)initWithText:(NSString *)theText paid:(BOOL)thePaid routeId:(NSNumber *)theRouteId cellIdentifer:(NSString *)theCellId;
 
 @end

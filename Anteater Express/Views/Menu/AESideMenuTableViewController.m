@@ -49,14 +49,47 @@ const NSUInteger kSectionLinks = 2;
 
 @implementation AESideMenuTableViewController
 
+- (void)initialize {
+    self.operationQueue = [[NSOperationQueue alloc] init];
+    self.operationQueue.name = @"AESideMenu OpQueue";
+
+    [self constructMenu];
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    if (self = [super initWithStyle:style]) {
+        [self initialize];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
-    self.operationQueue = [[NSOperationQueue alloc] init];
-    self.operationQueue.name = @"AESideMenu OpQueue";
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
@@ -79,7 +112,7 @@ const NSUInteger kSectionLinks = 2;
     
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
     for (NSDictionary *routeDict in [self.routesAndAnnounceDAO getRoutes]) {
-        [lineInfos addObject:[[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO cellIdentifer:kCellIdFreeLineCell]];
+        [lineInfos addObject:[[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO routeId:routeDict[@"Id"] cellIdentifer:kCellIdFreeLineCell]];
     }
     return lineInfos;
 }
@@ -247,6 +280,14 @@ const NSUInteger kSectionLinks = 2;
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         
         NSLog(@"Toggling %@", lineInfo.text);
+        UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+        MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+        if (lineInfo.selected) {
+            [mapVC removeRoute:lineInfo.routeId];
+        } else {
+            [mapVC showNewRoute:lineInfo.routeId];
+        }
+        lineInfo.selected = !lineInfo.selected;
         [self.revealViewController revealToggleAnimated:YES];
 
         
