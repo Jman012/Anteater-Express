@@ -14,7 +14,7 @@
     
     // Instantiating this will perform the network request
     RoutesAndAnnounceDAO *routesAndAnnounceDAO = [[RoutesAndAnnounceDAO alloc] init];
-    sleep(1);
+//    sleep(1);
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
         self.returnBlock(routesAndAnnounceDAO);

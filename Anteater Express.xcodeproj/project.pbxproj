@@ -63,6 +63,7 @@
 		1A16D2061C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */; };
 		1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2081C04241C003B3C2D /* LoadingInfo.m */; };
 		1A16D20D1C04E92A003B3C2D /* AEGetRoutesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */; };
+		1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
 		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
@@ -241,6 +242,8 @@
 		1A16D2081C04241C003B3C2D /* LoadingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingInfo.m; path = "Views/Menu/Menu Item Info/LoadingInfo.m"; sourceTree = "<group>"; };
 		1A16D20B1C04E92A003B3C2D /* AEGetRoutesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRoutesOp.h; path = "AE Data Retrieval/AEGetRoutesOp.h"; sourceTree = "<group>"; };
 		1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRoutesOp.m; path = "AE Data Retrieval/AEGetRoutesOp.m"; sourceTree = "<group>"; };
+		1A16D20E1C0E6B93003B3C2D /* AEGetRouteDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRouteDefinition.h; path = "AE Data Retrieval/AEGetRouteDefinition.h"; sourceTree = "<group>"; };
+		1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRouteDefinition.m; path = "AE Data Retrieval/AEGetRouteDefinition.m"; sourceTree = "<group>"; };
 		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
@@ -478,6 +481,8 @@
 			children = (
 				1A16D20B1C04E92A003B3C2D /* AEGetRoutesOp.h */,
 				1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */,
+				1A16D20E1C0E6B93003B3C2D /* AEGetRouteDefinition.h */,
+				1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */,
 			);
 			name = "AE Data Retrieval";
 			sourceTree = "<group>";
@@ -901,6 +906,7 @@
 				1A16D1861BFA9DF6003B3C2D /* RoutesPost.m in Sources */,
 				4A76A6EF1559016100D99B14 /* AppDelegate.m in Sources */,
 				1A16D18B1BFA9DF6003B3C2D /* StopArrivalPredictionDAO.m in Sources */,
+				1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */,
 				4A76A6F81559016100D99B14 /* ViewController.m in Sources */,
 				1A16D1CD1BFA9E1E003B3C2D /* AnnouncementsAndNews.m in Sources */,
 				1A16D1881BFA9DF6003B3C2D /* RouteUpdatesPost.m in Sources */,

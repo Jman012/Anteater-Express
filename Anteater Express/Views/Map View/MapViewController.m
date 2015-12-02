@@ -12,17 +12,31 @@
 #import <SWRevealViewController/SWRevealViewController.h>
 #import <TSMessages/TSMessage.h>
 
+#import "AEGetRouteDefinition.h"
+
 @interface MapViewController ()
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;
-
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
+
+@property (nonatomic, strong) NSDictionary *allRoutes; // Holds entire Route dicts, keyed by the route "Id"
+@property (nonatomic, strong) NSMutableSet *selectedRoutes; // Holds the "Id" for each route, which is used in the allRoutes dict.
+@property (atomic, strong) NSMutableDictionary *routeDefinitions; // Holds the route def dicts, keyed by the StopSetId
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
 
 
 
 @end
 
 @implementation MapViewController
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        self.operationQueue = [[NSOperationQueue alloc] init];
+        self.operationQueue.name = @"Map View Controller";
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,16 +58,6 @@
     }];
     
     self.revealViewController.delegate = self;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"Enabled");
-    self.mapView.userInteractionEnabled = YES;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    NSLog(@"Disabled");
-    self.mapView.userInteractionEnabled = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,6 +87,56 @@
                                  buttonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
                            canBeDismissedByUser:YES];
+}
+
+#pragma mark - Route Data handling
+
+- (void)setAllRoutesArray:(NSArray *)allRoutesArray {
+    // Construct a dict of these where each key is the Id
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (NSDictionary *routeDict in allRoutesArray) {
+        NSNumber *routeId = routeDict[@"Id"];
+        dict[routeId] = routeDict;
+    }
+    self.allRoutes = dict;
+}
+
+- (void)setAllRoutes:(NSDictionary *)allRoutes {
+    _allRoutes = allRoutes;
+    
+    // Now that our routes got set, lets load all the data we need
+    // Note: This might be just an update, so make sure we're not reloading
+    // unnecessary data
+    for (NSNumber *routeId in _allRoutes) {
+        NSDictionary *routeDict = _allRoutes[routeId];
+        NSNumber *routeStopSetId = routeDict[@"StopSetId"];
+        
+        if (self.routeDefinitions[routeId] == nil) {
+            // If our route Definitions (which hold 1. the gps coords and 2. the stops)
+            // Then we'll dl it.
+            
+            AEGetRouteDefinition *getRouteOp = [[AEGetRouteDefinition alloc] initWithStopSetId:[routeStopSetId integerValue]];
+            getRouteOp.returnBlock = ^(RouteDefinitionDAO *routeDefinition) {
+                self.routeDefinitions[routeId] = routeDefinition;
+            };
+            [self.operationQueue addOperation:getRouteOp];
+        }
+    }
+}
+
+#pragma mark - Route selection methods
+
+- (void)showNewRoute:(NSNumber *)theId {
+    [self.selectedRoutes addObject:theId];
+}
+
+- (void)removeRoute:(NSNumber *)theId {
+    [self.selectedRoutes removeObject:theId];
+}
+
+- (void)clearAllRoutes {
+    [self.selectedRoutes removeAllObjects];
+    
 }
 
 #pragma mark - SWRevealViewController

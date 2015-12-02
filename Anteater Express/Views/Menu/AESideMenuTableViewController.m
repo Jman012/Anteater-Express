@@ -26,6 +26,8 @@
 
 #import "AEGetRoutesOp.h"
 
+#import "MapViewController.h"
+
 NSString *kCellIdBannerCell = @"AEMenuBannerCell";
 NSString *kCellIdFreeLineCell = @"AEMenuFreeLineCell";
 NSString *kCellIdPaidLineCell = @"AEMenuPaidLineCell";
@@ -142,6 +144,16 @@ const NSUInteger kSectionLinks = 2;
         
         // If the refresh control was pulled to trigger this, turn it off
         [self.refreshControl endRefreshing];
+        
+        // Then tell the map view that we got this new information, and if it needs
+        // to download anything else for it's underlying data structures
+        UIViewController *vc = self.revealViewController.frontViewController;
+        if ([vc isKindOfClass:[UINavigationController class]]) {
+            UIViewController *newVc = [[(UINavigationController *)vc viewControllers] firstObject];
+            if ([newVc isKindOfClass:[MapViewController class]]) {
+                [(MapViewController *)newVc setAllRoutesArray:[routesAndAnnounceDAO getRoutes]];
+            }
+        }
     };
     
     [self.operationQueue addOperation:getRoutesOp];

@@ -26,7 +26,7 @@
     // Optional: set debug to YES for extra debugging information.
 //    [GAI sharedInstance].debug = YES;
     // Create tracker instance.
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-3170671-13"];
+    //id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-3170671-13"]; // Disabling this for debugging, don't forget to turn back on!
     //id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     
     // Override point for customization after application launch.
