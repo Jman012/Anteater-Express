@@ -60,7 +60,7 @@
     // Side menu stuff
     [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     [[self.mapView.subviews[0] gestureRecognizers] enumerateObjectsUsingBlock:^(UIGestureRecognizer * gesture, NSUInteger idx, BOOL *stop){
-        if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {
+        if ([gesture isMemberOfClass:[UIPanGestureRecognizer class]]) {
             // We set the delegate for the map view gestures to ourself, so we can cancel
             // any pans starting from the leftmost 30 points.
             [gesture setDelegate:self];
@@ -71,13 +71,6 @@
     
     self.revealViewController.delegate = self;
     
-//    MKCoordinateRegion mapRegion;
-//    mapRegion.center = self.mapView.userLocation.coordinate;
-//    //The amount of north-to-south distance (measured in degrees) to display on the map. Unlike longitudinal distances, which vary based on the latitude, one degree of latitude is always approximately 111 kilometers (69 miles).
-//    mapRegion.span.latitudeDelta = 0.005;
-//    //The amount of east-to-west distance (measured in degrees) to display for the map region. The number of kilometers spanned by a longitude range varies based on the current latitude. For example, one degree of longitude spans a distance of approximately 111 kilometers (69 miles) at the equator but shrinks to 0 kilometers at the poles.
-//    mapRegion.span.longitudeDelta = 0.005;
-//    [self.mapView setRegion:mapRegion animated: YES];
     [self.mapView setMapType:MKMapTypeStandard];
     self.mapView.delegate = self;
 
