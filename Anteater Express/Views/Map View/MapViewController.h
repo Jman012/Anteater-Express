@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import <SWRevealViewController/SWRevealViewController.h>
 
-@interface MapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate>
+@interface MapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate, MKMapViewDelegate>
 
 - (void)setAllRoutesArray:(NSArray *)allRoutesArray;
 - (void)showNewRoute:(NSNumber *)theId;
