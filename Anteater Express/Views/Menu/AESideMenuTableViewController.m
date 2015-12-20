@@ -9,6 +9,7 @@
 #import "AESideMenuTableViewController.h"
 
 #import <SWRevealViewController/SWRevealViewController.h>
+#import <MapKit/MapKit.h>
 
 #import "RoutesAndAnnounceDAO.h"
 
@@ -17,26 +18,30 @@
 #import "LineInfo.h"
 #import "ItemInfo.h"
 #import "LoadingInfo.h"
+#import "MapControlInfo.h"
 
 #import "AEMenuBannerTableViewCell.h"
 #import "AEMenuFreeLineTableViewCell.h"
 #import "AEMenuPaidLineTableViewCell.h"
 #import "AEMenuItemTableViewCell.h"
 #import "AEMenuLoadingTableViewCell.h"
+#import "AEMenuMapControlTableViewCell.h"
 
 #import "AEGetRoutesOp.h"
 
 #import "MapViewController.h"
 
-NSString *kCellIdBannerCell = @"AEMenuBannerCell";
-NSString *kCellIdFreeLineCell = @"AEMenuFreeLineCell";
-NSString *kCellIdPaidLineCell = @"AEMenuPaidLineCell";
-NSString *kCellIdItemCell = @"AEMenuItemCell";
-NSString *kCellIdLoadingCell = @"AEMenuLoadingCell";
+NSString *kCellIdBannerCell =     @"AEMenuBannerCell";
+NSString *kCellIdFreeLineCell =   @"AEMenuFreeLineCell";
+NSString *kCellIdPaidLineCell =   @"AEMenuPaidLineCell";
+NSString *kCellIdItemCell =       @"AEMenuItemCell";
+NSString *kCellIdLoadingCell =    @"AEMenuLoadingCell";
+NSString *kCellIdMapControlCell = @"AEMenuMapControlCell";
 
-const NSUInteger kSectionBanner = 0;
-const NSUInteger kSectionLines = 1;
-const NSUInteger kSectionLinks = 2;
+const NSUInteger kSectionBanner =     0;
+const NSUInteger kSectionMapControl = 1;
+const NSUInteger kSectionLines =      2;
+const NSUInteger kSectionLinks =      3;
 
 @interface AESideMenuTableViewController ()
 
@@ -129,6 +134,9 @@ const NSUInteger kSectionLinks = 2;
                           @[
                               [[BannerItemInfo alloc] initWithBannerImageName:[UIImage imageNamed:@"AE Banner"] cellIdentifer:kCellIdBannerCell]
                               ],
+                          @[
+                              [[MapControlInfo alloc] initWithSelection:0 cellIdentifier:kCellIdMapControlCell]
+                              ],
                           lineInfos,
                           @[
                               [[ItemInfo alloc] initWithText:@"All Route Updates" storyboardIdentifier:@"AllRouteUpdates" cellIdentifer:kCellIdItemCell],
@@ -200,6 +208,29 @@ const NSUInteger kSectionLinks = 2;
     [self constructMenu];
 }
 
+#pragma mark - UISegmentedControl Target Action
+
+- (void)mapControlValueChanged:(UISegmentedControl *)control {
+    MapControlInfo *mapControlInfo = [self.menuSections[kSectionMapControl] firstObject];
+    mapControlInfo.selection = control.selectedSegmentIndex;
+    
+    UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+    MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+    switch (mapControlInfo.selection) {
+        case 0: {
+            [mapVC setMapType:MKMapTypeStandard];
+            break;
+        }
+        
+        case 1: {
+            [mapVC setMapType:MKMapTypeHybrid];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -229,7 +260,7 @@ const NSUInteger kSectionLinks = 2;
     MenuInfo *menuInfo = self.menuSections[indexPath.section][indexPath.row];
     
     if ([menuInfo.cellIdentifier isEqualToString:kCellIdBannerCell]) {
-        BannerItemInfo *bannerInfo =(BannerItemInfo *)menuInfo;
+        BannerItemInfo *bannerInfo = (BannerItemInfo *)menuInfo;
         AEMenuBannerTableViewCell *bannerCell = (AEMenuBannerTableViewCell *)cell;
         bannerCell.userInteractionEnabled = NO;
         [bannerCell setBannerImage:bannerInfo.bannerImage];
@@ -258,6 +289,14 @@ const NSUInteger kSectionLinks = 2;
         AEMenuLoadingTableViewCell *loadingCell = (AEMenuLoadingTableViewCell *)cell;
         loadingCell.userInteractionEnabled = NO;
         [loadingCell.activityIndicatorView startAnimating];
+        
+    } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdMapControlCell]) {
+        MapControlInfo *mapControlInfo = (MapControlInfo *)menuInfo;
+        AEMenuMapControlTableViewCell *mapControlCell = (AEMenuMapControlTableViewCell *)cell;
+        [mapControlCell setSelection:mapControlInfo.selection];
+        mapControlCell.userInteractionEnabled = YES;
+        mapControlCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [mapControlCell setSegmentedControlTarget:self action:@selector(mapControlValueChanged:)];
     }
     
 }

@@ -115,6 +115,12 @@
                            canBeDismissedByUser:YES];
 }
 
+- (void)setMapType:(MKMapType)newType {
+    if (newType != self.mapView.mapType) {
+        [self.mapView setMapType:newType];
+    }
+}
+
 #pragma mark - Route Data handling
 
 - (NSNumber *)routeIdForStopSetId:(NSNumber *)stopSetId {

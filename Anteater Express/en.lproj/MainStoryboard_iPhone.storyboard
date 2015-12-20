@@ -643,6 +643,31 @@
                                     <outlet property="activityIndicatorView" destination="AHl-Un-cD8" id="Zz0-zz-E5n"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AEMenuMapControlCell" id="DRl-Y0-yYa" customClass="AEMenuMapControlTableViewCell">
+                                <rect key="frame" x="0.0" y="248" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DRl-Y0-yYa" id="ZLw-U1-F71">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Qen-xm-C51">
+                                            <rect key="frame" x="8" y="7" width="304" height="29"/>
+                                            <segments>
+                                                <segment title="Standard"/>
+                                                <segment title="Satellite"/>
+                                            </segments>
+                                        </segmentedControl>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Qen-xm-C51" firstAttribute="centerY" secondItem="ZLw-U1-F71" secondAttribute="centerY" id="FFi-XM-DjH"/>
+                                        <constraint firstItem="Qen-xm-C51" firstAttribute="trailing" secondItem="ZLw-U1-F71" secondAttribute="trailingMargin" id="scE-FB-T3I"/>
+                                        <constraint firstItem="Qen-xm-C51" firstAttribute="leading" secondItem="ZLw-U1-F71" secondAttribute="leadingMargin" id="yNl-Ew-zl9"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="segmentedControl" destination="Qen-xm-C51" id="nZw-jy-YKQ"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="VNV-Gy-eN8" id="Yi6-Ms-RfP"/>

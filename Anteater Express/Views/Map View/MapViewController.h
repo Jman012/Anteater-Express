@@ -17,4 +17,6 @@
 - (void)removeRoute:(NSNumber *)theId;
 - (void)clearAllRoutes;
 
+- (void)setMapType:(MKMapType)newType;
+
 @end
