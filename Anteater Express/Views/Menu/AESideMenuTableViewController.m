@@ -239,14 +239,14 @@ const NSUInteger kSectionLinks = 2;
         AEMenuFreeLineTableViewCell *freeLineCell = (AEMenuFreeLineTableViewCell *)cell;
         freeLineCell.userInteractionEnabled = YES;
         [freeLineCell setLineName:lineInfo.text];
-        [freeLineCell setChecked:NO];
+        [freeLineCell setChecked:lineInfo.selected];
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdPaidLineCell]) {
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         AEMenuPaidLineTableViewCell *paidLineCell = (AEMenuPaidLineTableViewCell *)cell;
         paidLineCell.userInteractionEnabled = YES;
         [paidLineCell setLineName:lineInfo.text];
-        [paidLineCell setChecked:NO];
+        [paidLineCell setChecked:lineInfo.selected];
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdItemCell]) {
         ItemInfo *itemInfo = (ItemInfo *)menuInfo;
@@ -288,14 +288,28 @@ const NSUInteger kSectionLinks = 2;
             [mapVC showNewRoute:lineInfo.routeId];
         }
         lineInfo.selected = !lineInfo.selected;
-        [self.revealViewController revealToggleAnimated:YES];
+        
+//        [self.revealViewController revealToggleAnimated:YES];
+        
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdPaidLineCell]) {
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         
         NSLog(@"Toggling %@", lineInfo.text);
-        [self.revealViewController revealToggleAnimated:YES];
+        UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+        MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+        if (lineInfo.selected) {
+            [mapVC removeRoute:lineInfo.routeId];
+        } else {
+            [mapVC showNewRoute:lineInfo.routeId];
+        }
+        lineInfo.selected = !lineInfo.selected;
+        
+//        [self.revealViewController revealToggleAnimated:YES];
+        
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdItemCell]) {

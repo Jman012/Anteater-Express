@@ -64,6 +64,8 @@
 		1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2081C04241C003B3C2D /* LoadingInfo.m */; };
 		1A16D20D1C04E92A003B3C2D /* AEGetRoutesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */; };
 		1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */; };
+		1A4B6EFF1C250CC100C730EC /* checked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B6EFD1C250CC100C730EC /* checked_checkbox.png */; };
+		1A4B6F001C250CC100C730EC /* unchecked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B6EFE1C250CC100C730EC /* unchecked_checkbox.png */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
 		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
@@ -244,6 +246,8 @@
 		1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRoutesOp.m; path = "AE Data Retrieval/AEGetRoutesOp.m"; sourceTree = "<group>"; };
 		1A16D20E1C0E6B93003B3C2D /* AEGetRouteDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRouteDefinition.h; path = "AE Data Retrieval/AEGetRouteDefinition.h"; sourceTree = "<group>"; };
 		1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRouteDefinition.m; path = "AE Data Retrieval/AEGetRouteDefinition.m"; sourceTree = "<group>"; };
+		1A4B6EFD1C250CC100C730EC /* checked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked_checkbox.png; sourceTree = "<group>"; };
+		1A4B6EFE1C250CC100C730EC /* unchecked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked_checkbox.png; sourceTree = "<group>"; };
 		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
@@ -678,6 +682,8 @@
 		4A9571CC1559B313007AE958 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1A4B6EFD1C250CC100C730EC /* checked_checkbox.png */,
+				1A4B6EFE1C250CC100C730EC /* unchecked_checkbox.png */,
 				1A16D1FB1C026469003B3C2D /* AE Banner.png */,
 				4AE5282116E2CD6E003FCA0E /* mobile_net_close.png */,
 				4A6C1AFF169FE9BD0022541B /* 104-index-cards.png */,
@@ -793,6 +799,7 @@
 				4A9571D81559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png in Resources */,
 				4AD1FA00155DA45D00978EAA /* iPad_HighRes_Background.png in Resources */,
 				4AD1FA10155DD43F00978EAA /* alert_lt_gray_ios_high_res.png in Resources */,
+				1A4B6F001C250CC100C730EC /* unchecked_checkbox.png in Resources */,
 				4AD1FA11155DD43F00978EAA /* map_lt_gray_ios_high_res.png in Resources */,
 				4AD1FA12155DD43F00978EAA /* schedule_lt_gray_ios_high_res.png in Resources */,
 				4AD1FA14155DE4FE00978EAA /* schedule_lt_gray_ios_30px.png in Resources */,
@@ -800,6 +807,7 @@
 				4AD1FA18155DE6D800978EAA /* map_lt_gray_ios_30px.png in Resources */,
 				4AD1FA1C1561CCA700978EAA /* menu_graphic2_25px.png in Resources */,
 				4AD1FA1F1561CD4D00978EAA /* menu_graphic_2.png in Resources */,
+				1A4B6EFF1C250CC100C730EC /* checked_checkbox.png in Resources */,
 				4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */,
 				4A53A85D1566DDEE00D191AC /* shuttle_E_stopped.png in Resources */,
 				4A53A85E1566DDEE00D191AC /* shuttle_N_moving.png in Resources */,

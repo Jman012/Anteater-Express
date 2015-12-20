@@ -534,7 +534,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="273" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="w0q-pf-Bkt">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unchecked_checkbox.png" translatesAutoresizingMaskIntoConstraints="NO" id="w0q-pf-Bkt">
                                             <rect key="frame" x="8" y="8" width="27.5" height="27.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="27.5" id="Bel-Ew-WCD"/>
@@ -1874,6 +1874,7 @@
         <image name="menu_graphic2_25px.png" width="25" height="20"/>
         <image name="mobile_net_close.png" width="256" height="256"/>
         <image name="schedule_lt_gray_ios_30px.png" width="30" height="30"/>
+        <image name="unchecked_checkbox.png" width="128" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

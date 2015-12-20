@@ -10,7 +10,9 @@
 
 @interface AEMenuFreeLineTableViewCell : UITableViewCell
 
+@property (nonatomic, assign) BOOL checked;
+
 - (void)setLineName:(NSString *)name;
-- (void)setChecked:(BOOL)checked;
+- (void)toggleChecked;
 
 @end
