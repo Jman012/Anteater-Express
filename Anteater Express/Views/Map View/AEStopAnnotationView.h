@@ -8,7 +8,7 @@
 
 #import <MapKit/MapKit.h>
 
-@interface AEStopAnnotationView : MKAnnotationView
+@interface AEStopAnnotationView : MKPinAnnotationView
 
 @property (nonatomic, strong) NSArray *colors;
 

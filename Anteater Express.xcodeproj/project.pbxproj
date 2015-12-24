@@ -70,6 +70,7 @@
 		1A4B6F061C27360300C730EC /* AEMenuMapControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F051C27360300C730EC /* AEMenuMapControlTableViewCell.m */; };
 		1A4B6F0F1C28B5C400C730EC /* AEStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */; };
 		1A4B6F121C29FFAB00C730EC /* AEStopAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */; };
+		1A4B6F151C2B97A600C730EC /* ColorCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F141C2B97A600C730EC /* ColorCircleView.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
 		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
@@ -260,6 +261,8 @@
 		1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEStopAnnotation.m; path = "Views/Map View/AEStopAnnotation.m"; sourceTree = "<group>"; };
 		1A4B6F101C29FFAB00C730EC /* AEStopAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEStopAnnotationView.h; path = "Views/Map View/AEStopAnnotationView.h"; sourceTree = "<group>"; };
 		1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEStopAnnotationView.m; path = "Views/Map View/AEStopAnnotationView.m"; sourceTree = "<group>"; };
+		1A4B6F131C2B97A600C730EC /* ColorCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorCircleView.h; path = "Views/Map View/ColorCircleView.h"; sourceTree = "<group>"; };
+		1A4B6F141C2B97A600C730EC /* ColorCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorCircleView.m; path = "Views/Map View/ColorCircleView.m"; sourceTree = "<group>"; };
 		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
@@ -440,6 +443,8 @@
 				1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */,
 				1A4B6F101C29FFAB00C730EC /* AEStopAnnotationView.h */,
 				1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */,
+				1A4B6F131C2B97A600C730EC /* ColorCircleView.h */,
+				1A4B6F141C2B97A600C730EC /* ColorCircleView.m */,
 			);
 			name = "Map View";
 			sourceTree = "<group>";
@@ -945,6 +950,7 @@
 				1A16D1641BFA9DCB003B3C2D /* Reachability.m in Sources */,
 				1A16D1821BFA9DF6003B3C2D /* RouteDefinitionPost.m in Sources */,
 				1A16D1F71C025905003B3C2D /* ItemInfo.m in Sources */,
+				1A4B6F151C2B97A600C730EC /* ColorCircleView.m in Sources */,
 				1A16D1621BFA9DCB003B3C2D /* HttpPostExecute.m in Sources */,
 				1A16D1651BFA9DCB003B3C2D /* Utilities.m in Sources */,
 				1A16D2021C026F10003B3C2D /* NewsAndAboutViewController.m in Sources */,
