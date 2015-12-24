@@ -15,26 +15,29 @@
 #import "AEGetRouteDefinition.h"
 #import "ColorConverter.h"
 
-#import "MapAnnotation.h"
-#import "ImageAnnotationView.h"
+#import "AEStopAnnotation.h"
 
 @interface MapViewController ()
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
 
-@property (nonatomic, strong) NSDictionary *allRoutes; // Holds entire Route dicts, keyed by the route "Id"
-@property (nonatomic, strong) NSMutableSet *selectedRoutes; // Holds the "Id" for each route, which is used in the allRoutes dict.
-@property (atomic, strong) NSMutableDictionary *routeDefinitions; // Holds the route def dicts, keyed by the StopSetId
-@property (nonatomic, strong) NSMutableDictionary *routeDefinitionsPolylines; // Made from routDefs, holds the MKPolylines by routeId
-@property (nonatomic, strong) NSMutableDictionary *routeStopsAnnotationsDict; // Just holds the MapAnnotation objects. StopId->MapAnnotation.
-    // TODO: find some fix for only storing the dict for one line in it. Modify MapAnnotation?
-@property (nonatomic, strong) NSMutableDictionary *routeStopsForWhichLines; // RouteId -> @[StopSetId], used as a lookup
-@property (nonatomic, strong) NSMutableDictionary *routeStopsAnnotationsSelected; // Routes share stops, so this is StopId->count as a retain/release method
-@property (nonatomic, strong) NSOperationQueue *operationQueue;
+// Basic/wholistic route info
+@property (nonatomic, strong) NSDictionary<NSNumber*, NSDictionary*> *allRoutes; // Holds entire Route dicts, keyed by the route "Id"
+@property (nonatomic, strong) NSMutableSet<NSNumber*> *selectedRoutes; // Holds the "Id" for each route, which is used in the allRoutes dict.
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, RouteDefinitionDAO*> *routeDefinitions; // Holds the route def dicts, keyed by the StopSetId
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, MKPolyline*> *routeDefinitionsPolylines; // Made from routDefs, holds the MKPolylines by routeId
 
+// Route Stop information specifically
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSArray<NSNumber*>*> *routeStopsForWhichLines; // RouteId -> @[StopSetId], used as a lookup
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, AEStopAnnotation*> *routeStopsAnnotationsDict; // Just holds the MapAnnotation objects. StopId->AEStopAnnotation.
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSNumber*> *routeStopsAnnotationsSelected; // Routes share stops, so this is StopId->count as a retain/release method
+
+// Misc
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, assign) MKMapPoint northEastPoint;
 @property (nonatomic, assign) MKMapPoint southWestPoint;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 
 
@@ -49,6 +52,17 @@
         self.operationQueue.name = @"Map View Controller";
         
         self.mapView.delegate = self;
+
+        
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+        [self.locationManager requestWhenInUseAuthorization];
+        CLAuthorizationStatus authStatus = [CLLocationManager authorizationStatus];
+        if (authStatus == kCLAuthorizationStatusAuthorizedWhenInUse ||
+            authStatus == kCLAuthorizationStatusAuthorizedAlways) {
+            [self.locationManager startUpdatingLocation];
+            self.mapView.showsUserLocation = YES;
+        }
         
         self.selectedRoutes = [NSMutableSet set];
         self.routeDefinitions = [NSMutableDictionary dictionary];
@@ -123,12 +137,14 @@
 
 #pragma mark - Route Data handling
 
-- (NSNumber *)routeIdForStopSetId:(NSNumber *)stopSetId {
-    __block NSNumber *toRet = nil;
-    [self.allRoutes enumerateKeysAndObjectsUsingBlock:^(NSNumber *curRouteId, NSDictionary *curRouteDict, BOOL *stop) {
-        if ([curRouteDict[@"StopSetId"] isEqualToNumber:stopSetId]) {
-            toRet = curRouteId;
-        }
+- (NSArray *)routeIdsForStopId:(NSNumber *)stopId {
+    __block NSMutableArray *toRet = [NSMutableArray array];
+    [self.routeStopsForWhichLines enumerateKeysAndObjectsUsingBlock:^(NSNumber *curRouteId, NSArray *stopIdArray, BOOL *stop) {
+        [stopIdArray enumerateObjectsUsingBlock:^(NSNumber *curStopId, NSUInteger idx, BOOL *stop2) {
+            if ([stopId isEqualToNumber:curStopId]) {
+                [toRet addObject:curRouteId];
+            }
+        }];
     }];
     return toRet;
 }
@@ -198,15 +214,15 @@
                 self.southWestPoint = point;
             }
             
-            // And here, we'll update based on new points
-            if (point.x > self.northEastPoint.x)
-                self.northEastPoint = MKMapPointMake(point.x, self.northEastPoint.y);
-            if(point.y > self.northEastPoint.y)
-                self.northEastPoint = MKMapPointMake(self.northEastPoint.x, point.y);
-            if (point.x < self.southWestPoint.x)
-                self.southWestPoint = MKMapPointMake(point.x, self.southWestPoint.y);
-            if (point.y < self.southWestPoint.y)
-                self.southWestPoint = MKMapPointMake(self.southWestPoint.x, point.y);
+//            // And here, we'll update based on new points
+//            if (point.x > self.northEastPoint.x)
+//                self.northEastPoint = MKMapPointMake(point.x, self.northEastPoint.y);
+//            if(point.y > self.northEastPoint.y)
+//                self.northEastPoint = MKMapPointMake(self.northEastPoint.x, point.y);
+//            if (point.x < self.southWestPoint.x)
+//                self.southWestPoint = MKMapPointMake(point.x, self.southWestPoint.y);
+//            if (point.y < self.southWestPoint.y)
+//                self.southWestPoint = MKMapPointMake(self.southWestPoint.x, point.y);
             
         }];
         // Make the polyline object out of the coords and add to the dict
@@ -214,16 +230,16 @@
         [polyline setTitle:[routeId stringValue]];
         self.routeDefinitionsPolylines[routeId] = polyline;
         
-        // Update bounding box for map if changed
-        if (oldNEX != self.northEastPoint.x || oldNEY != self.northEastPoint.y ||
-            oldSWX != self.southWestPoint.x || oldSWY != self.southWestPoint.y) {
-            CGFloat MAP_POINT_PADDING = 1000;
-            CGFloat MAP_LENGTH_PADDING = MAP_POINT_PADDING * 2;
-            
-            MKMapRect bounds = MKMapRectMake(self.southWestPoint.x - MAP_POINT_PADDING, self.southWestPoint.y - MAP_POINT_PADDING, self.northEastPoint.x - self.southWestPoint.x + MAP_LENGTH_PADDING, self.northEastPoint.y - self.southWestPoint.y + MAP_LENGTH_PADDING);
-            [self.mapView setVisibleMapRect:bounds animated:YES];
-            
-        }
+//        // Update bounding box for map if changed
+//        if (oldNEX != self.northEastPoint.x || oldNEY != self.northEastPoint.y ||
+//            oldSWX != self.southWestPoint.x || oldSWY != self.southWestPoint.y) {
+//            CGFloat MAP_POINT_PADDING = 5000;
+//            CGFloat MAP_LENGTH_PADDING = MAP_POINT_PADDING * 2;
+//            
+//            MKMapRect bounds = MKMapRectMake(self.southWestPoint.x - MAP_POINT_PADDING, self.southWestPoint.y - MAP_POINT_PADDING, self.northEastPoint.x - self.southWestPoint.x + MAP_LENGTH_PADDING, self.northEastPoint.y - self.southWestPoint.y + MAP_LENGTH_PADDING);
+//            [self.mapView setVisibleMapRect:bounds animated:YES];
+//            
+//        }
         
         
         /* ROUTE STOPS */
@@ -231,16 +247,23 @@
         NSMutableArray *stopNumbersForTheRoute = [NSMutableArray arrayWithCapacity:routeStops.count];
         [routeStops enumerateObjectsUsingBlock:^(NSDictionary *curStopDict, NSUInteger idx, BOOL *stop) {
             NSNumber *stopId = curStopDict[@"StopId"];
-            MapAnnotation *newStopAnnotation = [[MapAnnotation alloc] initWithAnnotationType:MapAnnotationTypeStop dictionary:[curStopDict mutableCopy]];
             [stopNumbersForTheRoute addObject:curStopDict[@"StopId"]];
             if (self.routeStopsAnnotationsDict[stopId] == nil) {
-                // Don't overwrite preexisting one for other stopSetId/line
+                // No annotation set, make a new annotation and assign it to this stopId
+                AEStopAnnotation *newStopAnnotation = [[AEStopAnnotation alloc] initWithDictionary:[curStopDict copy]];
                 self.routeStopsAnnotationsDict[stopId] = newStopAnnotation;
+            } else {
+                // There exists an annotation, so just add the dict to it.
+                AEStopAnnotation *stopAnnotation = self.routeStopsAnnotationsDict[stopId];
+                [stopAnnotation addNewDictionary:curStopDict];
+                // TODO: reload it somehow if it's one the screen currently?
             }
         }];
         self.routeStopsForWhichLines[routeId] = stopNumbersForTheRoute;
         
-        
+        NSArray *annotations = self.mapView.annotations;
+        [self.mapView removeAnnotations:annotations];
+        [self.mapView addAnnotations:annotations];
     };
     [self.operationQueue addOperation:getRouteOp];
 }
@@ -258,7 +281,7 @@
     // Add the route stops to the map
     if (self.routeStopsForWhichLines[theId] != nil) {
         [self.routeStopsForWhichLines[theId] enumerateObjectsUsingBlock:^(NSNumber *stopId, NSUInteger idx, BOOL *stop) {
-            MapAnnotation *stopAnnotation = self.routeStopsAnnotationsDict[stopId];
+            AEStopAnnotation *stopAnnotation = self.routeStopsAnnotationsDict[stopId];
             if (self.routeStopsAnnotationsSelected[stopId] == nil) {
                 // Doesn't exist on map yet
                 self.routeStopsAnnotationsSelected[stopId] = @1;
@@ -267,6 +290,10 @@
                 // Exists, so just up the counter
                 NSNumber *curCount = self.routeStopsAnnotationsSelected[stopId];
                 self.routeStopsAnnotationsSelected[stopId] = [NSNumber numberWithInteger:curCount.integerValue + 1];
+                
+                // Then reload the annotation to refresh the view
+                [self.mapView removeAnnotation:stopAnnotation];
+                [self.mapView addAnnotation:stopAnnotation];
             }
             
         }];
@@ -284,7 +311,7 @@
     // Remove the route stops
     if (self.routeStopsForWhichLines[theId] != nil) {
         [self.routeStopsForWhichLines[theId] enumerateObjectsUsingBlock:^(NSNumber *stopId, NSUInteger idx, BOOL *stop) {
-            MapAnnotation *stopAnnotation = self.routeStopsAnnotationsDict[stopId];
+            AEStopAnnotation *stopAnnotation = self.routeStopsAnnotationsDict[stopId];
             if (self.routeStopsAnnotationsSelected[stopId] != nil) {
                 // There currently is a stop on the map with this stopId,
                 // so check if this is the last line needing it and if so
@@ -327,46 +354,70 @@
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-    if ([annotation isMemberOfClass:[MapAnnotation class]]) {
-        MapAnnotation *mapAnnotation = (MapAnnotation *)annotation;
-        NSNumber *stopSetId = mapAnnotation.dictionary[@"StopSetId"];
-        NSNumber *routeId = [self routeIdForStopSetId:stopSetId];
-        NSString *routeColor = self.allRoutes[routeId][@"ColorHex"];
+    if ([annotation isMemberOfClass:[AEStopAnnotation class]]) {
+//        NSLog(@"\n********** viewForAnnotation");
+        AEStopAnnotation *stopAnnotation = (AEStopAnnotation *)annotation;
+        NSNumber *stopId = stopAnnotation.stopId;
+//        NSLog(@"stopId: %@", stopId);
+        NSArray *routeIdsForThisStop = [self routeIdsForStopId:stopId];
+//        NSLog(@"All routes for this stop: %@", routeIdsForThisStop);
+        NSMutableArray *colors = [NSMutableArray array];
+        ColorConverter *colorconverter = [[ColorConverter alloc] init];
+//        NSLog(@"SelectedRoutes: %@", self.selectedRoutes);
+        for (NSNumber *curRouteId in routeIdsForThisStop) {
+            if ([self.selectedRoutes containsObject:curRouteId] == true) {
+                [colors addObject:[colorconverter colorWithHexString:self.allRoutes[curRouteId][@"ColorHex"]]];
+            }
+        };
+        static NSString* identifier = @"Pin";
         
-        switch (mapAnnotation.annotationType) {
-            case MapAnnotationTypeStop: {
-                static NSString* identifier = @"Pin";
-                MKPinAnnotationView* pin = (MKPinAnnotationView*)[self.mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-                
-                if(pin == nil)
-                {
-                    pin = [[MKPinAnnotationView alloc] initWithAnnotation:mapAnnotation reuseIdentifier:identifier];
-                }
-                
-                if ([pin respondsToSelector:@selector(pinTintColor)]) {
-                    // TODO: Make it work for iOS 8. Idea: pie chart like pin , similar to bus stops.
-                    ColorConverter *colorConverter = [[ColorConverter alloc] init];
-                    pin.pinTintColor = [colorConverter colorWithHexString:routeColor];
-                } else {
-                    [pin setPinColor:MKPinAnnotationColorRed];
-                    
-                }
-                
-                pin.animatesDrop = NO;
-                pin.canShowCallout = YES;
-                pin.enabled = YES;
-                
-                return pin;
-            }
-                
-            case MapAnnotationTypeVehicle: {
-                
-                return nil;
-            }
+        AEStopAnnotationView *stopAnnView = (AEStopAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (stopAnnView == nil) {
+            stopAnnView = [[AEStopAnnotationView alloc] initWithAnnotation:stopAnnotation reuseIdentifier:identifier];
+        } else {
+            stopAnnView.annotation = stopAnnotation;
         }
+        
+        stopAnnView.colors = colors;
+        
+        stopAnnView.enabled = YES;
+        stopAnnView.canShowCallout = YES;
+        
+        return stopAnnView;
     }
     
     return nil;
+}
+
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(nonnull MKUserLocation *)userLocation {
+    static dispatch_once_t once;
+    dispatch_once(&once, ^() {
+        [self zoomToUserLocation];
+    });
+}
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse ||
+        status == kCLAuthorizationStatusAuthorizedAlways) {
+        [manager startUpdatingLocation];
+        self.mapView.showsUserLocation = YES;
+        
+        // In a second, fire this to go to the users location
+//        [self performSelector:@selector(zoomToUserLocation) withObject:nil afterDelay:1.0];
+    } else {
+        self.mapView.showsUserLocation = NO;
+    }
+}
+
+- (void)zoomToUserLocation {
+    MKCoordinateRegion mapRegion;
+    mapRegion.center = self.mapView.userLocation.coordinate;
+    mapRegion.span.latitudeDelta = 0.025;
+    mapRegion.span.longitudeDelta = 0.025;
+    
+    [self.mapView setRegion:mapRegion animated:NO];
 }
 
 #pragma mark - SWRevealViewController
