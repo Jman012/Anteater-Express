@@ -821,11 +821,67 @@
                         <viewControllerLayoutGuide type="top" id="XMw-vy-DEb"/>
                         <viewControllerLayoutGuide type="bottom" id="P0Y-aJ-mXF"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="rEo-Mr-oVA">
+                    <view key="view" contentMode="scaleToFill" id="rEo-Mr-oVA" customClass="NewsTableViewController" customModule="Anteater_Ex" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="R4P-N8-smu">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewsTableViewCell" id="hpE-5O-KHu" customClass="NewsTableViewCell" customModule="Anteater_Ex" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hpE-5O-KHu" id="PNg-nY-4C5">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DaW-ye-cJA">
+                                                    <rect key="frame" x="46" y="0.0" width="42" height="21"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKh-ZN-7OZ">
+                                                    <rect key="frame" x="265" y="0.0" width="42" height="21"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6It-RU-NJL">
+                                                    <rect key="frame" x="46" y="29" width="42" height="21"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <connections>
+                                            <outlet property="date" destination="hKh-ZN-7OZ" id="m1F-sa-Hqz"/>
+                                            <outlet property="info" destination="6It-RU-NJL" id="HqR-qb-cZh"/>
+                                            <outlet property="title" destination="DaW-ye-cJA" id="wHc-Pc-0NT"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="R4P-N8-smu" secondAttribute="trailing" id="UQN-X6-qFY"/>
+                            <constraint firstItem="P0Y-aJ-mXF" firstAttribute="top" secondItem="R4P-N8-smu" secondAttribute="bottom" id="Vpc-fO-eqT"/>
+                            <constraint firstItem="R4P-N8-smu" firstAttribute="top" secondItem="rEo-Mr-oVA" secondAttribute="top" id="XKA-Sb-1iN"/>
+                            <constraint firstItem="R4P-N8-smu" firstAttribute="leading" secondItem="rEo-Mr-oVA" secondAttribute="leading" id="af0-aJ-unG"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="newsTableView" destination="R4P-N8-smu" id="fDC-U5-VI4"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 1" id="p00-hs-cVM"/>
                 </viewController>
