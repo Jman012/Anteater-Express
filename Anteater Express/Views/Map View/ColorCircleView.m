@@ -8,8 +8,8 @@
 
 #import "ColorCircleView.h"
 
-#define RADIUS 10
-#define STROKE_WIDTH 1
+#define RADIUS 7.5
+#define STROKE_WIDTH 0.5
 
 @implementation ColorCircleView
 
@@ -17,7 +17,7 @@
     
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
-        self.frame = CGRectMake(-3, -5, RADIUS * 2 + STROKE_WIDTH * 2, RADIUS * 2 + STROKE_WIDTH * 2);
+        self.frame = CGRectMake(0, -1.5, RADIUS * 2 + STROKE_WIDTH * 2, RADIUS * 2 + STROKE_WIDTH * 2);
     }
     return self;
 }

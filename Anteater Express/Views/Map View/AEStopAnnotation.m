@@ -113,16 +113,4 @@
     self.arrivalPredictions = newPredictions;
 }
 
-//- (NSArray *)colors {
-//    // First construct the colors
-//    NSMutableArray *colors = [NSMutableArray arrayWithCapacity:self.dictionaries.count];
-//    for (NSDictionary *curDict in self.dictionaries) {
-//        NSString *hexColorString = curDict[@"ColorHex"]; NSLog(@"Color: %@", hexColorString);
-//        ColorConverter *colorConverter = [[ColorConverter alloc] init];
-//        [colors addObject:[colorConverter colorWithHexString:hexColorString]];
-//    }
-//    
-//    return colors;
-//}
-
 @end

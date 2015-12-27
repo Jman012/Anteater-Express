@@ -193,10 +193,6 @@
         NSArray *routePoints = [self.routeDefinitions[routeId] getRoutePoints];
         MKMapPoint *routeMapPointsCArray = malloc(sizeof(MKMapPoint) * routePoints.count);
         // Make C Array
-        double oldNEX = self.northEastPoint.x;
-        double oldNEY = self.northEastPoint.y;
-        double oldSWX = self.southWestPoint.x;
-        double oldSWY = self.southWestPoint.y;
         [routePoints enumerateObjectsUsingBlock:^(NSDictionary *curPointDict, NSUInteger idx, BOOL *stop) {
             CLLocationDegrees latitude  = [[curPointDict objectForKey:@"Latitude"] doubleValue];
             CLLocationDegrees longitude = [[curPointDict objectForKey:@"Longitude"] doubleValue];
@@ -214,32 +210,11 @@
                 self.southWestPoint = point;
             }
             
-//            // And here, we'll update based on new points
-//            if (point.x > self.northEastPoint.x)
-//                self.northEastPoint = MKMapPointMake(point.x, self.northEastPoint.y);
-//            if(point.y > self.northEastPoint.y)
-//                self.northEastPoint = MKMapPointMake(self.northEastPoint.x, point.y);
-//            if (point.x < self.southWestPoint.x)
-//                self.southWestPoint = MKMapPointMake(point.x, self.southWestPoint.y);
-//            if (point.y < self.southWestPoint.y)
-//                self.southWestPoint = MKMapPointMake(self.southWestPoint.x, point.y);
-            
         }];
         // Make the polyline object out of the coords and add to the dict
         MKPolyline *polyline = [MKPolyline polylineWithPoints:routeMapPointsCArray count:routePoints.count];
         [polyline setTitle:[routeId stringValue]];
         self.routeDefinitionsPolylines[routeId] = polyline;
-        
-//        // Update bounding box for map if changed
-//        if (oldNEX != self.northEastPoint.x || oldNEY != self.northEastPoint.y ||
-//            oldSWX != self.southWestPoint.x || oldSWY != self.southWestPoint.y) {
-//            CGFloat MAP_POINT_PADDING = 5000;
-//            CGFloat MAP_LENGTH_PADDING = MAP_POINT_PADDING * 2;
-//            
-//            MKMapRect bounds = MKMapRectMake(self.southWestPoint.x - MAP_POINT_PADDING, self.southWestPoint.y - MAP_POINT_PADDING, self.northEastPoint.x - self.southWestPoint.x + MAP_LENGTH_PADDING, self.northEastPoint.y - self.southWestPoint.y + MAP_LENGTH_PADDING);
-//            [self.mapView setVisibleMapRect:bounds animated:YES];
-//            
-//        }
         
         
         /* ROUTE STOPS */
