@@ -745,7 +745,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Anteater Express" id="xRl-hf-2db">
-                        <barButtonItem key="leftBarButtonItem" image="menu_graphic2_25px.png" id="5rG-D3-O0c"/>
+                        <barButtonItem key="leftBarButtonItem" image="HamburgerMenuIcon" id="5rG-D3-O0c"/>
                         <barButtonItem key="rightBarButtonItem" title="Test" id="1kj-me-rQB">
                             <connections>
                                 <action selector="testButtonPressed:" destination="ZXf-fr-uEJ" id="ME0-Dm-LSP"/>
@@ -1891,12 +1891,12 @@
         <image name="162-receipt.png" width="17" height="23"/>
         <image name="179-notepad.png" width="22" height="28"/>
         <image name="75-phone.png" width="24" height="24"/>
+        <image name="HamburgerMenuIcon" width="22" height="22"/>
         <image name="TrackingLocation.png" width="19" height="16"/>
         <image name="UIUnreadIndicator.png" width="13" height="13"/>
         <image name="alert_lt_gray_ios_30px.png" width="30" height="30"/>
         <image name="iPhone_HighRes_Background-1.png" width="640" height="960"/>
         <image name="map_lt_gray_ios_30px.png" width="30" height="30"/>
-        <image name="menu_graphic2_25px.png" width="25" height="20"/>
         <image name="mobile_net_close.png" width="256" height="256"/>
         <image name="schedule_lt_gray_ios_30px.png" width="30" height="30"/>
         <image name="unchecked_checkbox.png" width="128" height="128"/>
