@@ -55,16 +55,16 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    NSInteger hasNetworkConnection = [Utilities checkNetworkStatus];
-    
-    if(hasNetworkConnection != 0)
-    {
-       // UIViewController *rootViewController = [[self window] rootViewController];
-        
-       // UINavigationController *navigation = [rootViewController navigationController];
-        UINavigationController *myNavCon = (UINavigationController*)self.window.rootViewController;
-        [myNavCon popToRootViewControllerAnimated:YES];
-    }
+//    NSInteger hasNetworkConnection = [Utilities checkNetworkStatus];
+//    
+//    if(hasNetworkConnection != 0)
+//    {
+//       // UIViewController *rootViewController = [[self window] rootViewController];
+//        
+//       // UINavigationController *navigation = [rootViewController navigationController];
+//        UINavigationController *myNavCon = (UINavigationController*)self.window.rootViewController;
+//        [myNavCon popToRootViewControllerAnimated:YES];
+//    }
     
 }
 

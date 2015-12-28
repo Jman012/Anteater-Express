@@ -51,7 +51,7 @@
        // ViewController *mainPage = [self.storyboard instantiateViewControllerWithIdentifier:@"AntExHome"];
        // [self.navigationController popToViewController: mainPage animated: NO];
         
-        [self.navigationController popToRootViewControllerAnimated:YES];
+//        [self.navigationController popToRootViewControllerAnimated:YES];
     }
     // enable button again in else
     [retryButton setEnabled:YES];
