@@ -541,8 +541,8 @@
                                                 <constraint firstAttribute="height" constant="27.5" id="K0L-s5-7W8"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Main Campus (M Line)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nKD-ec-anS">
-                                            <rect key="frame" x="43" y="11" width="269" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main Campus (M Line)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nKD-ec-anS">
+                                            <rect key="frame" x="43" y="11" width="222" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="8HC-3n-AGr"/>
                                             </constraints>

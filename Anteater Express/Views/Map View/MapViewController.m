@@ -16,6 +16,7 @@
 #import "ColorConverter.h"
 
 #import "AEStopAnnotation.h"
+#import "MKPolylineRenderWithBlend.h"
 
 @interface MapViewController ()
 
@@ -316,7 +317,7 @@
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolyline *polyline = (MKPolyline *)overlay;
         NSNumber *routeId = [NSNumber numberWithInteger:polyline.title.integerValue];
-        MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:polyline];
+        MKPolylineRenderWithBlend *renderer = [[MKPolylineRenderWithBlend alloc] initWithPolyline:polyline];
         
         ColorConverter *colorConverter = [[ColorConverter alloc] init];
         renderer.strokeColor = [colorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
