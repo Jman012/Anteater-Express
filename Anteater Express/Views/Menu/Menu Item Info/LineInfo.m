@@ -10,12 +10,13 @@
 
 @implementation LineInfo
 
-- (instancetype)initWithText:(NSString *)theText paid:(BOOL)thePaid routeId:(NSNumber *)theRouteId cellIdentifer:(NSString *)theCellId {
+- (instancetype)initWithText:(NSString *)theText paid:(BOOL)thePaid routeId:(NSNumber *)theRouteId color:(UIColor *)color cellIdentifer:(NSString *)theCellId {
     if (self = [super initWithCellIdentifer:theCellId]) {
         self.text = theText;
         self.paid = thePaid;
         self.routeId = theRouteId;
         self.selected = NO;
+        self.color = color;
     }
     return self;
 }

@@ -10,6 +10,11 @@
 
 @implementation ColorConverter
 
++ (UIColor *)colorWithHexString:(NSString *)stringToConvert {
+    ColorConverter *converter = [[ColorConverter alloc] init];
+    return [converter colorWithHexString:stringToConvert];
+}
+
 - (id)init {
     self = [super init];
     if (self) {

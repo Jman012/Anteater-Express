@@ -25,6 +25,5 @@
 - (instancetype)initWithDictionary:(NSDictionary *)initialRouteStopDictionary;
 - (void)addNewDictionary:(NSDictionary *)newDict;
 - (void)setNewArrivalPredictions:(NSArray *)newPredictions;
-- (NSArray *)colors;
 
 @end

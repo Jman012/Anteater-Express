@@ -12,6 +12,7 @@
 #import <MapKit/MapKit.h>
 
 #import "RoutesAndAnnounceDAO.h"
+#import "ColorConverter.h"
 
 #import "MenuInfo.h"
 #import "BannerItemInfo.h"
@@ -46,6 +47,7 @@ const NSUInteger kSectionLinks =      3;
 @interface AESideMenuTableViewController ()
 
 @property (nonatomic, strong) NSMutableArray *menuSections;
+@property (nonatomic, strong) NSMutableSet *selectedIndexPaths;
 @property (nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
@@ -57,6 +59,8 @@ const NSUInteger kSectionLinks =      3;
 - (void)initialize {
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.name = @"AESideMenu OpQueue";
+    
+    self.selectedIndexPaths = [NSMutableSet set];
 
     [self constructMenu];
 }
@@ -116,9 +120,12 @@ const NSUInteger kSectionLinks =      3;
     }
     
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
-    for (NSDictionary *routeDict in [self.routesAndAnnounceDAO getRoutes]) {
-        [lineInfos addObject:[[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO routeId:routeDict[@"Id"] cellIdentifer:kCellIdFreeLineCell]];
-    }
+    [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
+        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO routeId:routeDict[@"Id"] color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]] cellIdentifer:kCellIdFreeLineCell];
+        newLineInfo.selected = [self.selectedIndexPaths containsObject:[NSIndexPath indexPathForItem:idx inSection:kSectionLines]];
+        [lineInfos addObject:newLineInfo];
+        
+    }];
     return lineInfos;
 }
 
@@ -271,6 +278,7 @@ const NSUInteger kSectionLinks =      3;
         freeLineCell.userInteractionEnabled = YES;
         [freeLineCell setLineName:lineInfo.text];
         [freeLineCell setChecked:lineInfo.selected];
+        freeLineCell.color = lineInfo.color;
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdPaidLineCell]) {
         LineInfo *lineInfo = (LineInfo *)menuInfo;
@@ -327,8 +335,11 @@ const NSUInteger kSectionLinks =      3;
             [mapVC showNewRoute:lineInfo.routeId];
         }
         lineInfo.selected = !lineInfo.selected;
-        
-//        [self.revealViewController revealToggleAnimated:YES];
+        if ([self.selectedIndexPaths containsObject:indexPath]) {
+            [self.selectedIndexPaths removeObject:indexPath];
+        } else {
+            [self.selectedIndexPaths addObject:indexPath];
+        }
         
         [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 
@@ -345,8 +356,11 @@ const NSUInteger kSectionLinks =      3;
             [mapVC showNewRoute:lineInfo.routeId];
         }
         lineInfo.selected = !lineInfo.selected;
-        
-//        [self.revealViewController revealToggleAnimated:YES];
+        if ([self.selectedIndexPaths containsObject:indexPath]) {
+            [self.selectedIndexPaths removeObject:indexPath];
+        } else {
+            [self.selectedIndexPaths addObject:indexPath];
+        }
         
         [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 

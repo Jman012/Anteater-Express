@@ -72,6 +72,7 @@
 		1A4B6F121C29FFAB00C730EC /* AEStopAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */; };
 		1A4B6F151C2B97A600C730EC /* ColorCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F141C2B97A600C730EC /* ColorCircleView.m */; };
 		1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A79CB8B1C30DC940091DD62 /* Images.xcassets */; };
+		1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
 		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
@@ -265,6 +266,8 @@
 		1A4B6F131C2B97A600C730EC /* ColorCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorCircleView.h; path = "Views/Map View/ColorCircleView.h"; sourceTree = "<group>"; };
 		1A4B6F141C2B97A600C730EC /* ColorCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorCircleView.m; path = "Views/Map View/ColorCircleView.m"; sourceTree = "<group>"; };
 		1A79CB8B1C30DC940091DD62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircleCheckmark.h; path = Views/Menu/Cells/CircleCheckmark.h; sourceTree = "<group>"; };
+		1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircleCheckmark.m; path = Views/Menu/Cells/CircleCheckmark.m; sourceTree = "<group>"; };
 		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
@@ -484,6 +487,8 @@
 				1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */,
 				1A4B6F041C27360300C730EC /* AEMenuMapControlTableViewCell.h */,
 				1A4B6F051C27360300C730EC /* AEMenuMapControlTableViewCell.m */,
+				1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */,
+				1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -988,6 +993,7 @@
 				1A4B6F121C29FFAB00C730EC /* AEStopAnnotationView.m in Sources */,
 				1A16D1CE1BFA9E1E003B3C2D /* AnnouncementsPost.m in Sources */,
 				1A16D1EE1C0245FF003B3C2D /* MenuInfo.m in Sources */,
+				1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */,
 				1A16D1A81BFA9E02003B3C2D /* RouteTabView.m in Sources */,
 				4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */,
 				1A16D1B81BFA9E0D003B3C2D /* AboutUsViewController.m in Sources */,

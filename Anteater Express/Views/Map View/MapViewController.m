@@ -318,8 +318,7 @@
         NSNumber *routeId = [NSNumber numberWithInteger:polyline.title.integerValue];
         MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:polyline];
         
-        ColorConverter *colorConverter = [[ColorConverter alloc] init];
-        renderer.strokeColor = [colorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
+        renderer.strokeColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
         if (self.selectedRoutes.count > 1) {
             renderer.strokeColor = [renderer.strokeColor colorWithAlphaComponent:0.5];
         }
@@ -340,11 +339,10 @@
         NSArray *routeIdsForThisStop = [self routeIdsForStopId:stopId];
 //        NSLog(@"All routes for this stop: %@", routeIdsForThisStop);
         NSMutableArray *colors = [NSMutableArray array];
-        ColorConverter *colorconverter = [[ColorConverter alloc] init];
 //        NSLog(@"SelectedRoutes: %@", self.selectedRoutes);
         for (NSNumber *curRouteId in routeIdsForThisStop) {
             if ([self.selectedRoutes containsObject:curRouteId] == true) {
-                [colors addObject:[colorconverter colorWithHexString:self.allRoutes[curRouteId][@"ColorHex"]]];
+                [colors addObject:[ColorConverter colorWithHexString:self.allRoutes[curRouteId][@"ColorHex"]]];
             }
         };
         static NSString* identifier = @"Pin";
