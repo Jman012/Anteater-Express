@@ -47,20 +47,29 @@ const NSUInteger kSectionLinks =      3;
 @interface AESideMenuTableViewController ()
 
 @property (nonatomic, strong) NSMutableArray *menuSections;
-@property (nonatomic, strong) NSMutableSet *selectedIndexPaths;
+@property (nonatomic, strong) NSMutableSet<NSNumber *> *selectedRouteIds;
 @property (nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
+@property (nonatomic, strong) NSTimer *syncSelectedLinesTimer;
 
 @end
 
 @implementation AESideMenuTableViewController
 
+
+#pragma mark - Init
+
 - (void)initialize {
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.name = @"AESideMenu OpQueue";
     
-    self.selectedIndexPaths = [NSMutableSet set];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:@"SelectedRouteIds"] != nil) {
+        self.selectedRouteIds = [NSMutableSet setWithArray:[userDefaults objectForKey:@"SelectedRouteIds"]];
+    } else {
+        self.selectedRouteIds = [NSMutableSet set];
+    }
 
     [self constructMenu];
 }
@@ -93,6 +102,8 @@ const NSUInteger kSectionLinks =      3;
     return self;
 }
 
+#pragma mark - View control
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -109,10 +120,18 @@ const NSUInteger kSectionLinks =      3;
     [self constructMenu];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self syncSelectedLines:nil];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Methods
 
 - (NSArray *)constructLineInfos {
     if (self.routesAndAnnounceDAO == nil) {
@@ -122,7 +141,7 @@ const NSUInteger kSectionLinks =      3;
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
     [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
         LineInfo *newLineInfo = [[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO routeId:routeDict[@"Id"] color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]] cellIdentifer:kCellIdFreeLineCell];
-        newLineInfo.selected = [self.selectedIndexPaths containsObject:[NSIndexPath indexPathForItem:idx inSection:kSectionLines]];
+        newLineInfo.selected = [self.selectedRouteIds containsObject:routeDict[@"Id"]];
         [lineInfos addObject:newLineInfo];
         
     }];
@@ -207,6 +226,18 @@ const NSUInteger kSectionLinks =      3;
     [self.operationQueue addOperation:getRoutesOp];
     
     
+}
+
+#pragma mark - NSTimer
+
+- (void)syncSelectedLines:(NSTimer *)timer {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *selectedRouteIdsArray = [NSArray arrayWithArray:[self.selectedRouteIds allObjects]];
+    [userDefaults setObject:selectedRouteIdsArray forKey:@"SelectedRouteIds"];
+    [userDefaults synchronize];
+    
+    self.syncSelectedLinesTimer = nil;
 }
 
 #pragma mark - UIRefreshControl
@@ -327,19 +358,30 @@ const NSUInteger kSectionLinks =      3;
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         
         NSLog(@"Toggling %@", lineInfo.text);
+        
+        // Get view controller info
         UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
         MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+        
+        // Tell mapVC
         if (lineInfo.selected) {
             [mapVC removeRoute:lineInfo.routeId];
         } else {
             [mapVC showNewRoute:lineInfo.routeId];
         }
+        
+        // Update Data Structures
         lineInfo.selected = !lineInfo.selected;
-        if ([self.selectedIndexPaths containsObject:indexPath]) {
-            [self.selectedIndexPaths removeObject:indexPath];
+        if ([self.selectedRouteIds containsObject:lineInfo.routeId]) {
+            [self.selectedRouteIds removeObject:lineInfo.routeId];
         } else {
-            [self.selectedIndexPaths addObject:indexPath];
+            [self.selectedRouteIds addObject:lineInfo.routeId];
         }
+        
+        if (self.syncSelectedLinesTimer != nil) {
+            [self.syncSelectedLinesTimer invalidate];
+        }
+        self.syncSelectedLinesTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(syncSelectedLines:) userInfo:nil repeats:NO];
         
         [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 
@@ -348,19 +390,30 @@ const NSUInteger kSectionLinks =      3;
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         
         NSLog(@"Toggling %@", lineInfo.text);
+        
+        // Get view controller info
         UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
         MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+        
+        // Tell mapVC
         if (lineInfo.selected) {
             [mapVC removeRoute:lineInfo.routeId];
         } else {
             [mapVC showNewRoute:lineInfo.routeId];
         }
+        
+        // Update Data Structure
         lineInfo.selected = !lineInfo.selected;
-        if ([self.selectedIndexPaths containsObject:indexPath]) {
-            [self.selectedIndexPaths removeObject:indexPath];
+        if ([self.selectedRouteIds containsObject:lineInfo.routeId]) {
+            [self.selectedRouteIds removeObject:lineInfo.routeId];
         } else {
-            [self.selectedIndexPaths addObject:indexPath];
+            [self.selectedRouteIds addObject:lineInfo.routeId];
         }
+        
+        if (self.syncSelectedLinesTimer != nil) {
+            [self.syncSelectedLinesTimer invalidate];
+        }
+        self.syncSelectedLinesTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(syncSelectedLines:) userInfo:nil repeats:NO];
         
         [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 
