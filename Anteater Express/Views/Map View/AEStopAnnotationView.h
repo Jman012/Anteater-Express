@@ -10,6 +10,6 @@
 
 @interface AEStopAnnotationView : MKPinAnnotationView
 
-@property (nonatomic, strong) NSArray *colors;
+@property (nonatomic, strong) NSArray<UIColor*> *colors;
 
 @end

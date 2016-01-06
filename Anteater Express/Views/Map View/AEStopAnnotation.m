@@ -22,11 +22,7 @@
         self.coordinate = CLLocationCoordinate2DMake(latitude, longitude);
         
         self.stopId = [initialRouteStopDictionary objectForKey:@"StopId"];
-        // Not sure if we need this yet.
-//        stopSetIDParam = [[initialRouteStopDictionary objectForKey:@"StopSetId"] intValue];
-        
-        
-        self.title = [initialRouteStopDictionary objectForKey:@"Name"];
+        self.title = [initialRouteStopDictionary objectForKey:@"Name"]; // Name should be same for all dicts
         
         // Not sure if we need this yet.
         //_userData           = @"shuttle_E_moving.png"; //Sets default incase the heading is not set
@@ -58,6 +54,7 @@
 }
 
 - (NSString *)subtitle {
+    // Copied from the original
     if(self.arrivalPredictions != nil)
     {
         //subtitle = @"Arriving in ";

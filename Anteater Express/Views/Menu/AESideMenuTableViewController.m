@@ -46,7 +46,7 @@ const NSUInteger kSectionLinks =      3;
 
 @interface AESideMenuTableViewController ()
 
-@property (nonatomic, strong) NSMutableArray *menuSections;
+@property (nonatomic, strong) NSMutableArray<NSArray *> *menuSections;
 @property (nonatomic, strong) NSMutableSet<NSNumber *> *selectedRouteIds;
 @property (nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
 
@@ -118,6 +118,16 @@ const NSUInteger kSectionLinks =      3;
     self.revealViewController.rearViewRevealOverdraw = 0.0f;
 
     [self constructMenu];
+    
+    // Selected routes might be laoded from userDefaults by now, and
+    // the mapView should be loaded by now, so notify it
+    UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+    MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+    if (mapVC) {
+        [self.selectedRouteIds enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {
+            [mapVC showNewRoute:routeId];
+        }];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

@@ -33,8 +33,6 @@
     // Drawing code
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
-    //    CGContextClearRect(ctx, rect);
-    
     // Stroke options
     CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
     CGContextSetLineWidth(ctx, STROKE_WIDTH);
