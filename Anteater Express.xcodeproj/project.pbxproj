@@ -71,6 +71,9 @@
 		1A4B6F0F1C28B5C400C730EC /* AEStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */; };
 		1A4B6F121C29FFAB00C730EC /* AEStopAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */; };
 		1A4B6F151C2B97A600C730EC /* ColorCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F141C2B97A600C730EC /* ColorCircleView.m */; };
+		1A6828A11C474A4C0062B49F /* AEVehicleAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828A01C474A4C0062B49F /* AEVehicleAnnotation.m */; };
+		1A6828A41C474EAE0062B49F /* AEVehicleAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828A31C474EAE0062B49F /* AEVehicleAnnotationView.m */; };
+		1A6828A71C47522A0062B49F /* AEGetVehiclesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828A61C47522A0062B49F /* AEGetVehiclesOp.m */; };
 		1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A79CB8B1C30DC940091DD62 /* Images.xcassets */; };
 		1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
@@ -265,6 +268,12 @@
 		1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEStopAnnotationView.m; path = "Views/Map View/AEStopAnnotationView.m"; sourceTree = "<group>"; };
 		1A4B6F131C2B97A600C730EC /* ColorCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorCircleView.h; path = "Views/Map View/ColorCircleView.h"; sourceTree = "<group>"; };
 		1A4B6F141C2B97A600C730EC /* ColorCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorCircleView.m; path = "Views/Map View/ColorCircleView.m"; sourceTree = "<group>"; };
+		1A68289F1C474A4C0062B49F /* AEVehicleAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEVehicleAnnotation.h; path = "Views/Map View/AEVehicleAnnotation.h"; sourceTree = "<group>"; };
+		1A6828A01C474A4C0062B49F /* AEVehicleAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEVehicleAnnotation.m; path = "Views/Map View/AEVehicleAnnotation.m"; sourceTree = "<group>"; };
+		1A6828A21C474EAE0062B49F /* AEVehicleAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEVehicleAnnotationView.h; path = "Views/Map View/AEVehicleAnnotationView.h"; sourceTree = "<group>"; };
+		1A6828A31C474EAE0062B49F /* AEVehicleAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEVehicleAnnotationView.m; path = "Views/Map View/AEVehicleAnnotationView.m"; sourceTree = "<group>"; };
+		1A6828A51C47522A0062B49F /* AEGetVehiclesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetVehiclesOp.h; path = "AE Data Retrieval/AEGetVehiclesOp.h"; sourceTree = "<group>"; };
+		1A6828A61C47522A0062B49F /* AEGetVehiclesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetVehiclesOp.m; path = "AE Data Retrieval/AEGetVehiclesOp.m"; sourceTree = "<group>"; };
 		1A79CB8B1C30DC940091DD62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircleCheckmark.h; path = Views/Menu/Cells/CircleCheckmark.h; sourceTree = "<group>"; };
 		1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircleCheckmark.m; path = Views/Menu/Cells/CircleCheckmark.m; sourceTree = "<group>"; };
@@ -450,6 +459,10 @@
 				1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */,
 				1A4B6F131C2B97A600C730EC /* ColorCircleView.h */,
 				1A4B6F141C2B97A600C730EC /* ColorCircleView.m */,
+				1A68289F1C474A4C0062B49F /* AEVehicleAnnotation.h */,
+				1A6828A01C474A4C0062B49F /* AEVehicleAnnotation.m */,
+				1A6828A21C474EAE0062B49F /* AEVehicleAnnotationView.h */,
+				1A6828A31C474EAE0062B49F /* AEVehicleAnnotationView.m */,
 			);
 			name = "Map View";
 			sourceTree = "<group>";
@@ -519,6 +532,8 @@
 				1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */,
 				1A16D20E1C0E6B93003B3C2D /* AEGetRouteDefinition.h */,
 				1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */,
+				1A6828A51C47522A0062B49F /* AEGetVehiclesOp.h */,
+				1A6828A61C47522A0062B49F /* AEGetVehiclesOp.m */,
 			);
 			name = "AE Data Retrieval";
 			sourceTree = "<group>";
@@ -946,6 +961,7 @@
 				1A16D1A91BFA9E02003B3C2D /* RouteStopDetailsViewController.m in Sources */,
 				1A16D1F41C0246B0003B3C2D /* LineInfo.m in Sources */,
 				1A16D1861BFA9DF6003B3C2D /* RoutesPost.m in Sources */,
+				1A6828A11C474A4C0062B49F /* AEVehicleAnnotation.m in Sources */,
 				4A76A6EF1559016100D99B14 /* AppDelegate.m in Sources */,
 				1A16D18B1BFA9DF6003B3C2D /* StopArrivalPredictionDAO.m in Sources */,
 				1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */,
@@ -966,6 +982,7 @@
 				1A16D1C11BFA9E16003B3C2D /* AllRouteUpdates.m in Sources */,
 				1A16D1AC1BFA9E02003B3C2D /* StopDepartureTimeCell.m in Sources */,
 				1A16D1FF1C026EFD003B3C2D /* AllRouteUpdatesViewController.m in Sources */,
+				1A6828A71C47522A0062B49F /* AEGetVehiclesOp.m in Sources */,
 				1A16D2061C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m in Sources */,
 				1A16D1CC1BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m in Sources */,
 				1A16D1C21BFA9E16003B3C2D /* RouteUpdateDetailsViewController.m in Sources */,
@@ -991,6 +1008,7 @@
 				1A4B6F031C27357F00C730EC /* MapControlInfo.m in Sources */,
 				1A16D1CB1BFA9E1E003B3C2D /* AnnouncementCustomCell.m in Sources */,
 				1A4B6F121C29FFAB00C730EC /* AEStopAnnotationView.m in Sources */,
+				1A6828A41C474EAE0062B49F /* AEVehicleAnnotationView.m in Sources */,
 				1A16D1CE1BFA9E1E003B3C2D /* AnnouncementsPost.m in Sources */,
 				1A16D1EE1C0245FF003B3C2D /* MenuInfo.m in Sources */,
 				1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */,

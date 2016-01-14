@@ -13,9 +13,13 @@
 #import <TSMessages/TSMessage.h>
 
 #import "AEGetRouteDefinition.h"
+#import "AEGetVehiclesOp.h"
 #import "ColorConverter.h"
 
 #import "AEStopAnnotation.h"
+#import "AEVehicleAnnotation.h"
+#import "AEStopAnnotationView.h"
+#import "AEVehicleAnnotationView.h"
 
 // We'll use these for initiating the map's position
 #define UCI_LATITUDE 33.6454
@@ -44,6 +48,9 @@
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, AEStopAnnotation*> *routeStopsAnnotationsDict;
 // Routes share stops, so this is StopId->count as a retain/release method
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSNumber*> *routeStopsAnnotationsSelected;
+
+/* Route Vehicle Centric stuff */
+@property (nonatomic, strong) NSTimer *vehicleUpdateTimer;
 
 // Misc
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
@@ -111,6 +118,25 @@
     // Start out on Aldrich Park's center. Later it'll move to the users location
     [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
 
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    // Now also initiate the timer to update vehicle positions
+    self.vehicleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                               target:self
+                                                             selector:@selector(updateAllVehiclesForSelectedRoutes:)
+                                                             userInfo:nil
+                                                              repeats:YES];
+    NSLog(@"%s timer made %@", __PRETTY_FUNCTION__, self.vehicleUpdateTimer);
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    // Invalidate the vehicle timer
+    [self.vehicleUpdateTimer invalidate];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -293,6 +319,43 @@
     [self.operationQueue addOperation:getRouteOp];
 }
 
+#pragma mark - Vehicle Data Handling and Updating
+
+- (void)updateAllVehiclesForSelectedRoutes:(NSTimer *)timer {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self.selectedRoutes enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {
+        [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[routeId][@"StopSetId"]];
+    }];
+}
+
+- (void)downloadNewVehicleInfoWithStopSetId:(NSNumber *)stopSetId {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    AEGetVehiclesOp *getVehiclesOperation = [[AEGetVehiclesOp alloc] initWithStopSetId:stopSetId.integerValue];
+    getVehiclesOperation.returnBlock = ^(RouteVehiclesDAO *routeVehiclesDAO) {
+        
+        // First remove any vehicles from the map pertaining to this stopSetId.
+        [self.mapView.annotations enumerateObjectsUsingBlock:^(id<MKAnnotation> annotation, NSUInteger idx, BOOL *stop) {
+            if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
+                AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
+                if ([vehicleAnnotation.stopSetId isEqualToNumber:stopSetId]) {
+                    NSLog(@"\tremove");
+                    [self.mapView removeAnnotation:vehicleAnnotation];
+                }
+            }
+        }];
+        
+        // Then add the ones we just downloaded.
+        [[routeVehiclesDAO getRouteVehicles] enumerateObjectsUsingBlock:^(NSDictionary *vehicleDict, NSUInteger idx, BOOL *stop) {
+            AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicleDictionary:vehicleDict];
+            vehicleAnnotation.stopSetId = stopSetId;
+            NSLog(@"\tadd %@", vehicleAnnotation);
+            [self.mapView addAnnotation:vehicleAnnotation];
+        }];
+        
+    };
+    [self.operationQueue addOperation:getVehiclesOperation];
+}
+
 #pragma mark - Route selection methods
 
 - (void)showNewRoute:(NSNumber *)theId {
@@ -403,6 +466,7 @@
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     // This is called for route Stops and Vehicles. Currently undefined for Vehicles.
     if ([annotation isMemberOfClass:[AEStopAnnotation class]]) {
 
@@ -435,6 +499,24 @@
         stopAnnView.colors = colors;
         
         return stopAnnView;
+    } else if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
+        NSLog(@"view for vehicle");
+        static NSString *vehicleIdentifier = @"Vehicle";
+        AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
+        
+        AEVehicleAnnotationView *vehicleAnnotationView = (AEVehicleAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:vehicleIdentifier];
+        if (vehicleAnnotationView == nil) {
+            vehicleAnnotationView = [[AEVehicleAnnotationView alloc] initWithAnnotation:vehicleAnnotation reuseIdentifier:vehicleIdentifier];
+            vehicleAnnotationView.enabled = YES;
+            vehicleAnnotationView.canShowCallout = YES;
+        } else {
+            vehicleAnnotationView.annotation = vehicleAnnotation;
+        }
+        
+        // Set Image
+        [vehicleAnnotationView setVehicleImage:vehicleAnnotation.vehiclePicture];
+        
+        return vehicleAnnotationView;
     }
     
     return nil;
