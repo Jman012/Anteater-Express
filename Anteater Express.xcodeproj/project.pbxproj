@@ -63,6 +63,16 @@
 		1A16D2061C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */; };
 		1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2081C04241C003B3C2D /* LoadingInfo.m */; };
 		1A16D20D1C04E92A003B3C2D /* AEGetRoutesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */; };
+		1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */; };
+		1A4B6EFF1C250CC100C730EC /* checked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B6EFD1C250CC100C730EC /* checked_checkbox.png */; };
+		1A4B6F001C250CC100C730EC /* unchecked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B6EFE1C250CC100C730EC /* unchecked_checkbox.png */; };
+		1A4B6F031C27357F00C730EC /* MapControlInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F021C27357F00C730EC /* MapControlInfo.m */; };
+		1A4B6F061C27360300C730EC /* AEMenuMapControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F051C27360300C730EC /* AEMenuMapControlTableViewCell.m */; };
+		1A4B6F0F1C28B5C400C730EC /* AEStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */; };
+		1A4B6F121C29FFAB00C730EC /* AEStopAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */; };
+		1A4B6F151C2B97A600C730EC /* ColorCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F141C2B97A600C730EC /* ColorCircleView.m */; };
+		1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A79CB8B1C30DC940091DD62 /* Images.xcassets */; };
+		1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
 		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
@@ -241,6 +251,23 @@
 		1A16D2081C04241C003B3C2D /* LoadingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingInfo.m; path = "Views/Menu/Menu Item Info/LoadingInfo.m"; sourceTree = "<group>"; };
 		1A16D20B1C04E92A003B3C2D /* AEGetRoutesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRoutesOp.h; path = "AE Data Retrieval/AEGetRoutesOp.h"; sourceTree = "<group>"; };
 		1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRoutesOp.m; path = "AE Data Retrieval/AEGetRoutesOp.m"; sourceTree = "<group>"; };
+		1A16D20E1C0E6B93003B3C2D /* AEGetRouteDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRouteDefinition.h; path = "AE Data Retrieval/AEGetRouteDefinition.h"; sourceTree = "<group>"; };
+		1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRouteDefinition.m; path = "AE Data Retrieval/AEGetRouteDefinition.m"; sourceTree = "<group>"; };
+		1A4B6EFD1C250CC100C730EC /* checked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked_checkbox.png; sourceTree = "<group>"; };
+		1A4B6EFE1C250CC100C730EC /* unchecked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked_checkbox.png; sourceTree = "<group>"; };
+		1A4B6F011C27357F00C730EC /* MapControlInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapControlInfo.h; path = "Views/Menu/Menu Item Info/MapControlInfo.h"; sourceTree = "<group>"; };
+		1A4B6F021C27357F00C730EC /* MapControlInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapControlInfo.m; path = "Views/Menu/Menu Item Info/MapControlInfo.m"; sourceTree = "<group>"; };
+		1A4B6F041C27360300C730EC /* AEMenuMapControlTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEMenuMapControlTableViewCell.h; path = Views/Menu/Cells/AEMenuMapControlTableViewCell.h; sourceTree = "<group>"; };
+		1A4B6F051C27360300C730EC /* AEMenuMapControlTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEMenuMapControlTableViewCell.m; path = Views/Menu/Cells/AEMenuMapControlTableViewCell.m; sourceTree = "<group>"; };
+		1A4B6F0D1C28B5C400C730EC /* AEStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEStopAnnotation.h; path = "Views/Map View/AEStopAnnotation.h"; sourceTree = "<group>"; };
+		1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEStopAnnotation.m; path = "Views/Map View/AEStopAnnotation.m"; sourceTree = "<group>"; };
+		1A4B6F101C29FFAB00C730EC /* AEStopAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEStopAnnotationView.h; path = "Views/Map View/AEStopAnnotationView.h"; sourceTree = "<group>"; };
+		1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEStopAnnotationView.m; path = "Views/Map View/AEStopAnnotationView.m"; sourceTree = "<group>"; };
+		1A4B6F131C2B97A600C730EC /* ColorCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorCircleView.h; path = "Views/Map View/ColorCircleView.h"; sourceTree = "<group>"; };
+		1A4B6F141C2B97A600C730EC /* ColorCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorCircleView.m; path = "Views/Map View/ColorCircleView.m"; sourceTree = "<group>"; };
+		1A79CB8B1C30DC940091DD62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircleCheckmark.h; path = Views/Menu/Cells/CircleCheckmark.h; sourceTree = "<group>"; };
+		1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircleCheckmark.m; path = Views/Menu/Cells/CircleCheckmark.m; sourceTree = "<group>"; };
 		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
@@ -417,6 +444,12 @@
 			children = (
 				1A16D1F81C026092003B3C2D /* MapViewController.h */,
 				1A16D1F91C026092003B3C2D /* MapViewController.m */,
+				1A4B6F0D1C28B5C400C730EC /* AEStopAnnotation.h */,
+				1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */,
+				1A4B6F101C29FFAB00C730EC /* AEStopAnnotationView.h */,
+				1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */,
+				1A4B6F131C2B97A600C730EC /* ColorCircleView.h */,
+				1A4B6F141C2B97A600C730EC /* ColorCircleView.m */,
 			);
 			name = "Map View";
 			sourceTree = "<group>";
@@ -452,6 +485,10 @@
 				1A16D1E61C024310003B3C2D /* AEMenuItemTableViewCell.m */,
 				1A16D2041C0423BE003B3C2D /* AEMenuLoadingTableViewCell.h */,
 				1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */,
+				1A4B6F041C27360300C730EC /* AEMenuMapControlTableViewCell.h */,
+				1A4B6F051C27360300C730EC /* AEMenuMapControlTableViewCell.m */,
+				1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */,
+				1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -469,6 +506,8 @@
 				1A16D1F61C025905003B3C2D /* ItemInfo.m */,
 				1A16D2071C04241C003B3C2D /* LoadingInfo.h */,
 				1A16D2081C04241C003B3C2D /* LoadingInfo.m */,
+				1A4B6F011C27357F00C730EC /* MapControlInfo.h */,
+				1A4B6F021C27357F00C730EC /* MapControlInfo.m */,
 			);
 			name = "Menu Item Info";
 			sourceTree = "<group>";
@@ -478,6 +517,8 @@
 			children = (
 				1A16D20B1C04E92A003B3C2D /* AEGetRoutesOp.h */,
 				1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */,
+				1A16D20E1C0E6B93003B3C2D /* AEGetRouteDefinition.h */,
+				1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */,
 			);
 			name = "AE Data Retrieval";
 			sourceTree = "<group>";
@@ -655,6 +696,7 @@
 				4A76A6F71559016100D99B14 /* ViewController.m */,
 				4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */,
 				4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */,
+				1A79CB8B1C30DC940091DD62 /* Images.xcassets */,
 			);
 			path = "Anteater Express";
 			sourceTree = "<group>";
@@ -673,6 +715,8 @@
 		4A9571CC1559B313007AE958 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1A4B6EFD1C250CC100C730EC /* checked_checkbox.png */,
+				1A4B6EFE1C250CC100C730EC /* unchecked_checkbox.png */,
 				1A16D1FB1C026469003B3C2D /* AE Banner.png */,
 				4AE5282116E2CD6E003FCA0E /* mobile_net_close.png */,
 				4A6C1AFF169FE9BD0022541B /* 104-index-cards.png */,
@@ -788,6 +832,7 @@
 				4A9571D81559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png in Resources */,
 				4AD1FA00155DA45D00978EAA /* iPad_HighRes_Background.png in Resources */,
 				4AD1FA10155DD43F00978EAA /* alert_lt_gray_ios_high_res.png in Resources */,
+				1A4B6F001C250CC100C730EC /* unchecked_checkbox.png in Resources */,
 				4AD1FA11155DD43F00978EAA /* map_lt_gray_ios_high_res.png in Resources */,
 				4AD1FA12155DD43F00978EAA /* schedule_lt_gray_ios_high_res.png in Resources */,
 				4AD1FA14155DE4FE00978EAA /* schedule_lt_gray_ios_30px.png in Resources */,
@@ -795,6 +840,7 @@
 				4AD1FA18155DE6D800978EAA /* map_lt_gray_ios_30px.png in Resources */,
 				4AD1FA1C1561CCA700978EAA /* menu_graphic2_25px.png in Resources */,
 				4AD1FA1F1561CD4D00978EAA /* menu_graphic_2.png in Resources */,
+				1A4B6EFF1C250CC100C730EC /* checked_checkbox.png in Resources */,
 				4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */,
 				4A53A85D1566DDEE00D191AC /* shuttle_E_stopped.png in Resources */,
 				4A53A85E1566DDEE00D191AC /* shuttle_N_moving.png in Resources */,
@@ -828,6 +874,7 @@
 				4A6C1B08169FF37E0022541B /* Default@2x.png in Resources */,
 				4A6C1B0A169FF3840022541B /* Default-568h@2x.png in Resources */,
 				4A6C1B0C169FF7E90022541B /* Default-Portrait~ipad.png in Resources */,
+				1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */,
 				4A6C1B0E169FF8080022541B /* Default-Portrait@2x~ipad.png in Resources */,
 				4AE5282216E2CD6E003FCA0E /* mobile_net_close.png in Resources */,
 			);
@@ -901,15 +948,18 @@
 				1A16D1861BFA9DF6003B3C2D /* RoutesPost.m in Sources */,
 				4A76A6EF1559016100D99B14 /* AppDelegate.m in Sources */,
 				1A16D18B1BFA9DF6003B3C2D /* StopArrivalPredictionDAO.m in Sources */,
+				1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */,
 				4A76A6F81559016100D99B14 /* ViewController.m in Sources */,
 				1A16D1CD1BFA9E1E003B3C2D /* AnnouncementsAndNews.m in Sources */,
 				1A16D1881BFA9DF6003B3C2D /* RouteUpdatesPost.m in Sources */,
+				1A4B6F061C27360300C730EC /* AEMenuMapControlTableViewCell.m in Sources */,
 				1A16D18C1BFA9DF6003B3C2D /* StopArrivalPredictionPost.m in Sources */,
 				1A16D1A71BFA9E02003B3C2D /* MapAnnotation.m in Sources */,
 				1A16D1D71C023D59003B3C2D /* AESideMenuTableViewController.m in Sources */,
 				1A16D1641BFA9DCB003B3C2D /* Reachability.m in Sources */,
 				1A16D1821BFA9DF6003B3C2D /* RouteDefinitionPost.m in Sources */,
 				1A16D1F71C025905003B3C2D /* ItemInfo.m in Sources */,
+				1A4B6F151C2B97A600C730EC /* ColorCircleView.m in Sources */,
 				1A16D1621BFA9DCB003B3C2D /* HttpPostExecute.m in Sources */,
 				1A16D1651BFA9DCB003B3C2D /* Utilities.m in Sources */,
 				1A16D2021C026F10003B3C2D /* NewsAndAboutViewController.m in Sources */,
@@ -937,9 +987,13 @@
 				1A16D1BA1BFA9E0D003B3C2D /* FaresViewController.m in Sources */,
 				1A16D1611BFA9DCB003B3C2D /* ColorConverter.m in Sources */,
 				1A16D1E41C024154003B3C2D /* AEMenuPaidLineTableViewCell.m in Sources */,
+				1A4B6F0F1C28B5C400C730EC /* AEStopAnnotation.m in Sources */,
+				1A4B6F031C27357F00C730EC /* MapControlInfo.m in Sources */,
 				1A16D1CB1BFA9E1E003B3C2D /* AnnouncementCustomCell.m in Sources */,
+				1A4B6F121C29FFAB00C730EC /* AEStopAnnotationView.m in Sources */,
 				1A16D1CE1BFA9E1E003B3C2D /* AnnouncementsPost.m in Sources */,
 				1A16D1EE1C0245FF003B3C2D /* MenuInfo.m in Sources */,
+				1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */,
 				1A16D1A81BFA9E02003B3C2D /* RouteTabView.m in Sources */,
 				4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */,
 				1A16D1B81BFA9E0D003B3C2D /* AboutUsViewController.m in Sources */,

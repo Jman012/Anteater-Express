@@ -10,7 +10,10 @@
 
 @interface AEMenuPaidLineTableViewCell : UITableViewCell
 
+@property (nonatomic, assign) BOOL checked;
+@property (nonatomic, strong) UIColor *color;
+
 - (void)setLineName:(NSString *)name;
-- (void)setChecked:(BOOL)checked;
+- (void)toggleChecked;
 
 @end

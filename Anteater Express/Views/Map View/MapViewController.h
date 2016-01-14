@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
+#import <SWRevealViewController/SWRevealViewController.h>
 
-@interface MapViewController : UIViewController
+@interface MapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
+
+- (void)setAllRoutesArray:(NSArray *)allRoutesArray;
+- (void)showNewRoute:(NSNumber *)theId;
+- (void)removeRoute:(NSNumber *)theId;
+- (void)clearAllRoutes;
+
+- (void)setMapType:(MKMapType)newType;
 
 @end

@@ -9,43 +9,100 @@
 #import "AESideMenuTableViewController.h"
 
 #import <SWRevealViewController/SWRevealViewController.h>
+#import <MapKit/MapKit.h>
 
 #import "RoutesAndAnnounceDAO.h"
+#import "ColorConverter.h"
 
 #import "MenuInfo.h"
 #import "BannerItemInfo.h"
 #import "LineInfo.h"
 #import "ItemInfo.h"
 #import "LoadingInfo.h"
+#import "MapControlInfo.h"
 
 #import "AEMenuBannerTableViewCell.h"
 #import "AEMenuFreeLineTableViewCell.h"
 #import "AEMenuPaidLineTableViewCell.h"
 #import "AEMenuItemTableViewCell.h"
 #import "AEMenuLoadingTableViewCell.h"
+#import "AEMenuMapControlTableViewCell.h"
 
 #import "AEGetRoutesOp.h"
 
-NSString *kCellIdBannerCell = @"AEMenuBannerCell";
-NSString *kCellIdFreeLineCell = @"AEMenuFreeLineCell";
-NSString *kCellIdPaidLineCell = @"AEMenuPaidLineCell";
-NSString *kCellIdItemCell = @"AEMenuItemCell";
-NSString *kCellIdLoadingCell = @"AEMenuLoadingCell";
+#import "MapViewController.h"
 
-const NSUInteger kSectionBanner = 0;
-const NSUInteger kSectionLines = 1;
-const NSUInteger kSectionLinks = 2;
+NSString *kCellIdBannerCell =     @"AEMenuBannerCell";
+NSString *kCellIdFreeLineCell =   @"AEMenuFreeLineCell";
+NSString *kCellIdPaidLineCell =   @"AEMenuPaidLineCell";
+NSString *kCellIdItemCell =       @"AEMenuItemCell";
+NSString *kCellIdLoadingCell =    @"AEMenuLoadingCell";
+NSString *kCellIdMapControlCell = @"AEMenuMapControlCell";
+
+const NSUInteger kSectionBanner =     0;
+const NSUInteger kSectionMapControl = 1;
+const NSUInteger kSectionLines =      2;
+const NSUInteger kSectionLinks =      3;
 
 @interface AESideMenuTableViewController ()
 
-@property (nonatomic, strong) NSMutableArray *menuSections;
+@property (nonatomic, strong) NSMutableArray<NSArray *> *menuSections;
+@property (nonatomic, strong) NSMutableSet<NSNumber *> *selectedRouteIds;
 @property (nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
+@property (nonatomic, strong) NSTimer *syncSelectedLinesTimer;
 
 @end
 
 @implementation AESideMenuTableViewController
+
+
+#pragma mark - Init
+
+- (void)initialize {
+    self.operationQueue = [[NSOperationQueue alloc] init];
+    self.operationQueue.name = @"AESideMenu OpQueue";
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:@"SelectedRouteIds"] != nil) {
+        self.selectedRouteIds = [NSMutableSet setWithArray:[userDefaults objectForKey:@"SelectedRouteIds"]];
+    } else {
+        self.selectedRouteIds = [NSMutableSet set];
+    }
+
+    [self constructMenu];
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    if (self = [super initWithStyle:style]) {
+        [self initialize];
+    }
+    return self;
+}
+
+#pragma mark - View control
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,8 +110,6 @@ const NSUInteger kSectionLinks = 2;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
-    self.operationQueue = [[NSOperationQueue alloc] init];
-    self.operationQueue.name = @"AESideMenu OpQueue";
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
@@ -63,6 +118,22 @@ const NSUInteger kSectionLinks = 2;
     self.revealViewController.rearViewRevealOverdraw = 0.0f;
 
     [self constructMenu];
+    
+    // Selected routes might be laoded from userDefaults by now, and
+    // the mapView should be loaded by now, so notify it
+    UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+    MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+    if (mapVC) {
+        [self.selectedRouteIds enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {
+            [mapVC showNewRoute:routeId];
+        }];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self syncSelectedLines:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,15 +141,20 @@ const NSUInteger kSectionLinks = 2;
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Methods
+
 - (NSArray *)constructLineInfos {
     if (self.routesAndAnnounceDAO == nil) {
         return nil;
     }
     
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
-    for (NSDictionary *routeDict in [self.routesAndAnnounceDAO getRoutes]) {
-        [lineInfos addObject:[[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO cellIdentifer:kCellIdFreeLineCell]];
-    }
+    [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
+        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO routeId:routeDict[@"Id"] color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]] cellIdentifer:kCellIdFreeLineCell];
+        newLineInfo.selected = [self.selectedRouteIds containsObject:routeDict[@"Id"]];
+        [lineInfos addObject:newLineInfo];
+        
+    }];
     return lineInfos;
 }
 
@@ -93,6 +169,9 @@ const NSUInteger kSectionLinks = 2;
     self.menuSections = [NSMutableArray arrayWithArray:@[
                           @[
                               [[BannerItemInfo alloc] initWithBannerImageName:[UIImage imageNamed:@"AE Banner"] cellIdentifer:kCellIdBannerCell]
+                              ],
+                          @[
+                              [[MapControlInfo alloc] initWithSelection:0 cellIdentifier:kCellIdMapControlCell]
                               ],
                           lineInfos,
                           @[
@@ -142,6 +221,16 @@ const NSUInteger kSectionLinks = 2;
         
         // If the refresh control was pulled to trigger this, turn it off
         [self.refreshControl endRefreshing];
+        
+        // Then tell the map view that we got this new information, and if it needs
+        // to download anything else for it's underlying data structures
+        UIViewController *vc = self.revealViewController.frontViewController;
+        if ([vc isKindOfClass:[UINavigationController class]]) {
+            UIViewController *newVc = [[(UINavigationController *)vc viewControllers] firstObject];
+            if ([newVc isKindOfClass:[MapViewController class]]) {
+                [(MapViewController *)newVc setAllRoutesArray:[routesAndAnnounceDAO getRoutes]];
+            }
+        }
     };
     
     [self.operationQueue addOperation:getRoutesOp];
@@ -149,10 +238,45 @@ const NSUInteger kSectionLinks = 2;
     
 }
 
+#pragma mark - NSTimer
+
+- (void)syncSelectedLines:(NSTimer *)timer {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *selectedRouteIdsArray = [NSArray arrayWithArray:[self.selectedRouteIds allObjects]];
+    [userDefaults setObject:selectedRouteIdsArray forKey:@"SelectedRouteIds"];
+    [userDefaults synchronize];
+    
+    self.syncSelectedLinesTimer = nil;
+}
+
 #pragma mark - UIRefreshControl
 
 - (void)pullToRefresh {
     [self constructMenu];
+}
+
+#pragma mark - UISegmentedControl Target Action
+
+- (void)mapControlValueChanged:(UISegmentedControl *)control {
+    MapControlInfo *mapControlInfo = [self.menuSections[kSectionMapControl] firstObject];
+    mapControlInfo.selection = control.selectedSegmentIndex;
+    
+    UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+    MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+    switch (mapControlInfo.selection) {
+        case 0: {
+            [mapVC setMapType:MKMapTypeStandard];
+            break;
+        }
+        
+        case 1: {
+            [mapVC setMapType:MKMapTypeHybrid];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 #pragma mark - Table view data source
@@ -184,7 +308,7 @@ const NSUInteger kSectionLinks = 2;
     MenuInfo *menuInfo = self.menuSections[indexPath.section][indexPath.row];
     
     if ([menuInfo.cellIdentifier isEqualToString:kCellIdBannerCell]) {
-        BannerItemInfo *bannerInfo =(BannerItemInfo *)menuInfo;
+        BannerItemInfo *bannerInfo = (BannerItemInfo *)menuInfo;
         AEMenuBannerTableViewCell *bannerCell = (AEMenuBannerTableViewCell *)cell;
         bannerCell.userInteractionEnabled = NO;
         [bannerCell setBannerImage:bannerInfo.bannerImage];
@@ -194,14 +318,15 @@ const NSUInteger kSectionLinks = 2;
         AEMenuFreeLineTableViewCell *freeLineCell = (AEMenuFreeLineTableViewCell *)cell;
         freeLineCell.userInteractionEnabled = YES;
         [freeLineCell setLineName:lineInfo.text];
-        [freeLineCell setChecked:NO];
+        [freeLineCell setChecked:lineInfo.selected];
+        freeLineCell.color = lineInfo.color;
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdPaidLineCell]) {
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         AEMenuPaidLineTableViewCell *paidLineCell = (AEMenuPaidLineTableViewCell *)cell;
         paidLineCell.userInteractionEnabled = YES;
         [paidLineCell setLineName:lineInfo.text];
-        [paidLineCell setChecked:NO];
+        [paidLineCell setChecked:lineInfo.selected];
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdItemCell]) {
         ItemInfo *itemInfo = (ItemInfo *)menuInfo;
@@ -213,6 +338,14 @@ const NSUInteger kSectionLinks = 2;
         AEMenuLoadingTableViewCell *loadingCell = (AEMenuLoadingTableViewCell *)cell;
         loadingCell.userInteractionEnabled = NO;
         [loadingCell.activityIndicatorView startAnimating];
+        
+    } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdMapControlCell]) {
+        MapControlInfo *mapControlInfo = (MapControlInfo *)menuInfo;
+        AEMenuMapControlTableViewCell *mapControlCell = (AEMenuMapControlTableViewCell *)cell;
+        [mapControlCell setSelection:mapControlInfo.selection];
+        mapControlCell.userInteractionEnabled = YES;
+        mapControlCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [mapControlCell setSegmentedControlTarget:self action:@selector(mapControlValueChanged:)];
     }
     
 }
@@ -235,14 +368,64 @@ const NSUInteger kSectionLinks = 2;
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         
         NSLog(@"Toggling %@", lineInfo.text);
-        [self.revealViewController revealToggleAnimated:YES];
+        
+        // Get view controller info
+        UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+        MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+        
+        // Tell mapVC
+        if (lineInfo.selected) {
+            [mapVC removeRoute:lineInfo.routeId];
+        } else {
+            [mapVC showNewRoute:lineInfo.routeId];
+        }
+        
+        // Update Data Structures
+        lineInfo.selected = !lineInfo.selected;
+        if ([self.selectedRouteIds containsObject:lineInfo.routeId]) {
+            [self.selectedRouteIds removeObject:lineInfo.routeId];
+        } else {
+            [self.selectedRouteIds addObject:lineInfo.routeId];
+        }
+        
+        if (self.syncSelectedLinesTimer != nil) {
+            [self.syncSelectedLinesTimer invalidate];
+        }
+        self.syncSelectedLinesTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(syncSelectedLines:) userInfo:nil repeats:NO];
+        
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdPaidLineCell]) {
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         
         NSLog(@"Toggling %@", lineInfo.text);
-        [self.revealViewController revealToggleAnimated:YES];
+        
+        // Get view controller info
+        UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
+        MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
+        
+        // Tell mapVC
+        if (lineInfo.selected) {
+            [mapVC removeRoute:lineInfo.routeId];
+        } else {
+            [mapVC showNewRoute:lineInfo.routeId];
+        }
+        
+        // Update Data Structure
+        lineInfo.selected = !lineInfo.selected;
+        if ([self.selectedRouteIds containsObject:lineInfo.routeId]) {
+            [self.selectedRouteIds removeObject:lineInfo.routeId];
+        } else {
+            [self.selectedRouteIds addObject:lineInfo.routeId];
+        }
+        
+        if (self.syncSelectedLinesTimer != nil) {
+            [self.syncSelectedLinesTimer invalidate];
+        }
+        self.syncSelectedLinesTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(syncSelectedLines:) userInfo:nil repeats:NO];
+        
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdItemCell]) {
