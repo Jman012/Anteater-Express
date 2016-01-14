@@ -10,9 +10,11 @@
 
 @implementation AEVehicleAnnotation
 
-- (instancetype)initWithVehicleDictionary:(NSDictionary *)theVehicleDictionary {
+- (instancetype)initWithVehicleDictionary:(NSDictionary *)theVehicleDictionary routeDict:(NSDictionary *)theRouteDict {
     if (self = [super init]) {
+        self.routeDictionary = theRouteDict;
         self.vehicleDictionary = theVehicleDictionary;
+        self.vehicleId = self.vehicleDictionary[@"ID"];
     }
     return self;
 }
@@ -103,7 +105,8 @@
     //NSString * doorOpenText = ([[_dictionary objectForKey:@"DoorStatus"] intValue] == 1) ? @"Yes" : @"No";
     NSString *apcPercentageText = [self.vehicleDictionary objectForKey:@"APCPercentage"];
     NSString *name = [self.vehicleDictionary objectForKey:@"Name"];
-    return [NSString stringWithFormat:@"Bus %@ - %@%% Full", name, apcPercentageText];
+    NSString *line = [self.routeDictionary objectForKey:@"Abbreviation"];
+    return [NSString stringWithFormat:@"%@ Line - Bus %@ - %@%% Full", line, name, apcPercentageText];
 }
 
 - (NSString *)subtitle {

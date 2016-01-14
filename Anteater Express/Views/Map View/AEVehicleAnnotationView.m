@@ -25,6 +25,26 @@
 
 - (void)setVehicleImage:(NSString *)vehiclePictureString {
     self.image = [self imageForString:vehiclePictureString];
+    self.image = [self.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    UIGraphicsBeginImageContextWithOptions(self.image.size, NO, self.image.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGRect rect = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
+    
+    // draw alpha-mask
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
+    CGContextDrawImage(context, rect, self.image.CGImage);
+    
+    CGContextClipToMask(context, rect, self.image.CGImage);
+    
+    // draw tint color, preserving alpha values of original image
+    CGContextSetBlendMode(context, kCGBlendModeSoftLight);
+    [self.tintColor setFill];
+    CGContextFillRect(context, rect);
+    
+    self.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 }
 
 - (UIImage *)imageForString:(NSString *)string {

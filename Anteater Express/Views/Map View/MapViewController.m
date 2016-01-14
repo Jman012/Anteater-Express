@@ -337,29 +337,32 @@
 
 - (void)updateAllVehiclesForSelectedRoutes:(NSTimer *)timer {
     [self.selectedRoutes enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {
-        [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[routeId][@"StopSetId"]];
+        [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[routeId][@"StopSetId"] routeId:routeId];
     }];
 }
 
-- (void)downloadNewVehicleInfoWithStopSetId:(NSNumber *)stopSetId {
+- (void)downloadNewVehicleInfoWithStopSetId:(NSNumber *)stopSetId routeId:(NSNumber *)routeId {
     AEGetVehiclesOp *getVehiclesOperation = [[AEGetVehiclesOp alloc] initWithStopSetId:stopSetId.integerValue];
     getVehiclesOperation.returnBlock = ^(RouteVehiclesDAO *routeVehiclesDAO) {
         
         [[routeVehiclesDAO getRouteVehicles] enumerateObjectsUsingBlock:^(NSDictionary *vehicleDict, NSUInteger idx, BOOL *stop) {
             NSNumber *vehicleId = vehicleDict[@"ID"];
             if (self.vehicleAnnotationsForVehicleId[vehicleId] == nil) {
+                NSLog(@"Add Vehicle");
                 // Not yet set
-                AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicleDictionary:vehicleDict];
+                AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicleDictionary:vehicleDict routeDict:self.allRoutes[routeId]];
                 vehicleAnnotation.stopSetId = stopSetId;
                 [self.mapView addAnnotation:vehicleAnnotation];
                 self.vehicleAnnotationsForVehicleId[vehicleId] = vehicleAnnotation;
             } else {
+                NSLog(@"Update vehicle");
                 // Already exists
                 AEVehicleAnnotation *vehicleAnnotation = self.vehicleAnnotationsForVehicleId[vehicleId];
                 vehicleAnnotation.vehicleDictionary = vehicleDict;
                 
                 // Then try to update the view
                 AEVehicleAnnotationView *vehicleAnnotationView = (AEVehicleAnnotationView *)[self.mapView viewForAnnotation:vehicleAnnotation];
+                vehicleAnnotationView.tintColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
                 [vehicleAnnotationView setVehicleImage:vehicleAnnotation.vehiclePicture];
             }
         }];
@@ -412,7 +415,7 @@
     }
     
     // Manually invoke the vehicles to be downloaded
-    [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[theId][@"StopSetId"]];
+    [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[theId][@"StopSetId"] routeId:theId];
 }
 
 - (void)removeRoute:(NSNumber *)theId {
@@ -449,6 +452,18 @@
             }
         }];
     }
+    
+    // Remove the route buses
+    NSNumber *stopSetId = self.allRoutes[theId][@"StopSetId"];
+    [self.mapView.annotations enumerateObjectsUsingBlock:^(id<MKAnnotation> annotation, NSUInteger idx, BOOL *stop) {
+        if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
+            AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
+            if ([vehicleAnnotation.stopSetId isEqualToNumber:stopSetId]) {
+                [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicleId];
+                [self.mapView removeAnnotation:vehicleAnnotation];
+            }
+        }
+    }];
 }
 
 - (void)clearAllRoutes {
@@ -529,6 +544,8 @@
         }
         
         // Set Image
+        NSNumber *routeId = vehicleAnnotation.routeDictionary[@"Id"];
+        vehicleAnnotationView.tintColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
         [vehicleAnnotationView setVehicleImage:vehicleAnnotation.vehiclePicture];
         
         return vehicleAnnotationView;

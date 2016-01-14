@@ -10,6 +10,8 @@
 
 @interface AEVehicleAnnotationView : MKAnnotationView
 
+@property (nonatomic, strong) UIColor *tintColor;
+
 - (void)setVehicleImage:(NSString *)vehiclePictureString;
 
 @end

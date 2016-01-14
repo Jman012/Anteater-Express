@@ -21,8 +21,9 @@
 @property (nonatomic, strong) NSNumber *stopSetId;
 @property (nonatomic, strong) NSNumber *vehicleId;
 @property (nonatomic, strong) NSString *vehiclePicture;
+@property (nonatomic, strong) NSDictionary *routeDictionary;
 
-- (instancetype)initWithVehicleDictionary:(NSDictionary *)theVehicleDictionary;
+- (instancetype)initWithVehicleDictionary:(NSDictionary *)theVehicleDictionary routeDict:(NSDictionary *)theRouteDict;
 
 
 @end
