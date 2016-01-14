@@ -337,6 +337,10 @@
 
 - (void)removeRoute:(NSNumber *)theId {
     NSLog(@"Removing route: %@", theId);
+    if ([self.selectedButAwaitingDataRoutes containsObject:theId]) {
+        // If it's in the queue awaiting to be added, remove it.
+        [self.selectedButAwaitingDataRoutes removeObject:theId];
+    }
     [self.selectedRoutes removeObject:theId];
     
     // Remove the route line
@@ -357,6 +361,10 @@
                     [self.routeStopsAnnotationsSelected removeObjectForKey:stopId];
                 } else {
                     self.routeStopsAnnotationsSelected[stopId] = [NSNumber numberWithInteger:curCount.integerValue - 1];
+                    
+                    // Don't forget to refresh the colors on the color wheel
+                    [self.mapView removeAnnotation:stopAnnotation];
+                    [self.mapView addAnnotation:stopAnnotation];
                 }
             }
         }];
