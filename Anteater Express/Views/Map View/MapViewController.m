@@ -129,7 +129,6 @@
                                                              selector:@selector(updateAllVehiclesForSelectedRoutes:)
                                                              userInfo:nil
                                                               repeats:YES];
-    NSLog(@"%s timer made %@", __PRETTY_FUNCTION__, self.vehicleUpdateTimer);
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -280,7 +279,20 @@
         // Make the polyline object out of the coords and add to the dict
         MKPolyline *polyline = [MKPolyline polylineWithPoints:routeMapPointsCArray count:routePoints.count];
         [polyline setTitle:[routeId stringValue]];
+        
+        // At this point, if we're updating instead of just inserting, we
+        // need to make sure there are no lost references in the mapView
+        BOOL readd = NO;
+        if (self.routeDefinitionsPolylines[routeId] != nil &&
+            [self.mapView.overlays containsObject:self.routeDefinitionsPolylines[routeId]]) {
+            [self.mapView removeOverlay:self.routeDefinitionsPolylines[routeId]];
+            readd = YES;
+        }
         self.routeDefinitionsPolylines[routeId] = polyline;
+        if (readd == YES) {
+            [self.mapView addOverlay:self.routeDefinitionsPolylines[routeId]];
+            readd = NO;
+        }
         
         
         /* ROUTE STOPS */
@@ -322,14 +334,12 @@
 #pragma mark - Vehicle Data Handling and Updating
 
 - (void)updateAllVehiclesForSelectedRoutes:(NSTimer *)timer {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self.selectedRoutes enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {
         [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[routeId][@"StopSetId"]];
     }];
 }
 
 - (void)downloadNewVehicleInfoWithStopSetId:(NSNumber *)stopSetId {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     AEGetVehiclesOp *getVehiclesOperation = [[AEGetVehiclesOp alloc] initWithStopSetId:stopSetId.integerValue];
     getVehiclesOperation.returnBlock = ^(RouteVehiclesDAO *routeVehiclesDAO) {
         
@@ -338,7 +348,6 @@
             if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
                 AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
                 if ([vehicleAnnotation.stopSetId isEqualToNumber:stopSetId]) {
-                    NSLog(@"\tremove");
                     [self.mapView removeAnnotation:vehicleAnnotation];
                 }
             }
@@ -348,7 +357,6 @@
         [[routeVehiclesDAO getRouteVehicles] enumerateObjectsUsingBlock:^(NSDictionary *vehicleDict, NSUInteger idx, BOOL *stop) {
             AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicleDictionary:vehicleDict];
             vehicleAnnotation.stopSetId = stopSetId;
-            NSLog(@"\tadd %@", vehicleAnnotation);
             [self.mapView addAnnotation:vehicleAnnotation];
         }];
         
@@ -466,7 +474,6 @@
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     // This is called for route Stops and Vehicles. Currently undefined for Vehicles.
     if ([annotation isMemberOfClass:[AEStopAnnotation class]]) {
 
@@ -500,7 +507,6 @@
         
         return stopAnnView;
     } else if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
-        NSLog(@"view for vehicle");
         static NSString *vehicleIdentifier = @"Vehicle";
         AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
         
