@@ -51,6 +51,7 @@
 
 /* Route Vehicle Centric stuff */
 @property (nonatomic, strong) NSTimer *vehicleUpdateTimer;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*,AEVehicleAnnotation*> *vehicleAnnotationsForVehicleId;
 
 // Misc
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
@@ -87,6 +88,7 @@
         self.routeStopsAnnotationsDict = [NSMutableDictionary dictionary];
         self.routeStopsAnnotationsSelected = [NSMutableDictionary dictionary];
         self.routeStopsForWhichLines = [NSMutableDictionary dictionary];
+        self.vehicleAnnotationsForVehicleId = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -343,21 +345,23 @@
     AEGetVehiclesOp *getVehiclesOperation = [[AEGetVehiclesOp alloc] initWithStopSetId:stopSetId.integerValue];
     getVehiclesOperation.returnBlock = ^(RouteVehiclesDAO *routeVehiclesDAO) {
         
-        // First remove any vehicles from the map pertaining to this stopSetId.
-        [self.mapView.annotations enumerateObjectsUsingBlock:^(id<MKAnnotation> annotation, NSUInteger idx, BOOL *stop) {
-            if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
-                AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
-                if ([vehicleAnnotation.stopSetId isEqualToNumber:stopSetId]) {
-                    [self.mapView removeAnnotation:vehicleAnnotation];
-                }
-            }
-        }];
-        
-        // Then add the ones we just downloaded.
         [[routeVehiclesDAO getRouteVehicles] enumerateObjectsUsingBlock:^(NSDictionary *vehicleDict, NSUInteger idx, BOOL *stop) {
-            AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicleDictionary:vehicleDict];
-            vehicleAnnotation.stopSetId = stopSetId;
-            [self.mapView addAnnotation:vehicleAnnotation];
+            NSNumber *vehicleId = vehicleDict[@"ID"];
+            if (self.vehicleAnnotationsForVehicleId[vehicleId] == nil) {
+                // Not yet set
+                AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicleDictionary:vehicleDict];
+                vehicleAnnotation.stopSetId = stopSetId;
+                [self.mapView addAnnotation:vehicleAnnotation];
+                self.vehicleAnnotationsForVehicleId[vehicleId] = vehicleAnnotation;
+            } else {
+                // Already exists
+                AEVehicleAnnotation *vehicleAnnotation = self.vehicleAnnotationsForVehicleId[vehicleId];
+                vehicleAnnotation.vehicleDictionary = vehicleDict;
+                
+                // Then try to update the view
+                AEVehicleAnnotationView *vehicleAnnotationView = (AEVehicleAnnotationView *)[self.mapView viewForAnnotation:vehicleAnnotation];
+                [vehicleAnnotationView setVehicleImage:vehicleAnnotation.vehiclePicture];
+            }
         }];
         
     };
@@ -367,15 +371,17 @@
 #pragma mark - Route selection methods
 
 - (void)showNewRoute:(NSNumber *)theId {
-    NSLog(@"Showing new route: %@", theId);
     
     if (self.routeDefinitionsPolylines[theId] == nil) {
         // The route was selected but we don't have the info for it just yet.
         // Store the id in another data structure so when the data arrives it'll know to
         // call this again
         [self.selectedButAwaitingDataRoutes addObject:theId];
+        NSLog(@"Queueing new route to be shown: %@", theId);
         return;
     }
+    NSLog(@"Showing new route: %@", theId);
+
     
     // Else, proceed as normal
     [self.selectedRoutes addObject:theId];
@@ -404,6 +410,9 @@
             
         }];
     }
+    
+    // Manually invoke the vehicles to be downloaded
+    [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[theId][@"StopSetId"]];
 }
 
 - (void)removeRoute:(NSNumber *)theId {
