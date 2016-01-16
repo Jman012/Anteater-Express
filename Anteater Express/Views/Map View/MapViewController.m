@@ -14,12 +14,14 @@
 
 #import "AEGetRouteDefinition.h"
 #import "AEGetVehiclesOp.h"
+#import "AEGetArrivalPredictionsOp.h"
 #import "ColorConverter.h"
 
 #import "AEStopAnnotation.h"
 #import "AEVehicleAnnotation.h"
 #import "AEStopAnnotationView.h"
 #import "AEVehicleAnnotationView.h"
+#import "ArrivalPredictionView.h"
 
 // We'll use these for initiating the map's position
 #define UCI_LATITUDE 33.6454
@@ -28,22 +30,28 @@
 @interface MapViewController ()
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;
-@property (atomic, strong) IBOutlet MKMapView *mapView;
+@property (nonatomic, strong) IBOutlet MKMapView *mapView;
+@property (nonatomic, strong) IBOutlet UIView *testView;
 
 /* Basic/wholistic route info */
-// Holds entire Route dicts, keyed by the route "Id"
+// Holds entire Route dicts, keyed by the RouteId
 @property (nonatomic, strong) NSDictionary<NSNumber*, NSDictionary*> *allRoutes;
-// Holds the "Id" for each route, which is used in the allRoutes dict.
+// Holds the RouteId for each route for currently selected routes, which is used in the allRoutes dict.
 @property (nonatomic, strong) NSMutableSet<NSNumber*> *selectedRoutes;
+// If we tried selecting a route but we don't have the RouteDefinition yet, place it in here
 @property (nonatomic, strong) NSMutableSet<NSNumber*> *selectedButAwaitingDataRoutes;
-// Holds the route def dicts, keyed by the StopSetId
+// Holds the route def dicts, keyed by the RouteId
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, RouteDefinitionDAO*> *routeDefinitions;
-// Made from routDefs, holds the MKPolylines by routeId
+// Made from routDefs, holds the MKPolylines by RouteId
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, MKPolyline*> *routeDefinitionsPolylines;
+// Set of routeIds that represent which lines are currently being downloaded, so we don't do double
+@property (nonatomic, strong) NSMutableSet<NSNumber*> *downloadingDefinitions;
 
 /* Route Stop information specifically */
 // RouteId -> @[StopSetId], used as a lookup
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSArray<NSNumber*>*> *routeStopsForWhichLines;
+// StopSetId -> RouteId
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSNumber*> *routeIdForStopSetId;
 // Just holds the MapAnnotation objects. StopId->AEStopAnnotation.
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, AEStopAnnotation*> *routeStopsAnnotationsDict;
 // Routes share stops, so this is StopId->count as a retain/release method
@@ -88,6 +96,8 @@
         self.routeStopsAnnotationsDict = [NSMutableDictionary dictionary];
         self.routeStopsAnnotationsSelected = [NSMutableDictionary dictionary];
         self.routeStopsForWhichLines = [NSMutableDictionary dictionary];
+        self.routeIdForStopSetId = [NSMutableDictionary dictionary];
+        self.downloadingDefinitions = [NSMutableSet set];
         self.vehicleAnnotationsForVehicleId = [NSMutableDictionary dictionary];
     }
     return self;
@@ -196,6 +206,18 @@
     return toRet;
 }
 
+- (BOOL)stopSetIdInSelected:(NSNumber *)stopSetId {
+    __block BOOL ret = false;
+    [self.selectedRoutes enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {
+        NSNumber *selectedStopSetId = self.allRoutes[routeId][@"StopSetId"];
+        if ([selectedStopSetId isEqualToNumber:stopSetId]) {
+            ret = true;
+            *stop = true;
+        }
+    }];
+    return ret;
+}
+
 - (void)setAllRoutesArray:(NSArray *)allRoutesArray {
     // Public function to assign current routes.
     // Construct a dict of these where each key is the Id
@@ -222,11 +244,12 @@
         NSDictionary *routeDict = _allRoutes[routeId];
         NSNumber *routeStopSetId = routeDict[@"StopSetId"];
         
-        if (self.routeDefinitions[routeId] == nil) {
+        if (self.routeDefinitions[routeId] == nil && [self.downloadingDefinitions containsObject:routeId] == false) {
             // If our route Definitions (which hold 1. the gps coords and 2. the stops)
             // Then we'll dl it.
             
             [self downloadNewRouteInfoWithId:routeId stopSetId:routeStopSetId];
+            [self.downloadingDefinitions addObject:routeId];
             
         }
     }
@@ -298,6 +321,8 @@
         
         
         /* ROUTE STOPS */
+        NSNumber *stopSetId = self.allRoutes[routeId][@"StopSetId"];
+        self.routeIdForStopSetId[stopSetId] = routeId;
         NSArray *routeStops = [self.routeDefinitions[routeId] getRouteStops];
         NSMutableArray *stopNumbersForTheRoute = [NSMutableArray arrayWithCapacity:routeStops.count];
         [routeStops enumerateObjectsUsingBlock:^(NSDictionary *curStopDict, NSUInteger idx, BOOL *stop) {
@@ -329,6 +354,9 @@
         NSArray *annotations = self.mapView.annotations;
         [self.mapView removeAnnotations:annotations];
         [self.mapView addAnnotations:annotations];
+        
+        // Finally represent that we're no longer downloading this definition
+        [self.downloadingDefinitions removeObject:routeId];
     };
     [self.operationQueue addOperation:getRouteOp];
 }
@@ -348,14 +376,12 @@
         [[routeVehiclesDAO getRouteVehicles] enumerateObjectsUsingBlock:^(NSDictionary *vehicleDict, NSUInteger idx, BOOL *stop) {
             NSNumber *vehicleId = vehicleDict[@"ID"];
             if (self.vehicleAnnotationsForVehicleId[vehicleId] == nil) {
-                NSLog(@"Add Vehicle");
                 // Not yet set
                 AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicleDictionary:vehicleDict routeDict:self.allRoutes[routeId]];
                 vehicleAnnotation.stopSetId = stopSetId;
                 [self.mapView addAnnotation:vehicleAnnotation];
                 self.vehicleAnnotationsForVehicleId[vehicleId] = vehicleAnnotation;
             } else {
-                NSLog(@"Update vehicle");
                 // Already exists
                 AEVehicleAnnotation *vehicleAnnotation = self.vehicleAnnotationsForVehicleId[vehicleId];
                 vehicleAnnotation.vehicleDictionary = vehicleDict;
@@ -561,6 +587,76 @@
     dispatch_once(&once, ^() {
         [self zoomToLocation:userLocation.coordinate];
     });
+}
+
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    if ([view isMemberOfClass:[AEStopAnnotationView class]]) {
+        AEStopAnnotation *stopAnnotaton = (AEStopAnnotation *)view.annotation;
+        stopAnnotaton.arrivalPredictions = [NSMutableDictionary dictionary]; // Reset predictions
+        
+        if ([view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
+            // If iOS9, reset the detail view
+            view.detailCalloutAccessoryView = nil;
+        }
+        
+        // Go through all stopSetIds assigned to this stop annotation
+        [stopAnnotaton.stopSetIds enumerateObjectsUsingBlock:^(NSNumber *stopSetId, NSUInteger idx, BOOL *stop) {
+            if ([self stopSetIdInSelected:stopSetId] == false) {
+                // Only download/show predictions for lines that are selected
+                return;
+            }
+
+            // Use this for later
+            NSNumber *routeId = self.routeIdForStopSetId[stopSetId];
+            
+            // Download the predictions for this stopSetId/stopId combo
+            AEGetArrivalPredictionsOp *arrivalPredictionsOp = [[AEGetArrivalPredictionsOp alloc] initWithStopSetId:stopSetId.integerValue
+                                                                                                            stopId:stopAnnotaton.stopId.integerValue];
+            arrivalPredictionsOp.returnBlock = ^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO) {
+                
+                NSArray *predictions = [[stopArrivalPredictionsDAO getArrivalTimes] valueForKey:@"Predictions"];
+                
+                // Assign the predictions for this stop to the annotation,
+                // categorizing by stopSetId
+                [stopAnnotaton willChangeValueForKey:@"subtitle"];
+                stopAnnotaton.arrivalPredictions[stopSetId] = predictions;
+                [stopAnnotaton didChangeValueForKey:@"subtitle"];
+                
+                // If iOS9, use a stack view to show the times
+                if (NSClassFromString(@"UIStackView") && [view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
+                    
+                    // If no stack view is made yet, make it
+                    if (view.detailCalloutAccessoryView == nil) {
+                        UIStackView *stackView = [[UIStackView alloc] init];
+                        stackView.axis = UILayoutConstraintAxisVertical;
+                        stackView.distribution = UIStackViewDistributionEqualSpacing;
+                        stackView.alignment = UIStackViewAlignmentLeading;
+                        stackView.spacing = 4;
+                        stackView.translatesAutoresizingMaskIntoConstraints = false;
+                        view.detailCalloutAccessoryView = stackView;
+                    }
+
+                    // Add the custom view, assigning the info
+                    ArrivalPredictionView *arrivalsView = [[[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil] firstObject];
+                    // Use the annotation to make the text for us
+                    arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
+                    arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
+                    UIStackView *stackView = (UIStackView *)view.detailCalloutAccessoryView;
+                    [stackView addArrangedSubview:arrivalsView];
+                    [NSTimer scheduledTimerWithTimeInterval:1.0 target:stackView selector:@selector(setNeedsLayout) userInfo:nil repeats:NO];
+                    
+                }
+            };
+            [self.operationQueue addOperation:arrivalPredictionsOp];
+        }];
+        
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(nonnull MKAnnotationView *)view {
+    if ([view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
+        view.detailCalloutAccessoryView = nil;
+    }
 }
 
 #pragma mark - CLLocationManagerDelegate

@@ -74,6 +74,9 @@
 		1A6828A11C474A4C0062B49F /* AEVehicleAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828A01C474A4C0062B49F /* AEVehicleAnnotation.m */; };
 		1A6828A41C474EAE0062B49F /* AEVehicleAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828A31C474EAE0062B49F /* AEVehicleAnnotationView.m */; };
 		1A6828A71C47522A0062B49F /* AEGetVehiclesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828A61C47522A0062B49F /* AEGetVehiclesOp.m */; };
+		1A6828AA1C48B56A0062B49F /* AEGetArrivalPredictionsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828A91C48B56A0062B49F /* AEGetArrivalPredictionsOp.m */; };
+		1A6828AD1C49821F0062B49F /* ArrivalPredictionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */; };
+		1A6828AF1C4983960062B49F /* ArrivalPredictionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */; };
 		1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A79CB8B1C30DC940091DD62 /* Images.xcassets */; };
 		1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
@@ -274,6 +277,11 @@
 		1A6828A31C474EAE0062B49F /* AEVehicleAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEVehicleAnnotationView.m; path = "Views/Map View/AEVehicleAnnotationView.m"; sourceTree = "<group>"; };
 		1A6828A51C47522A0062B49F /* AEGetVehiclesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetVehiclesOp.h; path = "AE Data Retrieval/AEGetVehiclesOp.h"; sourceTree = "<group>"; };
 		1A6828A61C47522A0062B49F /* AEGetVehiclesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetVehiclesOp.m; path = "AE Data Retrieval/AEGetVehiclesOp.m"; sourceTree = "<group>"; };
+		1A6828A81C48B56A0062B49F /* AEGetArrivalPredictionsOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetArrivalPredictionsOp.h; path = "AE Data Retrieval/AEGetArrivalPredictionsOp.h"; sourceTree = "<group>"; };
+		1A6828A91C48B56A0062B49F /* AEGetArrivalPredictionsOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetArrivalPredictionsOp.m; path = "AE Data Retrieval/AEGetArrivalPredictionsOp.m"; sourceTree = "<group>"; };
+		1A6828AB1C49821F0062B49F /* ArrivalPredictionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArrivalPredictionView.h; path = "Views/Map View/ArrivalPredictionView.h"; sourceTree = "<group>"; };
+		1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArrivalPredictionView.m; path = "Views/Map View/ArrivalPredictionView.m"; sourceTree = "<group>"; };
+		1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArrivalPredictionView.xib; path = "Views/Map View/ArrivalPredictionView.xib"; sourceTree = "<group>"; };
 		1A79CB8B1C30DC940091DD62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircleCheckmark.h; path = Views/Menu/Cells/CircleCheckmark.h; sourceTree = "<group>"; };
 		1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircleCheckmark.m; path = Views/Menu/Cells/CircleCheckmark.m; sourceTree = "<group>"; };
@@ -463,6 +471,9 @@
 				1A6828A01C474A4C0062B49F /* AEVehicleAnnotation.m */,
 				1A6828A21C474EAE0062B49F /* AEVehicleAnnotationView.h */,
 				1A6828A31C474EAE0062B49F /* AEVehicleAnnotationView.m */,
+				1A6828AB1C49821F0062B49F /* ArrivalPredictionView.h */,
+				1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */,
+				1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */,
 			);
 			name = "Map View";
 			sourceTree = "<group>";
@@ -534,6 +545,8 @@
 				1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */,
 				1A6828A51C47522A0062B49F /* AEGetVehiclesOp.h */,
 				1A6828A61C47522A0062B49F /* AEGetVehiclesOp.m */,
+				1A6828A81C48B56A0062B49F /* AEGetArrivalPredictionsOp.h */,
+				1A6828A91C48B56A0062B49F /* AEGetArrivalPredictionsOp.m */,
 			);
 			name = "AE Data Retrieval";
 			sourceTree = "<group>";
@@ -863,6 +876,7 @@
 				4A53A8601566DDEE00D191AC /* shuttle_NE_moving.png in Resources */,
 				4A53A8611566DDEE00D191AC /* shuttle_NE_stopped.png in Resources */,
 				4A53A8621566DDEE00D191AC /* shuttle_NW_moving.png in Resources */,
+				1A6828AF1C4983960062B49F /* ArrivalPredictionView.xib in Resources */,
 				4A53A8631566DDEE00D191AC /* shuttle_NW_stopped.png in Resources */,
 				4A53A8641566DDEE00D191AC /* shuttle_S_moving.png in Resources */,
 				4A53A8651566DDEE00D191AC /* shuttle_S_stopped.png in Resources */,
@@ -969,6 +983,7 @@
 				1A16D1CD1BFA9E1E003B3C2D /* AnnouncementsAndNews.m in Sources */,
 				1A16D1881BFA9DF6003B3C2D /* RouteUpdatesPost.m in Sources */,
 				1A4B6F061C27360300C730EC /* AEMenuMapControlTableViewCell.m in Sources */,
+				1A6828AD1C49821F0062B49F /* ArrivalPredictionView.m in Sources */,
 				1A16D18C1BFA9DF6003B3C2D /* StopArrivalPredictionPost.m in Sources */,
 				1A16D1A71BFA9E02003B3C2D /* MapAnnotation.m in Sources */,
 				1A16D1D71C023D59003B3C2D /* AESideMenuTableViewController.m in Sources */,
@@ -993,6 +1008,7 @@
 				1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */,
 				1A16D1851BFA9DF6003B3C2D /* RouteSchedulesPost.m in Sources */,
 				1A16D1FA1C026092003B3C2D /* MapViewController.m in Sources */,
+				1A6828AA1C48B56A0062B49F /* AEGetArrivalPredictionsOp.m in Sources */,
 				1A16D1811BFA9DF6003B3C2D /* RouteDefinitionDAO.m in Sources */,
 				1A16D1AA1BFA9E02003B3C2D /* ScheduleTabView.m in Sources */,
 				1A16D1A41BFA9E02003B3C2D /* MenuViewController.m in Sources */,

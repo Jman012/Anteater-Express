@@ -24,9 +24,6 @@
         self.stopId = [initialRouteStopDictionary objectForKey:@"StopId"];
         self.title = [initialRouteStopDictionary objectForKey:@"Name"]; // Name should be same for all dicts
         
-        // Not sure if we need this yet.
-        //_userData           = @"shuttle_E_moving.png"; //Sets default incase the heading is not set
-        
         // Set the initial dictionary. More might be added
         _dictionaries = [NSMutableArray array];
         [self addNewDictionary:initialRouteStopDictionary];
@@ -53,49 +50,59 @@
     [_dictionaries addObject:newDict];
 }
 
+- (NSArray<NSNumber*> *)stopSetIds {
+    NSMutableArray *retArray = [NSMutableArray array];
+    [self.dictionaries enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
+        [retArray addObject:dict[@"StopSetId"]];
+    }];
+    return retArray;
+}
+
 - (NSString *)subtitle {
     // Copied from the original
-    if(self.arrivalPredictions != nil)
+    if(self.arrivalPredictions != nil && self.arrivalPredictions.count > 0)
     {
-        //subtitle = @"Arriving in ";
-        NSString *subtitle = @"";
-        for(int i = 0; i < [self.arrivalPredictions count]; i++)
-        {
-            if(i > 1) //Don't show more than 2 arrival predictions
+        __block NSString *subtitle = @"";
+        [self.arrivalPredictions enumerateKeysAndObjectsUsingBlock:^(NSNumber *stopSetId, NSArray *predictions, BOOL *stop) {
+            for(int i = 0; i < [predictions count]; i++)
             {
-                break;
-            }
-            
-            if(i != 0)
-            {
-                subtitle = [subtitle stringByAppendingString:@"and "];
-            }
-            
-            subtitle = [subtitle stringByAppendingString:@"Bus "];
-            
-            subtitle = [subtitle stringByAppendingString:[[[self.arrivalPredictions objectAtIndex:i] valueForKey:@"BusName"] stringValue]];
-            
-            NSString* minutesTillArrival = [[[self.arrivalPredictions objectAtIndex:i] valueForKey:@"Minutes"] stringValue];
-            
-            if([minutesTillArrival isEqualToString: @"0"])
-            {
-                subtitle = [subtitle stringByAppendingString:@" arriving "];
-            }
-            else
-            {
-                subtitle = [subtitle stringByAppendingString:@" in "];
-                
-                subtitle = [subtitle stringByAppendingString:[[[self.arrivalPredictions objectAtIndex:i] valueForKey:@"Minutes"] stringValue]];
-                if([minutesTillArrival isEqualToString: @"1"])
+                if(i > 1) //Don't show more than 2 arrival predictions
                 {
-                    subtitle = [subtitle stringByAppendingString:@" minute "];
+//                    break;
+                    *stop = true;
+                }
+                
+                if(i != 0)
+                {
+                    subtitle = [subtitle stringByAppendingString:@"and "];
+                }
+                
+                subtitle = [subtitle stringByAppendingString:@"Bus "];
+                
+                subtitle = [subtitle stringByAppendingString:[[[predictions objectAtIndex:i] valueForKey:@"BusName"] stringValue]];
+                
+                NSString* minutesTillArrival = [[[predictions objectAtIndex:i] valueForKey:@"Minutes"] stringValue];
+                
+                if([minutesTillArrival isEqualToString: @"0"])
+                {
+                    subtitle = [subtitle stringByAppendingString:@" arriving "];
                 }
                 else
                 {
-                    subtitle = [subtitle stringByAppendingString:@" minutes "];
+                    subtitle = [subtitle stringByAppendingString:@" in "];
+                    
+                    subtitle = [subtitle stringByAppendingString:[[[predictions objectAtIndex:i] valueForKey:@"Minutes"] stringValue]];
+                    if([minutesTillArrival isEqualToString: @"1"])
+                    {
+                        subtitle = [subtitle stringByAppendingString:@" minute "];
+                    }
+                    else
+                    {
+                        subtitle = [subtitle stringByAppendingString:@" minutes "];
+                    }
                 }
             }
-        }
+        }];
         return subtitle;
     }
     else
@@ -105,9 +112,34 @@
 
 }
 
-- (void)setNewArrivalPredictions:(NSArray *)newPredictions
-{
-    self.arrivalPredictions = newPredictions;
+- (NSString *)formattedSubtitleForStopSetId:(NSNumber *)stopSetId abbreviation:(NSString *)abbreviation {
+    __block NSString *subtitle = abbreviation;
+    
+    NSArray *predictions = self.arrivalPredictions[stopSetId];
+    
+    subtitle = [subtitle stringByAppendingString:@" Line"];
+    
+    [predictions enumerateObjectsUsingBlock:^(NSDictionary *predictionDict, NSUInteger idx, BOOL *stopInner) {
+        subtitle = [subtitle stringByAppendingString:@"\n"];
+        subtitle = [subtitle stringByAppendingString:@"  Bus "];
+        subtitle = [subtitle stringByAppendingString:[predictionDict[@"BusName"] stringValue]];
+        subtitle = [subtitle stringByAppendingString:@"\t"];
+        
+        NSString* minutesTillArrival = [predictionDict[@"Minutes"] stringValue];
+        if([minutesTillArrival isEqualToString: @"0"])
+        {
+            subtitle = [subtitle stringByAppendingString:@"arriving"];
+        }
+        else
+        {
+            subtitle = [subtitle stringByAppendingString:@"in "];
+            
+            subtitle = [subtitle stringByAppendingString:minutesTillArrival];
+            subtitle = [subtitle stringByAppendingString:@" min"];
+        }
+    }];
+    
+    return subtitle;
 }
 
 @end

@@ -20,10 +20,11 @@
 // Custom
 @property (nonatomic, strong, readonly) NSMutableArray *dictionaries;
 @property (nonatomic, strong) NSNumber *stopId;
-@property (nonatomic, strong) NSArray *arrivalPredictions;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSArray*> *arrivalPredictions; // StopSetId -> @[Predictions]
 
 - (instancetype)initWithDictionary:(NSDictionary *)initialRouteStopDictionary;
 - (void)addNewDictionary:(NSDictionary *)newDict;
-- (void)setNewArrivalPredictions:(NSArray *)newPredictions;
+- (NSArray<NSNumber*> *)stopSetIds;
+- (NSString *)formattedSubtitleForStopSetId:(NSNumber *)stopSetId abbreviation:(NSString *)abbreviation;
 
 @end
