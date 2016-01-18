@@ -31,7 +31,6 @@
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
-@property (nonatomic, strong) IBOutlet UIView *testView;
 
 /* Basic/wholistic route info */
 // Holds entire Route dicts, keyed by the RouteId
@@ -64,6 +63,7 @@
 // Misc
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) MKUserLocation *userLocation;
 
 @end
 
@@ -357,8 +357,47 @@
         
         // Finally represent that we're no longer downloading this definition
         [self.downloadingDefinitions removeObject:routeId];
+        if (self.downloadingDefinitions.count == 0) {
+            [self downloadingRouteInfoDidFinish];
+        }
     };
     [self.operationQueue addOperation:getRouteOp];
+}
+
+- (void)downloadingRouteInfoDidFinish {
+    // Called when the self.downloadingDefinitions.count == 0
+    if (self.userLocation != nil) {
+        [self showClosestAnnotation];
+    }
+}
+
+- (void)showClosestAnnotation {
+    if (self.mapView.annotations.count == 0) {
+        return;
+    }
+    
+    NSArray *sortedAnnotationsByProximity = [self.mapView.annotations sortedArrayUsingComparator:^NSComparisonResult(NSObject<MKAnnotation> *a, NSObject<MKAnnotation> *b) {
+        CLLocation *locationA = [[CLLocation alloc] initWithLatitude:a.coordinate.latitude longitude:a.coordinate.longitude];
+        CLLocation *locationB = [[CLLocation alloc] initWithLatitude:b.coordinate.latitude longitude:b.coordinate.longitude];
+        CLLocationDistance distanceA = [locationA distanceFromLocation:self.userLocation.location];
+        CLLocationDistance distanceB = [locationB distanceFromLocation:self.userLocation.location];
+        
+        if (distanceA > distanceB) {
+            return NSOrderedDescending;
+        } else if (distanceB > distanceA) {
+            return NSOrderedAscending;
+        } else {
+            return NSOrderedSame;
+        }
+    }];
+    
+    [sortedAnnotationsByProximity enumerateObjectsUsingBlock:^(NSObject<MKAnnotation> *annotation, NSUInteger idx, BOOL *stop) {
+        if ([annotation isMemberOfClass:[AEStopAnnotation class]]) {
+            [self.mapView selectAnnotation:annotation animated:YES];
+            *stop = true;
+        }
+    }];
+
 }
 
 #pragma mark - Vehicle Data Handling and Updating
@@ -586,6 +625,10 @@
     static dispatch_once_t once;
     dispatch_once(&once, ^() {
         [self zoomToLocation:userLocation.coordinate];
+        self.userLocation = userLocation;
+        if (self.downloadingDefinitions.count == 0) {
+            [self showClosestAnnotation];
+        }
     });
 }
 
