@@ -26,6 +26,7 @@
 // We'll use these for initiating the map's position
 #define UCI_LATITUDE 33.6454
 #define UCI_LONGITUDE -117.8426
+#define UCI_RADIUS 6500
 
 @interface MapViewController ()
 
@@ -624,10 +625,13 @@
     // tracking them on every movement.
     static dispatch_once_t once;
     dispatch_once(&once, ^() {
-        [self zoomToLocation:userLocation.coordinate];
-        self.userLocation = userLocation;
-        if (self.downloadingDefinitions.count == 0) {
-            [self showClosestAnnotation];
+        CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
+        if ([uciLocation distanceFromLocation:userLocation.location] < UCI_RADIUS) {
+            [self zoomToLocation:userLocation.coordinate];
+            self.userLocation = userLocation;
+            if (self.downloadingDefinitions.count == 0) {
+                [self showClosestAnnotation];
+            }
         }
     });
 }
