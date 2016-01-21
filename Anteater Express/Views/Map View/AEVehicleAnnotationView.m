@@ -39,7 +39,7 @@
     CGContextClipToMask(context, rect, self.image.CGImage);
     
     // draw tint color, preserving alpha values of original image
-    CGContextSetBlendMode(context, kCGBlendModeSoftLight);
+    CGContextSetBlendMode(context, kCGBlendModeOverlay);
     [self.tintColor setFill];
     CGContextFillRect(context, rect);
     
