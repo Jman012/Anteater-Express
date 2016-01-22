@@ -670,6 +670,7 @@
                 [stopAnnotaton didChangeValueForKey:@"subtitle"];
                 
                 // If iOS9, use a stack view to show the times
+                [UIView setAnimationsEnabled:NO];
                 if (NSClassFromString(@"UIStackView") && [view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
                     
                     // If no stack view is made yet, make it
@@ -679,7 +680,7 @@
                         stackView.distribution = UIStackViewDistributionEqualSpacing;
                         stackView.alignment = UIStackViewAlignmentLeading;
                         stackView.spacing = 4;
-                        stackView.translatesAutoresizingMaskIntoConstraints = false;
+                        stackView.translatesAutoresizingMaskIntoConstraints = true;
                         view.detailCalloutAccessoryView = stackView;
                     }
 
@@ -687,12 +688,20 @@
                     ArrivalPredictionView *arrivalsView = [[[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil] firstObject];
                     // Use the annotation to make the text for us
                     arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
+                    arrivalsView.textLabel.preferredMaxLayoutWidth = 320;
                     arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
+                    [arrivalsView invalidateIntrinsicContentSize];
+                    
+                    arrivalsView.translatesAutoresizingMaskIntoConstraints = NO;
+                    arrivalsView.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+                    arrivalsView.colorView.translatesAutoresizingMaskIntoConstraints = NO;
                     UIStackView *stackView = (UIStackView *)view.detailCalloutAccessoryView;
                     [stackView addArrangedSubview:arrivalsView];
-                    [NSTimer scheduledTimerWithTimeInterval:1.0 target:stackView selector:@selector(setNeedsLayout) userInfo:nil repeats:NO];
+                    [NSTimer scheduledTimerWithTimeInterval:2.0 target:stackView selector:@selector(setNeedsLayout) userInfo:nil repeats:NO];
+                    [NSTimer scheduledTimerWithTimeInterval:2.0 target:stackView selector:@selector(layoutIfNeeded) userInfo:nil repeats:NO];
                     
                 }
+                [UIView setAnimationsEnabled:YES];
             };
             [self.operationQueue addOperation:arrivalPredictionsOp];
         }];

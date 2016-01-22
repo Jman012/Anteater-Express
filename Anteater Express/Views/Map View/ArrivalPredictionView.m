@@ -18,4 +18,16 @@
 }
 */
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.textLabel.preferredMaxLayoutWidth = self.textLabel.frame.size.width;
+    [super layoutSubviews];
+}
+
+- (CGSize)intrinsicContentSize {
+    CGSize size = self.textLabel.intrinsicContentSize;
+    size.width = size.width + self.colorView.frame.size.width + 8;
+    return size;
+}
+
 @end
