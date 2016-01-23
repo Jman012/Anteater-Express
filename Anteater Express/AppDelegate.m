@@ -32,6 +32,12 @@ NSString * const AENotificationAppDidBecomeActive = @"AENotificationAppDidBecome
     //id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
     
     // Override point for customization after application launch.
+    
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHue:236.0/360.0 saturation:0.69 brightness:0.40 alpha:1.0]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTranslucent:NO];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
     return YES;
 }
