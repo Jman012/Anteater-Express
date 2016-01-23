@@ -447,6 +447,16 @@ const NSUInteger kSectionLinks =      3;
     }
 }
 
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(nonnull NSIndexPath *)indexPath {
+    if (indexPath.section == kSectionLines) {
+        UINavigationController *frontNavController = (UINavigationController *)self.revealViewController.frontViewController;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
+        UIViewController *destVC = [storyboard instantiateViewControllerWithIdentifier:@"RouteInfoView"];
+        [self.revealViewController revealToggleAnimated:YES];
+        [frontNavController pushViewController:destVC animated:YES];
+    }
+}
+
 /*
 #pragma mark - Navigation
 

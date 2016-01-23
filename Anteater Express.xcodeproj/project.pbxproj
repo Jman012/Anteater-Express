@@ -64,6 +64,7 @@
 		1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2081C04241C003B3C2D /* LoadingInfo.m */; };
 		1A16D20D1C04E92A003B3C2D /* AEGetRoutesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */; };
 		1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */; };
+		1A413A061C52DD3E00454E0E /* AERouteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A413A051C52DD3E00454E0E /* AERouteInfoViewController.m */; };
 		1A4B6EFF1C250CC100C730EC /* checked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B6EFD1C250CC100C730EC /* checked_checkbox.png */; };
 		1A4B6F001C250CC100C730EC /* unchecked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A4B6EFE1C250CC100C730EC /* unchecked_checkbox.png */; };
 		1A4B6F031C27357F00C730EC /* MapControlInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F021C27357F00C730EC /* MapControlInfo.m */; };
@@ -113,7 +114,6 @@
 		4A76A6EB1559016100D99B14 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A76A6EA1559016100D99B14 /* main.m */; };
 		4A76A6EF1559016100D99B14 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A76A6EE1559016100D99B14 /* AppDelegate.m */; };
 		4A76A6F21559016100D99B14 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A76A6F01559016100D99B14 /* MainStoryboard_iPhone.storyboard */; };
-		4A76A6F51559016100D99B14 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A76A6F31559016100D99B14 /* MainStoryboard_iPad.storyboard */; };
 		4A76A6F81559016100D99B14 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A76A6F71559016100D99B14 /* ViewController.m */; };
 		4A76A709155903FB00D99B14 /* iPhone_HighRes_Background-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A76A706155903FB00D99B14 /* iPhone_HighRes_Background-1.png */; };
 		4A76A70A155903FB00D99B14 /* iPhone_HighRes_Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A76A707155903FB00D99B14 /* iPhone_HighRes_Background.png */; };
@@ -259,6 +259,8 @@
 		1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRoutesOp.m; path = "AE Data Retrieval/AEGetRoutesOp.m"; sourceTree = "<group>"; };
 		1A16D20E1C0E6B93003B3C2D /* AEGetRouteDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRouteDefinition.h; path = "AE Data Retrieval/AEGetRouteDefinition.h"; sourceTree = "<group>"; };
 		1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRouteDefinition.m; path = "AE Data Retrieval/AEGetRouteDefinition.m"; sourceTree = "<group>"; };
+		1A413A041C52DD3E00454E0E /* AERouteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AERouteInfoViewController.h; path = Views/Menu/AERouteInfoViewController.h; sourceTree = "<group>"; };
+		1A413A051C52DD3E00454E0E /* AERouteInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AERouteInfoViewController.m; path = Views/Menu/AERouteInfoViewController.m; sourceTree = "<group>"; };
 		1A4B6EFD1C250CC100C730EC /* checked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked_checkbox.png; sourceTree = "<group>"; };
 		1A4B6EFE1C250CC100C730EC /* unchecked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked_checkbox.png; sourceTree = "<group>"; };
 		1A4B6F011C27357F00C730EC /* MapControlInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapControlInfo.h; path = "Views/Menu/Menu Item Info/MapControlInfo.h"; sourceTree = "<group>"; };
@@ -325,7 +327,6 @@
 		4A76A6ED1559016100D99B14 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4A76A6EE1559016100D99B14 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4A76A6F11559016100D99B14 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		4A76A6F41559016100D99B14 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		4A76A6F61559016100D99B14 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		4A76A6F71559016100D99B14 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4A76A706155903FB00D99B14 /* iPhone_HighRes_Background-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone_HighRes_Background-1.png"; sourceTree = "<group>"; };
@@ -452,6 +453,8 @@
 				1A16D1D81C023F6F003B3C2D /* Cells */,
 				1A16D1D51C023D59003B3C2D /* AESideMenuTableViewController.h */,
 				1A16D1D61C023D59003B3C2D /* AESideMenuTableViewController.m */,
+				1A413A041C52DD3E00454E0E /* AERouteInfoViewController.h */,
+				1A413A051C52DD3E00454E0E /* AERouteInfoViewController.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -459,21 +462,10 @@
 		1A16D1D21C023CFE003B3C2D /* Map View */ = {
 			isa = PBXGroup;
 			children = (
+				1A413A071C534F6C00454E0E /* Stop Annotations */,
+				1A413A081C534F8800454E0E /* Vehicle Annotations */,
 				1A16D1F81C026092003B3C2D /* MapViewController.h */,
 				1A16D1F91C026092003B3C2D /* MapViewController.m */,
-				1A4B6F0D1C28B5C400C730EC /* AEStopAnnotation.h */,
-				1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */,
-				1A4B6F101C29FFAB00C730EC /* AEStopAnnotationView.h */,
-				1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */,
-				1A4B6F131C2B97A600C730EC /* ColorCircleView.h */,
-				1A4B6F141C2B97A600C730EC /* ColorCircleView.m */,
-				1A68289F1C474A4C0062B49F /* AEVehicleAnnotation.h */,
-				1A6828A01C474A4C0062B49F /* AEVehicleAnnotation.m */,
-				1A6828A21C474EAE0062B49F /* AEVehicleAnnotationView.h */,
-				1A6828A31C474EAE0062B49F /* AEVehicleAnnotationView.m */,
-				1A6828AB1C49821F0062B49F /* ArrivalPredictionView.h */,
-				1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */,
-				1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */,
 			);
 			name = "Map View";
 			sourceTree = "<group>";
@@ -549,6 +541,33 @@
 				1A6828A91C48B56A0062B49F /* AEGetArrivalPredictionsOp.m */,
 			);
 			name = "AE Data Retrieval";
+			sourceTree = "<group>";
+		};
+		1A413A071C534F6C00454E0E /* Stop Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				1A4B6F0D1C28B5C400C730EC /* AEStopAnnotation.h */,
+				1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */,
+				1A4B6F101C29FFAB00C730EC /* AEStopAnnotationView.h */,
+				1A4B6F111C29FFAB00C730EC /* AEStopAnnotationView.m */,
+				1A4B6F131C2B97A600C730EC /* ColorCircleView.h */,
+				1A4B6F141C2B97A600C730EC /* ColorCircleView.m */,
+				1A6828AB1C49821F0062B49F /* ArrivalPredictionView.h */,
+				1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */,
+				1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */,
+			);
+			name = "Stop Annotations";
+			sourceTree = "<group>";
+		};
+		1A413A081C534F8800454E0E /* Vehicle Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				1A68289F1C474A4C0062B49F /* AEVehicleAnnotation.h */,
+				1A6828A01C474A4C0062B49F /* AEVehicleAnnotation.m */,
+				1A6828A21C474EAE0062B49F /* AEVehicleAnnotationView.h */,
+				1A6828A31C474EAE0062B49F /* AEVehicleAnnotationView.m */,
+			);
+			name = "Vehicle Annotations";
 			sourceTree = "<group>";
 		};
 		1A52FAC31BF5573E00AF783B /* Route Info */ = {
@@ -717,7 +736,6 @@
 				4A76A6EE1559016100D99B14 /* AppDelegate.m */,
 				4A76A706155903FB00D99B14 /* iPhone_HighRes_Background-1.png */,
 				4A76A707155903FB00D99B14 /* iPhone_HighRes_Background.png */,
-				4A76A6F31559016100D99B14 /* MainStoryboard_iPad.storyboard */,
 				4A76A6F01559016100D99B14 /* MainStoryboard_iPhone.storyboard */,
 				4A76A6E51559016100D99B14 /* Supporting Files */,
 				4A76A6F61559016100D99B14 /* ViewController.h */,
@@ -824,6 +842,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0710;
+				TargetAttributes = {
+					4A76A6D91559016100D99B14 = {
+						DevelopmentTeam = 2TJ5K7WSP8;
+					};
+				};
 			};
 			buildConfigurationList = 4A76A6D41559016100D99B14 /* Build configuration list for PBXProject "Anteater Express" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -849,7 +872,6 @@
 			files = (
 				4A76A6E91559016100D99B14 /* InfoPlist.strings in Resources */,
 				4A76A6F21559016100D99B14 /* MainStoryboard_iPhone.storyboard in Resources */,
-				4A76A6F51559016100D99B14 /* MainStoryboard_iPad.storyboard in Resources */,
 				4A76A709155903FB00D99B14 /* iPhone_HighRes_Background-1.png in Resources */,
 				4A76A70A155903FB00D99B14 /* iPhone_HighRes_Background.png in Resources */,
 				4A9571D31559B313007AE958 /* ANTEX_MAC_APP-ICON-1024px_V2.png in Resources */,
@@ -1007,6 +1029,7 @@
 				1A16D1DE1C024076003B3C2D /* AEMenuFreeLineTableViewCell.m in Sources */,
 				1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */,
 				1A16D1851BFA9DF6003B3C2D /* RouteSchedulesPost.m in Sources */,
+				1A413A061C52DD3E00454E0E /* AERouteInfoViewController.m in Sources */,
 				1A16D1FA1C026092003B3C2D /* MapViewController.m in Sources */,
 				1A6828AA1C48B56A0062B49F /* AEGetArrivalPredictionsOp.m in Sources */,
 				1A16D1811BFA9DF6003B3C2D /* RouteDefinitionDAO.m in Sources */,
@@ -1054,14 +1077,6 @@
 				4A76A6F11559016100D99B14 /* en */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		4A76A6F31559016100D99B14 /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4A76A6F41559016100D99B14 /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1144,6 +1159,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFD7B2691FFE1B7F66B0DFE /* Pods-Anteater Express.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anteater Express/Anteater Express-Prefix.pch";
 				INFOPLIST_FILE = "Anteater Express/Anteater Express-Info.plist";
@@ -1154,6 +1171,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "UCI.AnteaterExpress.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Anteater Ex";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1162,6 +1180,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6039B7833C1FBE36EB0317D8 /* Pods-Anteater Express.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anteater Express/Anteater Express-Prefix.pch";
 				INFOPLIST_FILE = "Anteater Express/Anteater Express-Info.plist";
@@ -1172,6 +1192,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "UCI.AnteaterExpress.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Anteater Ex";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1215,6 +1236,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anteater Express/Anteater Express-Prefix.pch";
 				INFOPLIST_FILE = "Anteater Express/Anteater Express-Info.plist";
@@ -1225,6 +1248,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "UCI.AnteaterExpress.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Anteater Ex";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = AppStore;
