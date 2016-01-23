@@ -150,7 +150,8 @@ const NSUInteger kSectionLinks =      3;
     
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
     [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
-        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO routeId:routeDict[@"Id"] color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]] cellIdentifer:kCellIdFreeLineCell];
+        NSString *titleString = [NSString stringWithFormat:@"%@ - %@", routeDict[@"Abbreviation"], routeDict[@"Name"]];
+        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:titleString paid:NO routeId:routeDict[@"Id"] color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]] cellIdentifer:kCellIdFreeLineCell];
         newLineInfo.selected = [self.selectedRouteIds containsObject:routeDict[@"Id"]];
         [lineInfos addObject:newLineInfo];
         
