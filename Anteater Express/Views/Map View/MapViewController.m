@@ -12,6 +12,8 @@
 #import <SWRevealViewController/SWRevealViewController.h>
 #import <TSMessages/TSMessage.h>
 
+#import "AppDelegate.h"
+
 #import "AEGetRouteDefinition.h"
 #import "AEGetVehiclesOp.h"
 #import "AEGetArrivalPredictionsOp.h"
@@ -130,6 +132,8 @@
     self.mapView.delegate = self;
     // Start out on Aldrich Park's center. Later it'll move to the users location
     [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showClosestAnnotation) name:AENotificationAppDidBecomeActive object:nil];
 
 }
 
