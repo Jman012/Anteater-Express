@@ -557,9 +557,9 @@
             // If it's the second or third or so on line being added, do half alpha as a way
             // to better differentiate overlapping lines. This is how the website currently
             // does it, from what I saw.
-            renderer.strokeColor = [renderer.strokeColor colorWithAlphaComponent:0.5];
+            renderer.strokeColor = [renderer.strokeColor colorWithAlphaComponent:0.75];
         }
-        renderer.lineWidth = 2.0f;
+        renderer.lineWidth = 2.5f;
         
         return renderer;
     }
