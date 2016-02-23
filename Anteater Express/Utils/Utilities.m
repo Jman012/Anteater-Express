@@ -25,7 +25,7 @@ NSString* const VIEWED_ANNOUNCEMENTS = @"viewedAnnouncements";
     //struct sockaddr_in address;
     //address.sin_len = sizeof(address);
     //address.sin_family = AF_INET;
-    //address.sin_port = htons(8080);
+    //address.sin_port = htons(8081);
     //address.sin_addr.s_addr = inet_addr("128.200.237.7");
     
     Reachability* internetReachable = [Reachability reachabilityForInternetConnection];
@@ -54,7 +54,7 @@ NSString* const VIEWED_ANNOUNCEMENTS = @"viewedAnnouncements";
         }
     }
     if (returnValue == 0) {
-        NSString *connected = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://apps.shuttle.uci.edu:8080/"] encoding: NSUTF8StringEncoding error:nil];
+        NSString *connected = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://apps.shuttle.uci.edu:8081/"] encoding: NSUTF8StringEncoding error:nil];
         
         //NSLog(@"checking connection");
         if(connected == NULL)
