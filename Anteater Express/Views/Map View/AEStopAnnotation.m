@@ -58,7 +58,16 @@
     return retArray;
 }
 
+- (BOOL)shouldShowSubtitle {
+    // If UIStackView available, it'll use the detail callout accessory view
+    return !NSClassFromString(@"UIStackView");
+}
+
 - (NSString *)subtitle {
+    if ([self shouldShowSubtitle] == false) {
+        return nil;
+    }
+    
     // Copied from the original
     if(self.arrivalPredictions != nil && self.arrivalPredictions.count > 0)
     {
@@ -68,7 +77,6 @@
             {
                 if(i > 1) //Don't show more than 2 arrival predictions
                 {
-//                    break;
                     *stop = true;
                 }
                 

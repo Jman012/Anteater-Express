@@ -645,70 +645,71 @@
         AEStopAnnotation *stopAnnotaton = (AEStopAnnotation *)view.annotation;
         stopAnnotaton.arrivalPredictions = [NSMutableDictionary dictionary]; // Reset predictions
         
-        if ([view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
-            // If iOS9, reset the detail view
-            view.detailCalloutAccessoryView = nil;
-        }
-        
         // Go through all stopSetIds assigned to this stop annotation
+        __block NSMutableArray *stopSetIds = [NSMutableArray array];
+        __block NSMutableArray *stopIds = [NSMutableArray array];
         [stopAnnotaton.stopSetIds enumerateObjectsUsingBlock:^(NSNumber *stopSetId, NSUInteger idx, BOOL *stop) {
             if ([self stopSetIdInSelected:stopSetId] == false) {
                 // Only download/show predictions for lines that are selected
                 return;
             }
-
-            // Use this for later
-            NSNumber *routeId = self.routeIdForStopSetId[stopSetId];
+            [stopSetIds addObject:stopSetId];
+            [stopIds addObject:stopAnnotaton.stopId];
+        }];
+        
+        // Download the predictions for this stopSetId/stopId combo
+        AEGetArrivalPredictionsOp *arrivalPredictionsOp = [[AEGetArrivalPredictionsOp alloc] initWithStopSetIds:stopSetIds stopIds:stopIds];
+        arrivalPredictionsOp.returnBlock = ^(NSArray<StopArrivalPredictionDAO *> *stopArrivalPredictionsDAOs) {
+            // Here we're done downloading all the arrival predictions
             
-            // Download the predictions for this stopSetId/stopId combo
-            AEGetArrivalPredictionsOp *arrivalPredictionsOp = [[AEGetArrivalPredictionsOp alloc] initWithStopSetId:stopSetId.integerValue
-                                                                                                            stopId:stopAnnotaton.stopId.integerValue];
-            arrivalPredictionsOp.returnBlock = ^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO) {
-                
-                NSArray *predictions = [[stopArrivalPredictionsDAO getArrivalTimes] valueForKey:@"Predictions"];
-                
-                // Assign the predictions for this stop to the annotation,
-                // categorizing by stopSetId
+            // First go through and add all the predictions into the annotation
+            // regardless of subtitle or stack view usage
+            [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
                 [stopAnnotaton willChangeValueForKey:@"subtitle"];
-                stopAnnotaton.arrivalPredictions[stopSetId] = predictions;
+                stopAnnotaton.arrivalPredictions[stopSetIds[idx]] = [stopArrivalPredictionsDAO.getArrivalTimes valueForKey:@"Predictions"];
                 [stopAnnotaton didChangeValueForKey:@"subtitle"];
+            }];
+            
+            // Make sure we can handle stack views and detail callout views
+            if (!NSClassFromString(@"UIStackView") || ![view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
+                // If not we've done all we can
+                return;
+            }
+            
+            // Otherwise, we're good. Make the stack view
+            __block UIStackView *stackView = [[UIStackView alloc] init];
+            stackView.axis = UILayoutConstraintAxisVertical;
+            stackView.distribution = UIStackViewDistributionEqualSpacing;
+            stackView.alignment = UIStackViewAlignmentLeading;
+            stackView.spacing = 4;
+//            stackView.translatesAutoresizingMaskIntoConstraints = true;
+        
+            // Then populate the stack view
+            [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
+                // Vars
+                NSNumber *stopSetId = stopSetIds[idx];
+                NSNumber *routeId = self.routeIdForStopSetId[stopSetId];
                 
                 // If iOS9, use a stack view to show the times
-                [UIView setAnimationsEnabled:NO];
-                if (NSClassFromString(@"UIStackView") && [view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
-                    
-                    // If no stack view is made yet, make it
-                    if (view.detailCalloutAccessoryView == nil) {
-                        UIStackView *stackView = [[UIStackView alloc] init];
-                        stackView.axis = UILayoutConstraintAxisVertical;
-                        stackView.distribution = UIStackViewDistributionEqualSpacing;
-                        stackView.alignment = UIStackViewAlignmentLeading;
-                        stackView.spacing = 4;
-                        stackView.translatesAutoresizingMaskIntoConstraints = true;
-                        view.detailCalloutAccessoryView = stackView;
-                    }
 
-                    // Add the custom view, assigning the info
-                    ArrivalPredictionView *arrivalsView = [[[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil] firstObject];
-                    // Use the annotation to make the text for us
-                    arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
-                    arrivalsView.textLabel.preferredMaxLayoutWidth = 320;
-                    arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
-                    [arrivalsView invalidateIntrinsicContentSize];
-                    
-                    arrivalsView.translatesAutoresizingMaskIntoConstraints = NO;
-                    arrivalsView.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-                    arrivalsView.colorView.translatesAutoresizingMaskIntoConstraints = NO;
-                    UIStackView *stackView = (UIStackView *)view.detailCalloutAccessoryView;
-                    [stackView addArrangedSubview:arrivalsView];
-                    [NSTimer scheduledTimerWithTimeInterval:2.0 target:stackView selector:@selector(setNeedsLayout) userInfo:nil repeats:NO];
-                    [NSTimer scheduledTimerWithTimeInterval:2.0 target:stackView selector:@selector(layoutIfNeeded) userInfo:nil repeats:NO];
-                    
-                }
-                [UIView setAnimationsEnabled:YES];
-            };
-            [self.operationQueue addOperation:arrivalPredictionsOp];
-        }];
+                // Add the custom view, assigning the info
+                NSArray *elements = [[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil];
+                ArrivalPredictionView *arrivalsView = [elements firstObject];
+                // Use the annotation to make the text for us
+                arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
+                arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
+//                [arrivalsView invalidateIntrinsicContentSize];
+                
+//                arrivalsView.translatesAutoresizingMaskIntoConstraints = NO;
+//                arrivalsView.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//                arrivalsView.colorView.translatesAutoresizingMaskIntoConstraints = NO;
+                [stackView addArrangedSubview:arrivalsView];
+                
+            }];
+        
+            view.detailCalloutAccessoryView = stackView;
+        };
+        [self.operationQueue addOperation:arrivalPredictionsOp];
         
     }
 }

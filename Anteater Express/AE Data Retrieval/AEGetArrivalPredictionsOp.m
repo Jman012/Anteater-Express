@@ -10,28 +10,40 @@
 
 @interface AEGetArrivalPredictionsOp ()
 
-@property (nonatomic, assign) NSInteger stopSetId;
-@property (nonatomic, assign) NSInteger stopId;
+@property (nonatomic, strong) NSArray<NSNumber *> *stopSetIds;
+@property (nonatomic, strong) NSArray<NSNumber *> *stopIds;
 
 @end
 
 @implementation AEGetArrivalPredictionsOp
 
-- (instancetype)initWithStopSetId:(NSInteger)theStopSetId stopId:(NSInteger)theStopId {
+- (instancetype)initWithStopSetIds:(NSArray<NSNumber *> *)theStopSetIds stopIds:(NSArray<NSNumber *> *)theStopIds {
     if (self = [super init]) {
-        self.stopSetId = theStopSetId;
-        self.stopId = theStopId;
+        if (theStopSetIds.count != theStopIds.count) {
+            return nil;
+        }
+        
+        self.stopSetIds = [NSArray arrayWithArray:theStopSetIds];
+        self.stopIds = [NSArray arrayWithArray:theStopIds];
     }
     return self;
 }
 
 - (void)main {
     
-    // Instantiating this will perform the network request
-    StopArrivalPredictionDAO *stopArrivalPredictions = [[StopArrivalPredictionDAO alloc] initWithStopSetID:(int)self.stopSetId andStopID:(int)self.stopId];
+    NSMutableArray<StopArrivalPredictionDAO *> *daos = [NSMutableArray array];
+    
+    for (int i = 0; i < self.stopSetIds.count; ++i) {
+        int stopSetId = self.stopSetIds[i].intValue;
+        int stopId = self.stopIds[i].intValue;
+        
+        // Instantiating this will perform the network request
+        StopArrivalPredictionDAO *stopArrivalPredictions = [[StopArrivalPredictionDAO alloc] initWithStopSetID:stopSetId andStopID:stopId];
+        [daos addObject:stopArrivalPredictions];
+    }
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
-        self.returnBlock(stopArrivalPredictions);
+        self.returnBlock(daos);
     });
 }
 
