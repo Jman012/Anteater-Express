@@ -15,7 +15,8 @@
     self = [super init];
     if (self) {
         //initializations
-        routeScheduleData = [[[RouteSchedulesPost alloc] initWithRouteName:routeNamePassed] processResponse];    }
+        routeScheduleData = [[[RouteSchedulesPost alloc] initWithRouteName:routeNamePassed] processResponse];
+    }
     return self;
 }
 

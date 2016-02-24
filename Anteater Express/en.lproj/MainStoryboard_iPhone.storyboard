@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="yDL-ck-Xfm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="yDL-ck-Xfm">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -709,10 +709,10 @@
             </objects>
             <point key="canvasLocation" x="-168.75" y="2532.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Route Detail View Controller-->
         <scene sceneID="f0N-UK-Nhj">
             <objects>
-                <viewController storyboardIdentifier="RouteInfoView" id="Axv-qo-e2o" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RouteDetailView" id="Axv-qo-e2o" customClass="RouteDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Lw5-0T-x9d"/>
                         <viewControllerLayoutGuide type="bottom" id="hNR-vh-mON"/>
@@ -748,53 +748,73 @@
                                     <constraint firstAttribute="width" constant="16" id="ZWf-Qa-bGA"/>
                                 </constraints>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oP0-Tt-7l4">
-                                <rect key="frame" x="20" y="151" width="560" height="429"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">University Town Center:
-Every ~7 minutes from 7:40AM to 7:20PM
-Every ~25 minutes from 7:45PM to 11:05PM
-
-Anteater Parking Structure:
-Every ~7 minutes from 7:25AM to 7:05PM
-Every ~25 minutes from 7:30PM to 10:50PM
-
-...</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="M Line - Main Campus" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ici-sr-sGO">
                                 <rect key="frame" x="44" y="28" width="536" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="30" sectionHeaderHeight="18" sectionFooterHeight="5" translatesAutoresizingMaskIntoConstraints="NO" id="vjA-9N-jac">
+                                <rect key="frame" x="0.0" y="151" width="600" height="449"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RouteDetailTimeCell" textLabel="07O-DT-4Xq" style="IBUITableViewCellStyleDefault" id="pkN-IK-LbU">
+                                        <rect key="frame" x="0.0" y="49.5" width="600" height="30"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pkN-IK-LbU" id="hdU-3c-Dau">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="29.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" id="07O-DT-4Xq">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="29.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Axv-qo-e2o" id="RQk-X2-Q22"/>
+                                    <outlet property="delegate" destination="Axv-qo-e2o" id="XFa-r6-hLr"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="OLJ-B2-HDc" firstAttribute="bottom" secondItem="Wzx-PM-4eW" secondAttribute="bottom" id="4h8-ue-g8H"/>
                             <constraint firstItem="Wzx-PM-4eW" firstAttribute="top" secondItem="Lw5-0T-x9d" secondAttribute="bottom" constant="8" id="6I4-2M-wn4"/>
-                            <constraint firstItem="hNR-vh-mON" firstAttribute="top" secondItem="oP0-Tt-7l4" secondAttribute="bottom" constant="20" id="A33-Y0-e6t"/>
                             <constraint firstItem="Wzx-PM-4eW" firstAttribute="top" secondItem="Lw5-0T-x9d" secondAttribute="bottom" constant="8" id="Ag1-II-kSv"/>
                             <constraint firstItem="ici-sr-sGO" firstAttribute="leading" secondItem="Wzx-PM-4eW" secondAttribute="trailing" constant="8" id="Cpr-ju-eeW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OLJ-B2-HDc" secondAttribute="trailing" id="Flf-PP-uZx"/>
                             <constraint firstItem="Ktj-qZ-gmM" firstAttribute="centerX" secondItem="llH-Oo-9wz" secondAttribute="centerX" id="GAk-N5-bNI"/>
-                            <constraint firstItem="oP0-Tt-7l4" firstAttribute="trailing" secondItem="llH-Oo-9wz" secondAttribute="trailingMargin" id="Gwa-OY-HeR"/>
-                            <constraint firstItem="oP0-Tt-7l4" firstAttribute="leading" secondItem="llH-Oo-9wz" secondAttribute="leadingMargin" id="Ick-LR-6FI"/>
                             <constraint firstItem="Udd-K8-I77" firstAttribute="top" secondItem="ici-sr-sGO" secondAttribute="bottom" constant="8" id="JLi-iB-V6f"/>
                             <constraint firstItem="ici-sr-sGO" firstAttribute="top" secondItem="Lw5-0T-x9d" secondAttribute="bottom" constant="8" id="LNS-LK-Esh"/>
                             <constraint firstItem="Wzx-PM-4eW" firstAttribute="leading" secondItem="llH-Oo-9wz" secondAttribute="leadingMargin" id="OKs-BJ-cFC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ici-sr-sGO" secondAttribute="trailing" id="SqX-EF-DkD"/>
+                            <constraint firstAttribute="trailing" secondItem="vjA-9N-jac" secondAttribute="trailing" id="UBq-IO-ER0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Udd-K8-I77" secondAttribute="trailing" id="VE4-xi-TDF"/>
-                            <constraint firstItem="oP0-Tt-7l4" firstAttribute="top" secondItem="Ktj-qZ-gmM" secondAttribute="bottom" constant="8" id="Yo3-x8-bI0"/>
                             <constraint firstItem="Ktj-qZ-gmM" firstAttribute="leading" secondItem="llH-Oo-9wz" secondAttribute="leadingMargin" id="ba5-D4-Ps2"/>
+                            <constraint firstItem="hNR-vh-mON" firstAttribute="top" secondItem="vjA-9N-jac" secondAttribute="bottom" id="d3b-vi-hoO"/>
                             <constraint firstItem="OLJ-B2-HDc" firstAttribute="top" secondItem="Udd-K8-I77" secondAttribute="bottom" constant="8" id="dMf-fe-T2F"/>
                             <constraint firstItem="Udd-K8-I77" firstAttribute="leading" secondItem="Wzx-PM-4eW" secondAttribute="trailing" constant="8" id="g3u-lt-5KK"/>
                             <constraint firstItem="Ktj-qZ-gmM" firstAttribute="trailing" secondItem="llH-Oo-9wz" secondAttribute="trailingMargin" id="h2m-vi-foT"/>
+                            <constraint firstItem="vjA-9N-jac" firstAttribute="top" secondItem="Ktj-qZ-gmM" secondAttribute="bottom" constant="8" id="mjC-Sg-g84"/>
                             <constraint firstItem="Ktj-qZ-gmM" firstAttribute="top" secondItem="OLJ-B2-HDc" secondAttribute="bottom" constant="8.5" id="q2D-dH-9ba"/>
+                            <constraint firstItem="vjA-9N-jac" firstAttribute="leading" secondItem="llH-Oo-9wz" secondAttribute="leading" id="r0n-0a-cJo"/>
                             <constraint firstItem="OLJ-B2-HDc" firstAttribute="leading" secondItem="Wzx-PM-4eW" secondAttribute="trailing" constant="8" id="vet-8E-94y"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="colorView" destination="Wzx-PM-4eW" id="TYn-X9-gW6"/>
+                        <outlet property="dayControl" destination="Ktj-qZ-gmM" id="68M-6Y-Pb7"/>
+                        <outlet property="detailLabel" destination="Udd-K8-I77" id="EeC-WD-QYp"/>
+                        <outlet property="fareLabel" destination="OLJ-B2-HDc" id="QSb-wp-LHp"/>
+                        <outlet property="scheduleTableView" destination="vjA-9N-jac" id="iDN-6u-T3P"/>
+                        <outlet property="titleLabel" destination="ici-sr-sGO" id="El5-ZJ-tdC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fqp-I7-kSd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -837,6 +857,7 @@ Every ~25 minutes from 7:30PM to 10:50PM
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Anteater Express" id="xRl-hf-2db">
+                        <barButtonItem key="backBarButtonItem" title=" " id="LsM-eU-Zjf"/>
                         <barButtonItem key="leftBarButtonItem" image="HamburgerMenuIcon" id="5rG-D3-O0c"/>
                         <barButtonItem key="rightBarButtonItem" title="Test" id="1kj-me-rQB">
                             <connections>

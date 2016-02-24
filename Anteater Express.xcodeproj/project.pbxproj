@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A015EFE1C7C2B1400AB7C8E /* RouteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A015EFD1C7C2B1300AB7C8E /* RouteDetailViewController.m */; };
 		1A16D1611BFA9DCB003B3C2D /* ColorConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1521BFA9DCB003B3C2D /* ColorConverter.m */; };
 		1A16D1621BFA9DCB003B3C2D /* HttpPostExecute.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D15A1BFA9DCB003B3C2D /* HttpPostExecute.m */; };
 		1A16D1631BFA9DCB003B3C2D /* NameValuePair.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D15C1BFA9DCB003B3C2D /* NameValuePair.m */; };
@@ -148,6 +149,8 @@
 
 /* Begin PBXFileReference section */
 		0466F324477296E7A00CE578 /* libPods-Anteater Express.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Anteater Express.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A015EFC1C7C2B1300AB7C8E /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RouteDetailViewController.h; path = "Views/Route Detail/RouteDetailViewController.h"; sourceTree = "<group>"; };
+		1A015EFD1C7C2B1300AB7C8E /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RouteDetailViewController.m; path = "Views/Route Detail/RouteDetailViewController.m"; sourceTree = "<group>"; };
 		1A16D1511BFA9DCB003B3C2D /* ColorConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorConverter.h; path = Utils/ColorConverter.h; sourceTree = "<group>"; };
 		1A16D1521BFA9DCB003B3C2D /* ColorConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorConverter.m; path = Utils/ColorConverter.m; sourceTree = "<group>"; };
 		1A16D1591BFA9DCB003B3C2D /* HttpPostExecute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpPostExecute.h; path = Utils/HttpPostExecute.h; sourceTree = "<group>"; };
@@ -395,6 +398,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		1A015EFF1C7C2B1900AB7C8E /* Route Detail */ = {
+			isa = PBXGroup;
+			children = (
+				1A015EFC1C7C2B1300AB7C8E /* RouteDetailViewController.h */,
+				1A015EFD1C7C2B1300AB7C8E /* RouteDetailViewController.m */,
+			);
+			name = "Route Detail";
+			sourceTree = "<group>";
+		};
 		1A16D1911BFA9E02003B3C2D /* Route Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -442,6 +454,7 @@
 				1A16D1D31C023D06003B3C2D /* All Route Updates */,
 				1A16D1D21C023CFE003B3C2D /* Map View */,
 				1A16D1D11C023CF5003B3C2D /* Menu */,
+				1A015EFF1C7C2B1900AB7C8E /* Route Detail */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1057,6 +1070,7 @@
 				1A16D1631BFA9DCB003B3C2D /* NameValuePair.m in Sources */,
 				1A16D1AB1BFA9E02003B3C2D /* StopCustomCell.m in Sources */,
 				1A16D1AD1BFA9E02003B3C2D /* UpdateTabView.m in Sources */,
+				1A015EFE1C7C2B1400AB7C8E /* RouteDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

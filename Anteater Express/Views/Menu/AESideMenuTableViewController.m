@@ -31,6 +31,7 @@
 #import "AEGetRoutesOp.h"
 
 #import "MapViewController.h"
+#import "RouteDetailViewController.h"
 
 NSString *kCellIdBannerCell =     @"AEMenuBannerCell";
 NSString *kCellIdFreeLineCell =   @"AEMenuFreeLineCell";
@@ -453,7 +454,9 @@ const NSUInteger kSectionLinks =      3;
     if (indexPath.section == kSectionLines) {
         UINavigationController *frontNavController = (UINavigationController *)self.revealViewController.frontViewController;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
-        UIViewController *destVC = [storyboard instantiateViewControllerWithIdentifier:@"RouteInfoView"];
+        RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
+        [destVC setRoute:self.routesAndAnnounceDAO.getRoutes[indexPath.row]];
+        
         [self.revealViewController revealToggleAnimated:YES];
         [frontNavController pushViewController:destVC animated:YES];
     }
