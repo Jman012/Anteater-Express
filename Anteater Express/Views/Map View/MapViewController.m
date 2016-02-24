@@ -682,7 +682,6 @@
             stackView.distribution = UIStackViewDistributionEqualSpacing;
             stackView.alignment = UIStackViewAlignmentLeading;
             stackView.spacing = 4;
-//            stackView.translatesAutoresizingMaskIntoConstraints = true;
         
             // Then populate the stack view
             [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
@@ -698,11 +697,8 @@
                 // Use the annotation to make the text for us
                 arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
                 arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
-//                [arrivalsView invalidateIntrinsicContentSize];
+
                 
-//                arrivalsView.translatesAutoresizingMaskIntoConstraints = NO;
-//                arrivalsView.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//                arrivalsView.colorView.translatesAutoresizingMaskIntoConstraints = NO;
                 [stackView addArrangedSubview:arrivalsView];
                 
             }];
