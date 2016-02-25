@@ -153,7 +153,8 @@ const NSUInteger kSectionLinks =      3;
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
     [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
         NSString *titleString = [NSString stringWithFormat:@"%@ - %@", routeDict[@"Abbreviation"], routeDict[@"Name"]];
-        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:titleString paid:NO routeId:routeDict[@"Id"] color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]] cellIdentifer:kCellIdFreeLineCell];
+        NSNumber *fare = routeDict[@"Routefare"];
+        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:titleString paid:fare.boolValue routeId:routeDict[@"Id"] color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]] cellIdentifer:kCellIdFreeLineCell];
         newLineInfo.selected = [self.selectedRouteIds containsObject:routeDict[@"Id"]];
         [lineInfos addObject:newLineInfo];
         
@@ -320,7 +321,7 @@ const NSUInteger kSectionLinks =      3;
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         AEMenuFreeLineTableViewCell *freeLineCell = (AEMenuFreeLineTableViewCell *)cell;
         freeLineCell.userInteractionEnabled = YES;
-        [freeLineCell setLineName:lineInfo.text];
+        [freeLineCell setLineName:[NSString stringWithFormat:@"%@%@", (lineInfo.paid ? @"($) " : @""), lineInfo.text]];
         [freeLineCell setChecked:lineInfo.selected];
         freeLineCell.color = lineInfo.color;
         
