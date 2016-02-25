@@ -115,7 +115,6 @@
     
     // Setup some complicated gestures so that we can differentiate between moving the map
     // and pulling the side menu out. See also the methods further down under UIGestureRecognizerDelegate
-    [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     [[self.mapView.subviews[0] gestureRecognizers] enumerateObjectsUsingBlock:^(UIGestureRecognizer * gesture, NSUInteger idx, BOOL *stop){
         if ([gesture isMemberOfClass:[UIPanGestureRecognizer class]]) {
             // We set the delegate for the map view gestures to ourself, so we can cancel
@@ -140,6 +139,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
     // Now also initiate the timer to update vehicle positions
     self.vehicleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
                                                                target:self
@@ -150,6 +151,10 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    // So if another view is pushed, don't swipe to the side menu.
+    [self.navigationController.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
+
     
     // Invalidate the vehicle timer
     [self.vehicleUpdateTimer invalidate];
