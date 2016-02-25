@@ -625,7 +625,7 @@
         
         return vehicleAnnotationView;
     }
-    
+
     return nil;
 }
 

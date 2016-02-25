@@ -10,6 +10,7 @@
 
 #import "ColorConverter.h"
 #import "RouteSchedulesDAO.h"
+#import "RouteDetailHeaderView.h"
 
 @interface RouteDetailViewController ()
 
@@ -29,6 +30,8 @@
 
 @property (nonatomic, strong) NSMutableArray *routeScheduleDays;
 @property (nonatomic, strong) NSMutableDictionary *routeScheduleFormattedData;
+@property (nonatomic, assign) BOOL isRouteScheduleLoading;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 /*
  
@@ -74,7 +77,14 @@
     
     [self.dayControl addTarget:self action:@selector(dayControlValueChanged:) forControlEvents:UIControlEventValueChanged];
     
-    [self updateInfo];
+    [self updateHeaderInfo];
+    
+    if (self.isRouteScheduleLoading) {
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.scheduleTableView addSubview:self.refreshControl];
+        [self.refreshControl beginRefreshing];
+        [self.scheduleTableView scrollRectToVisible:CGRectMake(0, -50, self.scheduleTableView.frame.size.width, self.scheduleTableView.frame.size.height) animated:YES];
+    }
 }
 
 - (void)dayControlValueChanged:(UISegmentedControl *)sender {
@@ -82,7 +92,7 @@
     [self.scheduleTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
-- (void)updateInfo {
+- (void)updateHeaderInfo {
     self.title = self.routeNavBarTitle;
     
     self.colorView.backgroundColor = self.routeColor;
@@ -107,10 +117,23 @@
     NSNumber *fare = route[@"Routefare"];
     self.routeFareText = fare.boolValue ? @"Paid" : @"Free";
     
-    [self setRouteScheduleTextForRouteName:route[@"Name"]];
+    self.isRouteScheduleLoading = YES;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+        [self setRouteScheduleTextForRouteName:route[@"Name"]];
+    });
+
 }
 
 - (void)setRouteScheduleTextForRouteName:(NSString *)routeName {
+    // Intended for background execution
+
+//    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+//    dispatch_sync(dispatch_get_main_queue(), ^() {
+//        [self.scheduleTableView addSubview:refreshControl];
+//        [refreshControl beginRefreshing];
+//        [self.scheduleTableView scrollRectToVisible:CGRectZero animated:YES];
+//    });
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"HH:mm:ss";
     dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
@@ -136,6 +159,7 @@
                 dayName = @"Mon - Thu";
             }
             NSString *stopName = stopInfoForDay[@"StopDetails"][@"StopName"];
+            NSString *subtitle = stopInfoForDay[@"StopDetails"][@"StopLocationSpecific"];
             
             if ([self.routeScheduleDays containsObject:dayName] == false) {
                 [self.routeScheduleDays addObject:dayName];
@@ -206,15 +230,35 @@
             
             NSMutableArray *daysArray = self.routeScheduleFormattedData[dayName];
             if (stopName != nil && formattedTimes != nil) {
-                [daysArray addObject:@{@"title": [NSString stringWithFormat:@"%@", stopName], @"times": formattedTimes}];
+                [daysArray addObject:@{
+                                       @"title": [NSString stringWithFormat:@"%@", stopName],
+                                       @"times": formattedTimes,
+                                       @"subtitle": subtitle // Unused currently
+                                       }];
             }
             
         }
         
     }
+    
+    dispatch_sync(dispatch_get_main_queue(), ^() {
+        [self updateHeaderInfo];
+        
+        if (self.refreshControl != nil) {
+            [self.refreshControl endRefreshing];
+            [self.refreshControl removeFromSuperview];
+        }
+        [self.scheduleTableView reloadData];
+        [self.scheduleTableView scrollRectToVisible:CGRectZero animated:YES];
+        self.isRouteScheduleLoading = NO;
+    });
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (self.dayControl.selectedSegmentIndex == -1) {
+        return 0;
+    }
+    
     NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
     NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
     return dayAllStopsInfo.count;
@@ -245,6 +289,28 @@
     NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
     NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
     return dayAllStopsInfo[section][@"title"];
+}
+
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
+//    NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
+//    
+//    RouteDetailHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"RouteDetailHeaderView" owner:tableView options:nil] firstObject];
+//    headerView.titleLabel.text = dayAllStopsInfo[section][@"title"];
+//    headerView.subtitleLabel.text = dayAllStopsInfo[section][@"subtitle"];
+//    
+//    return headerView;
+//}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
+    NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
+    
+    RouteDetailHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"RouteDetailHeaderView" owner:tableView options:nil] firstObject];
+    headerView.titleLabel.text = dayAllStopsInfo[section][@"title"];
+    headerView.subtitleLabel.text = dayAllStopsInfo[section][@"subtitle"];
+    
+    return [headerView systemLayoutSizeFittingSize:CGSizeMake(tableView.frame.size.width, 30)].height;
 }
 
 @end
