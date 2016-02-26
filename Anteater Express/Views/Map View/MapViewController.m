@@ -132,7 +132,8 @@
     // Start out on Aldrich Park's center. Later it'll move to the users location
     [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showClosestAnnotation) name:AENotificationAppDidBecomeActive object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 
 }
 
@@ -141,12 +142,7 @@
     
     [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     
-    // Now also initiate the timer to update vehicle positions
-    self.vehicleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
-                                                               target:self
-                                                             selector:@selector(updateAllVehiclesForSelectedRoutes:)
-                                                             userInfo:nil
-                                                              repeats:YES];
+    [self startTimer];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -154,10 +150,6 @@
     
     // So if another view is pushed, don't swipe to the side menu.
     [self.navigationController.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
-
-    
-    // Invalidate the vehicle timer
-    [self.vehicleUpdateTimer invalidate];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -195,6 +187,35 @@
     // to change to satellite or standard.
     if (newType != self.mapView.mapType) {
         [self.mapView setMapType:newType];
+    }
+}
+
+- (void)applicationWillResignActive:(NSNotification *)sender {
+    // Invalidate the vehicle timer
+    [self endTimer];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)sender {
+    // Now also initiate the timer to update vehicle positions
+    [self startTimer];
+
+    [self showClosestAnnotation];
+}
+
+- (void)startTimer {
+    if (self.vehicleUpdateTimer == nil || self.vehicleUpdateTimer.valid == NO) {
+        self.vehicleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                                   target:self
+                                                                 selector:@selector(updateAllVehiclesForSelectedRoutes:)
+                                                                 userInfo:nil
+                                                                  repeats:YES];
+        [self updateAllVehiclesForSelectedRoutes:self.vehicleUpdateTimer];
+    }
+}
+
+- (void)endTimer {
+    if (self.vehicleUpdateTimer != nil) {
+        [self.vehicleUpdateTimer invalidate];
     }
 }
 
