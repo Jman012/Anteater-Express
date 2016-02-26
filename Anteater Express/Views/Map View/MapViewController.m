@@ -647,6 +647,7 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     if ([view isMemberOfClass:[AEStopAnnotationView class]]) {
+
         AEStopAnnotation *stopAnnotaton = (AEStopAnnotation *)view.annotation;
         stopAnnotaton.arrivalPredictions = [NSMutableDictionary dictionary]; // Reset predictions
         
@@ -681,12 +682,46 @@
                 return;
             }
             
-            // Otherwise, we're good. Make the stack view
+            UIView *container = [[UIView alloc] init];
+            
+            // Otherwise, we're good. Make the stack view and put it in a container
             __block UIStackView *stackView = [[UIStackView alloc] init];
             stackView.axis = UILayoutConstraintAxisVertical;
             stackView.distribution = UIStackViewDistributionEqualSpacing;
             stackView.alignment = UIStackViewAlignmentLeading;
             stackView.spacing = 4;
+            stackView.translatesAutoresizingMaskIntoConstraints = NO;
+            [container addSubview:stackView];
+            
+            /*
+            // And add a manual subtitle label for above the stack view
+            UILabel *subtitleLabel = [[UILabel alloc] init];
+            subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+            subtitleLabel.text = @"Text subtitle";
+            subtitleLabel.font = [subtitleLabel.font fontWithSize:10.0f];
+            [subtitleLabel sizeToFit];
+            [container addSubview:subtitleLabel];
+            NSLog(@"subtitle label height = %f", subtitleLabel.frame.size.height);
+            
+            
+            // Label height
+            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:subtitleLabel.frame.size.height]];
+            
+            // Label left and right
+            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
+            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
+            
+            // Stackview left and right
+            [container addConstraint:[NSLayoutConstraint constraintWithItem:stackView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
+            [container addConstraint:[NSLayoutConstraint constraintWithItem:stackView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
+            
+            // Label top to container top
+            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+            // Label bottom to stackview top
+            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:stackView attribute:NSLayoutAttributeTop multiplier:1.0 constant:4]];
+            // Stackview bottom to container bottom
+            [container addConstraint:[NSLayoutConstraint constraintWithItem:stackView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+             */
         
             // Then populate the stack view
             [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
@@ -709,6 +744,7 @@
             }];
         
             view.detailCalloutAccessoryView = stackView;
+//            view.detailCalloutAccessoryView = container;
         };
         [self.operationQueue addOperation:arrivalPredictionsOp];
         

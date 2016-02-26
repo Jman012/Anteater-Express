@@ -10,7 +10,6 @@
 
 #import "ColorConverter.h"
 #import "RouteSchedulesDAO.h"
-#import "RouteDetailHeaderView.h"
 
 @interface RouteDetailViewController ()
 
@@ -126,13 +125,6 @@
 
 - (void)setRouteScheduleTextForRouteName:(NSString *)routeName {
     // Intended for background execution
-
-//    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-//    dispatch_sync(dispatch_get_main_queue(), ^() {
-//        [self.scheduleTableView addSubview:refreshControl];
-//        [refreshControl beginRefreshing];
-//        [self.scheduleTableView scrollRectToVisible:CGRectZero animated:YES];
-//    });
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"HH:mm:ss";
@@ -147,7 +139,6 @@
     RouteSchedulesDAO *routeSchedulesDao = [[RouteSchedulesDAO alloc] initWithRouteName:routeName];
     for (NSDictionary *stopsDict in routeSchedulesDao.getRouteStops) {
         NSNumber *stopId = stopsDict[@"StopId"];
-        NSString *extendedStopDescription = stopsDict[@"StopLocationSpecific"];
         NSArray *stopScheduledTimes = [routeSchedulesDao getStopScheduledTimes:stopId.intValue];
         
         
@@ -301,16 +292,5 @@
 //    
 //    return headerView;
 //}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
-    NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
-    
-    RouteDetailHeaderView *headerView = [[[NSBundle mainBundle] loadNibNamed:@"RouteDetailHeaderView" owner:tableView options:nil] firstObject];
-    headerView.titleLabel.text = dayAllStopsInfo[section][@"title"];
-    headerView.subtitleLabel.text = dayAllStopsInfo[section][@"subtitle"];
-    
-    return [headerView systemLayoutSizeFittingSize:CGSizeMake(tableView.frame.size.width, 30)].height;
-}
 
 @end
