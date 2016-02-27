@@ -63,7 +63,6 @@ NSString* servletURL;
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         if (error != nil) {
-            NSLog(@"Network error: %@", error);
             dispatch_async(dispatch_get_main_queue(), ^() {
                 [[NSNotificationCenter defaultCenter] postNotificationName:AENetworkInternetError object:AENetworkInternetError];
             });
@@ -74,7 +73,6 @@ NSString* servletURL;
         if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             if (httpResponse.statusCode != 200) {
-                NSLog(@"Bad response, status code = %ld", (long)httpResponse.statusCode);
                 dispatch_async(dispatch_get_main_queue(), ^() {
                     [[NSNotificationCenter defaultCenter] postNotificationName:AENetworkServerError object:AENetworkServerError];
                 });
