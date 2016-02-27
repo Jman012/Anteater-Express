@@ -39,11 +39,18 @@ static UIImage *uncheckedImage = nil;
 }
 
 - (void)setChecked:(BOOL)checked {
-    // TODO: Implement this with a picture.
     if (checked) {
         [self.circleCheckmark setChecked:YES];
     } else {
         [self.circleCheckmark setChecked:NO];
+    }
+}
+
+- (void)setActiveLine:(BOOL)activeLine {
+    if (activeLine) {
+        [self.circleCheckmark setCheckMarkStyle:CircleCheckmarkStyleOpenCircle];
+    } else {
+        [self.circleCheckmark setCheckMarkStyle:CircleCheckmarkStyleGrayedOut];
     }
 }
 

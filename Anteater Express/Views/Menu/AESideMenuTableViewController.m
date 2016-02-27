@@ -29,6 +29,7 @@
 #import "AEMenuMapControlTableViewCell.h"
 
 #import "AEGetRoutesOp.h"
+#import "AEGetVehiclesOp.h"
 
 #import "MapViewController.h"
 #import "RouteDetailViewController.h"
@@ -154,7 +155,11 @@ const NSUInteger kSectionLinks =      3;
     [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
         NSString *titleString = [NSString stringWithFormat:@"%@ - %@", routeDict[@"Abbreviation"], routeDict[@"Name"]];
         NSNumber *fare = routeDict[@"Routefare"];
-        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:titleString paid:fare.boolValue routeId:routeDict[@"Id"] color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]] cellIdentifer:kCellIdFreeLineCell];
+        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:titleString
+                                                          paid:fare.boolValue
+                                                       routeId:routeDict[@"Id"]
+                                                         color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]]
+                                                 cellIdentifer:kCellIdFreeLineCell];
         newLineInfo.selected = [self.selectedRouteIds containsObject:routeDict[@"Id"]];
         [lineInfos addObject:newLineInfo];
         
@@ -222,6 +227,24 @@ const NSUInteger kSectionLinks =      3;
         [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
         
         [self.tableView endUpdates];
+        
+        // Request the vehicle data ONCE for each line to see if there are any
+        // vehicles present, and if so, grey out the circles
+        [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
+            NSNumber *stopSetId = routeDict[@"StopSetId"];
+            AEGetVehiclesOp *getVehiclesOp = [[AEGetVehiclesOp alloc] initWithStopSetId:stopSetId.integerValue];
+            getVehiclesOp.returnBlock = ^(RouteVehiclesDAO *routeVehiclesDAO) {
+                NSArray *vehicleDicts = [routeVehiclesDAO getRouteVehicles];
+                [self.menuSections[kSectionLines] enumerateObjectsUsingBlock:^(LineInfo *lineInfo, NSUInteger idx, BOOL *stop) {
+                    if ([lineInfo.routeId isEqualToNumber:routeDict[@"Id"]]) {
+                        lineInfo.active = (vehicleDicts.count != 0);
+                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:kSectionLines]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                        *stop = YES;
+                    }
+                }];
+            };
+            [self.operationQueue addOperation:getVehiclesOp];
+        }];
         
         // If the refresh control was pulled to trigger this, turn it off
         [self.refreshControl endRefreshing];
@@ -323,6 +346,7 @@ const NSUInteger kSectionLinks =      3;
         freeLineCell.userInteractionEnabled = YES;
         [freeLineCell setLineName:[NSString stringWithFormat:@"%@%@", (lineInfo.paid ? @"($) " : @""), lineInfo.text]];
         [freeLineCell setChecked:lineInfo.selected];
+        [freeLineCell setActiveLine:lineInfo.active];
         freeLineCell.color = lineInfo.color;
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdPaidLineCell]) {

@@ -172,20 +172,6 @@
     }
 }
 
-- (IBAction)testButtonPressed:(id)sender {
-    [TSMessage showNotificationInViewController:self
-                                          title:@"Test notification"
-                                       subtitle:nil
-                                          image:nil
-                                           type:TSMessageNotificationTypeError
-                                       duration:TSMessageNotificationDurationEndless
-                                       callback:nil
-                                    buttonTitle:nil
-                                 buttonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                           canBeDismissedByUser:YES];
-}
-
 - (void)setMapType:(MKMapType)newType {
     // Called from the side menu, when the user wants
     // to change to satellite or standard.
@@ -237,23 +223,6 @@
     [self startTimer];
 
     [self showClosestAnnotation];
-}
-
-- (void)startTimer {
-    if (self.vehicleUpdateTimer == nil || self.vehicleUpdateTimer.valid == NO) {
-        self.vehicleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
-                                                                   target:self
-                                                                 selector:@selector(updateAllVehiclesForSelectedRoutes:)
-                                                                 userInfo:nil
-                                                                  repeats:YES];
-        [self updateAllVehiclesForSelectedRoutes:self.vehicleUpdateTimer];
-    }
-}
-
-- (void)endTimer {
-    if (self.vehicleUpdateTimer != nil) {
-        [self.vehicleUpdateTimer invalidate];
-    }
 }
 
 #pragma mark - Route Data handling
@@ -469,6 +438,23 @@
 }
 
 #pragma mark - Vehicle Data Handling and Updating
+
+- (void)startTimer {
+    if (self.vehicleUpdateTimer == nil || self.vehicleUpdateTimer.valid == NO) {
+        self.vehicleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                                   target:self
+                                                                 selector:@selector(updateAllVehiclesForSelectedRoutes:)
+                                                                 userInfo:nil
+                                                                  repeats:YES];
+        [self updateAllVehiclesForSelectedRoutes:self.vehicleUpdateTimer];
+    }
+}
+
+- (void)endTimer {
+    if (self.vehicleUpdateTimer != nil) {
+        [self.vehicleUpdateTimer invalidate];
+    }
+}
 
 - (void)updateAllVehiclesForSelectedRoutes:(NSTimer *)timer {
     [self.selectedRoutes enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {

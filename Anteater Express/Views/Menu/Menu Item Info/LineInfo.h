@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSNumber *routeId;
 @property (nonatomic, assign) BOOL selected;
 @property (nonatomic, strong) UIColor *color;
+@property (nonatomic, assign) BOOL active;
 
 - (instancetype)initWithText:(NSString *)theText paid:(BOOL)thePaid routeId:(NSNumber *)theRouteId color:(UIColor *)color cellIdentifer:(NSString *)theCellId;
 

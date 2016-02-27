@@ -15,5 +15,6 @@
 
 - (void)setLineName:(NSString *)name;
 - (void)toggleChecked;
+- (void)setActiveLine:(BOOL)activeLine;
 
 @end
