@@ -18,6 +18,7 @@
 #import "AEGetVehiclesOp.h"
 #import "AEGetArrivalPredictionsOp.h"
 #import "ColorConverter.h"
+#import "AENetwork.h"
 
 #import "AEStopAnnotation.h"
 #import "AEVehicleAnnotation.h"
@@ -134,6 +135,9 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkInternetError object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkServerError object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkOk object:nil];
 
 }
 
@@ -187,6 +191,39 @@
     // to change to satellite or standard.
     if (newType != self.mapView.mapType) {
         [self.mapView setMapType:newType];
+    }
+}
+
+- (void)networkResponse:(NSNotification *)sender {
+    if ([sender.object isKindOfClass:[NSString class]]) {
+        NSString *senderString = (NSString *)sender.object;
+        if ([senderString isEqualToString:AENetworkInternetError]) {
+            [TSMessage showNotificationInViewController:self
+                                                  title:@"Bad Internet Connection"
+                                               subtitle:@"Check to see if your phone has WiFi internet access or your cellular connection is working."
+                                                  image:nil
+                                                   type:TSMessageNotificationTypeError
+                                               duration:TSMessageNotificationDurationEndless
+                                               callback:nil
+                                            buttonTitle:nil
+                                         buttonCallback:nil
+                                             atPosition:TSMessageNotificationPositionTop
+                                   canBeDismissedByUser:NO];
+        } else if ([senderString isEqualToString:AENetworkServerError]) {
+            [TSMessage showNotificationInViewController:self
+                                                  title:@"Anteater Express Servers Down"
+                                               subtitle:@"Could not contact the Anteater Express servers to get the necessary information."
+                                                  image:nil
+                                                   type:TSMessageNotificationTypeError
+                                               duration:TSMessageNotificationDurationEndless
+                                               callback:nil
+                                            buttonTitle:nil
+                                         buttonCallback:nil
+                                             atPosition:TSMessageNotificationPositionTop
+                                   canBeDismissedByUser:NO];
+        } else if ([senderString isEqualToString:AENetworkOk]) {
+            [TSMessage dismissActiveNotification];
+        }
     }
 }
 

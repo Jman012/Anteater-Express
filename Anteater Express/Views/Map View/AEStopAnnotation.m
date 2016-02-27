@@ -64,9 +64,6 @@
 }
 
 - (NSString *)subtitle {
-    if ([self shouldShowSubtitle] == false) {
-        return nil;
-    }
     
     // Copied from the original
     if(self.arrivalPredictions != nil && self.arrivalPredictions.count > 0)
@@ -115,7 +112,11 @@
     }
     else
     {
-        return [NSString stringWithFormat:@"Arrival Predictions Loading..."];
+        if ([self shouldShowSubtitle] == false) {
+            return nil;
+        } else {
+            return [NSString stringWithFormat:@"Arrival Predictions Loading..."];
+        }
     }
 
 }

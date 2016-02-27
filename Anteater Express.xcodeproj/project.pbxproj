@@ -79,6 +79,7 @@
 		1A6828AA1C48B56A0062B49F /* AEGetArrivalPredictionsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828A91C48B56A0062B49F /* AEGetArrivalPredictionsOp.m */; };
 		1A6828AD1C49821F0062B49F /* ArrivalPredictionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */; };
 		1A6828AF1C4983960062B49F /* ArrivalPredictionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */; };
+		1A773E321C81247D0023DCA8 /* AENetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A773E311C81247D0023DCA8 /* AENetwork.m */; };
 		1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A79CB8B1C30DC940091DD62 /* Images.xcassets */; };
 		1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
@@ -287,6 +288,8 @@
 		1A6828AB1C49821F0062B49F /* ArrivalPredictionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArrivalPredictionView.h; path = "Views/Map View/ArrivalPredictionView.h"; sourceTree = "<group>"; };
 		1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArrivalPredictionView.m; path = "Views/Map View/ArrivalPredictionView.m"; sourceTree = "<group>"; };
 		1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArrivalPredictionView.xib; path = "Views/Map View/ArrivalPredictionView.xib"; sourceTree = "<group>"; };
+		1A773E301C81247D0023DCA8 /* AENetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AENetwork.h; path = Utils/AENetwork.h; sourceTree = "<group>"; };
+		1A773E311C81247D0023DCA8 /* AENetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AENetwork.m; path = Utils/AENetwork.m; sourceTree = "<group>"; };
 		1A79CB8B1C30DC940091DD62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircleCheckmark.h; path = Views/Menu/Cells/CircleCheckmark.h; sourceTree = "<group>"; };
 		1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircleCheckmark.m; path = Views/Menu/Cells/CircleCheckmark.m; sourceTree = "<group>"; };
@@ -629,6 +632,8 @@
 				1A16D15E1BFA9DCB003B3C2D /* Reachability.m */,
 				1A16D15F1BFA9DCB003B3C2D /* Utilities.h */,
 				1A16D1601BFA9DCB003B3C2D /* Utilities.m */,
+				1A773E301C81247D0023DCA8 /* AENetwork.h */,
+				1A773E311C81247D0023DCA8 /* AENetwork.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1014,6 +1019,7 @@
 				4A76A6EF1559016100D99B14 /* AppDelegate.m in Sources */,
 				1A16D18B1BFA9DF6003B3C2D /* StopArrivalPredictionDAO.m in Sources */,
 				1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */,
+				1A773E321C81247D0023DCA8 /* AENetwork.m in Sources */,
 				4A76A6F81559016100D99B14 /* ViewController.m in Sources */,
 				1A16D1CD1BFA9E1E003B3C2D /* AnnouncementsAndNews.m in Sources */,
 				1A16D1881BFA9DF6003B3C2D /* RouteUpdatesPost.m in Sources */,
