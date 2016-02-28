@@ -129,6 +129,7 @@
     self.revealViewController.delegate = self;
     
     [self.mapView setMapType:MKMapTypeStandard];
+    self.mapView.showsUserLocation = YES;
     self.mapView.delegate = self;
     // Start out on Aldrich Park's center. Later it'll move to the users location
     [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
@@ -216,6 +217,15 @@
 - (void)applicationWillResignActive:(NSNotification *)sender {
     // Invalidate the vehicle timer
     [self endTimer];
+    
+    // Remove all vehicles from the view
+    [self.mapView.annotations enumerateObjectsUsingBlock:^(id<MKAnnotation> annotation, NSUInteger idx, BOOL *stop) {
+        if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
+            AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
+            [self.mapView removeAnnotation:vehicleAnnotation];
+            [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicleId];
+        }
+    }];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)sender {
