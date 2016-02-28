@@ -80,6 +80,7 @@
 		1A6828AD1C49821F0062B49F /* ArrivalPredictionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */; };
 		1A6828AF1C4983960062B49F /* ArrivalPredictionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */; };
 		1A773E321C81247D0023DCA8 /* AENetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A773E311C81247D0023DCA8 /* AENetwork.m */; };
+		1A773E361C82C9990023DCA8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A773E341C82C9990023DCA8 /* Launch Screen.storyboard */; };
 		1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A79CB8B1C30DC940091DD62 /* Images.xcassets */; };
 		1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
@@ -290,6 +291,7 @@
 		1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArrivalPredictionView.xib; path = "Views/Map View/ArrivalPredictionView.xib"; sourceTree = "<group>"; };
 		1A773E301C81247D0023DCA8 /* AENetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AENetwork.h; path = Utils/AENetwork.h; sourceTree = "<group>"; };
 		1A773E311C81247D0023DCA8 /* AENetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AENetwork.m; path = Utils/AENetwork.m; sourceTree = "<group>"; };
+		1A773E351C82C9990023DCA8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = "en.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1A79CB8B1C30DC940091DD62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircleCheckmark.h; path = Views/Menu/Cells/CircleCheckmark.h; sourceTree = "<group>"; };
 		1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircleCheckmark.m; path = Views/Menu/Cells/CircleCheckmark.m; sourceTree = "<group>"; };
@@ -755,6 +757,7 @@
 				4A76A706155903FB00D99B14 /* iPhone_HighRes_Background-1.png */,
 				4A76A707155903FB00D99B14 /* iPhone_HighRes_Background.png */,
 				4A76A6F01559016100D99B14 /* MainStoryboard_iPhone.storyboard */,
+				1A773E341C82C9990023DCA8 /* Launch Screen.storyboard */,
 				4A76A6E51559016100D99B14 /* Supporting Files */,
 				4A76A6F61559016100D99B14 /* ViewController.h */,
 				4A76A6F71559016100D99B14 /* ViewController.m */,
@@ -941,6 +944,7 @@
 				4A6C1B04169FE9BD0022541B /* 180-stickynote.png in Resources */,
 				4A6C1B06169FF3640022541B /* Default.png in Resources */,
 				4A6C1B08169FF37E0022541B /* Default@2x.png in Resources */,
+				1A773E361C82C9990023DCA8 /* Launch Screen.storyboard in Resources */,
 				4A6C1B0A169FF3840022541B /* Default-568h@2x.png in Resources */,
 				4A6C1B0C169FF7E90022541B /* Default-Portrait~ipad.png in Resources */,
 				1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */,
@@ -1083,6 +1087,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1A773E341C82C9990023DCA8 /* Launch Screen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1A773E351C82C9990023DCA8 /* en */,
+			);
+			name = "Launch Screen.storyboard";
+			sourceTree = "<group>";
+		};
 		4A76A6E71559016100D99B14 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
