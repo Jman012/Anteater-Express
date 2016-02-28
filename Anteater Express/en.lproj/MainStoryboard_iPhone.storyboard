@@ -358,6 +358,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Anteater Express" id="xRl-hf-2db">
+                        <barButtonItem key="backBarButtonItem" title=" " id="CCR-SM-XCs"/>
                         <barButtonItem key="leftBarButtonItem" image="HamburgerMenuIcon" id="5rG-D3-O0c"/>
                     </navigationItem>
                     <connections>
