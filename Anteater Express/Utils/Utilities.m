@@ -68,7 +68,7 @@ NSString* const VIEWED_ANNOUNCEMENTS = @"viewedAnnouncements";
 + (NSString *)dateDisplayStringFromDate:(NSDate *)date {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"MMM d, yyy hh:mm:ss a";
-    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PDT"];
     return [Utilities dateDisplayString:[formatter stringFromDate:date]];
 }
 

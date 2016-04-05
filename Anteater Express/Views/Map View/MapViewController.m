@@ -683,6 +683,15 @@
     return nil;
 }
 
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(nonnull NSArray<MKAnnotationView *> *)views {
+    for (MKAnnotationView *view in views) {
+        if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
+            MKAnnotationView *userLocView = (MKAnnotationView *)view;
+            userLocView.canShowCallout = NO;
+        }
+    }
+}
+
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(nonnull MKUserLocation *)userLocation {
     // Only do this once, when we first get the user's location. We don't want it
     // tracking them on every movement.
