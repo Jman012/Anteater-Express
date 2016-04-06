@@ -114,7 +114,7 @@
     [self setupRevealButton];
     
     // Title with image
-    UIImage *titleImg = [UIImage imageNamed:@"AnteaterExpress_logo-white"];
+    UIImage *titleImg = [UIImage imageNamed:@"AnteaterExpress_logo_title"];
     CGFloat widthToHeightRatio = titleImg.size.width / titleImg.size.height;
     
     UILabel *titleLabel = [[UILabel alloc] init];
