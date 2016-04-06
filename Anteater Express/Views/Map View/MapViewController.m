@@ -112,7 +112,31 @@
     // Do any additional setup after loading the view.
     
     [self setupRevealButton];
-    self.title = @"Anteater Express";
+    
+    // Title with image
+    UIImage *titleImg = [UIImage imageNamed:@"AnteaterExpress_logo-white"];
+    CGFloat widthToHeightRatio = titleImg.size.width / titleImg.size.height;
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = @"Anteater Express";
+    titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    titleLabel.textColor = [UIColor blackColor];
+    [titleLabel sizeToFit];
+    
+    CGFloat titleHeight = titleLabel.frame.size.height;
+    CGFloat imageHeight = titleHeight;
+    CGFloat imageWidth = titleHeight * widthToHeightRatio;
+    
+    titleLabel.frame = CGRectMake(imageWidth + 8, 0, titleLabel.frame.size.width, titleHeight);
+    
+    
+    UIImageView *titleImage = [[UIImageView alloc] initWithImage:titleImg];
+    titleImage.frame = CGRectMake(0, 0, imageWidth, imageHeight);
+    
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, titleLabel.frame.size.width + imageWidth + 8, titleHeight)];
+    [titleView addSubview:titleLabel];
+    [titleView addSubview:titleImage];
+    self.navigationItem.titleView = titleView;
     
     // Setup some complicated gestures so that we can differentiate between moving the map
     // and pulling the side menu out. See also the methods further down under UIGestureRecognizerDelegate
