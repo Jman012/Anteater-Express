@@ -125,14 +125,21 @@
         CGContextStrokeEllipseInRect(context, group);
         
         // Bezier Drawing
+//        UIBezierPath *bezierPath = [UIBezierPath bezierPath];
+//        [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(group) + 0.27083 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.54167 * CGRectGetHeight(group))];
+//        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.41667 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.68750 * CGRectGetHeight(group))];
+//        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.75000 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.35417 * CGRectGetHeight(group))];
         UIBezierPath *bezierPath = [UIBezierPath bezierPath];
-        [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(group) + 0.27083 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.54167 * CGRectGetHeight(group))];
-        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.41667 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.68750 * CGRectGetHeight(group))];
-        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.75000 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.35417 * CGRectGetHeight(group))];
+        [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(group) + 0.3125 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.3125 * CGRectGetHeight(group))];
+        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.68750 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.68750 * CGRectGetHeight(group))];
         bezierPath.lineCapStyle = kCGLineCapSquare;
         
         [[UIColor whiteColor] setStroke];
         bezierPath.lineWidth = 1.3;
+        [bezierPath stroke];
+        
+        [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(group) + 0.3125 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.68750 * CGRectGetHeight(group))];
+        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(group) + 0.68750 * CGRectGetWidth(group), CGRectGetMinY(group) + 0.3125 * CGRectGetHeight(group))];
         [bezierPath stroke];
     }
 }
