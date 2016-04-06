@@ -343,7 +343,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="EZm-d9-CBz">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <connections>
                                     <outlet property="delegate" destination="ZXf-fr-uEJ" id="X88-Dh-yKg"/>
                                 </connections>
@@ -351,9 +351,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="EZm-d9-CBz" firstAttribute="top" secondItem="es4-4i-QxX" secondAttribute="topMargin" id="Bbw-f8-3pp"/>
                             <constraint firstItem="qMc-T5-YHu" firstAttribute="top" secondItem="EZm-d9-CBz" secondAttribute="bottom" id="E0r-Xo-3fX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EZm-d9-CBz" secondAttribute="trailing" constant="-20" id="M22-Fa-pej"/>
-                            <constraint firstItem="EZm-d9-CBz" firstAttribute="top" secondItem="6Ci-mv-xux" secondAttribute="bottom" id="ayR-8i-Bae"/>
                             <constraint firstItem="EZm-d9-CBz" firstAttribute="leading" secondItem="es4-4i-QxX" secondAttribute="leadingMargin" constant="-20" id="h3t-95-DZX"/>
                         </constraints>
                     </view>
@@ -361,6 +361,7 @@
                         <barButtonItem key="backBarButtonItem" title=" " id="CCR-SM-XCs"/>
                         <barButtonItem key="leftBarButtonItem" image="HamburgerMenuIcon" id="5rG-D3-O0c"/>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="mapView" destination="EZm-d9-CBz" id="dah-jB-RL8"/>
                         <outlet property="revealButton" destination="5rG-D3-O0c" id="jiz-SR-JR3"/>
@@ -368,7 +369,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q6l-gN-8kE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="825" y="2532.5"/>
+            <point key="canvasLocation" x="825" y="2532"/>
         </scene>
         <!--News and About-->
         <scene sceneID="AMH-j3-4ZM">

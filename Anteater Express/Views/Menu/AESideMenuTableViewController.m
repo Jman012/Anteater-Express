@@ -112,11 +112,14 @@ const NSUInteger kSectionLinks =      3;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
-    self.view.backgroundColor = [UIColor colorWithHue:236.0/360.0 saturation:0.69 brightness:0.40 alpha:1.0];
+//    self.view.backgroundColor = [UIColor colorWithHue:236.0/360.0 saturation:0.69 brightness:0.40 alpha:1.0];
+    self.view.backgroundColor = [UIColor colorWithHue:209.0/360.0 saturation:0.10 brightness:0.90 alpha:1.0];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
+//    self.refreshControl.tintColor = [UIColor whiteColor];
     [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
+    
     
     self.revealViewController.rearViewRevealOverdraw = 0.0f;
 
@@ -177,7 +180,7 @@ const NSUInteger kSectionLinks =      3;
     
     self.menuSections = [NSMutableArray arrayWithArray:@[
                           @[
-                              [[BannerItemInfo alloc] initWithBannerImageName:[UIImage imageNamed:@"AE Banner"] cellIdentifer:kCellIdBannerCell]
+                              [[BannerItemInfo alloc] initWithBannerImageName:[UIImage imageNamed:@"Anteater-Express-Banner"] cellIdentifer:kCellIdBannerCell]
                               ],
                           @[
                               [[MapControlInfo alloc] initWithSelection:0 cellIdentifier:kCellIdMapControlCell]
