@@ -21,7 +21,7 @@
             </objects>
             <point key="canvasLocation" x="-651.75" y="375"/>
         </scene>
-        <!--Anteater Express-->
+        <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
@@ -34,11 +34,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Anteater Express" id="qLb-IY-vWp"/>
+                    <navigationItem key="navigationItem" id="qLb-IY-vWp">
+                        <barButtonItem key="leftBarButtonItem" image="HamburgerMenuIcon" id="eAZ-f2-L2K"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="HamburgerMenuIcon" width="22" height="22"/>
+    </resources>
 </document>
