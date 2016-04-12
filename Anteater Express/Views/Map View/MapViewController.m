@@ -110,7 +110,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.screenName = @"Main Map View";
+    self.screenName = [NSString stringWithFormat:@"Main Map View - %lu routes", (unsigned long)self.selectedRoutes.count];
     
     [self setupRevealButton];
     
@@ -165,14 +165,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkServerError object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkOk object:nil];
 
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-//    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
-//    [tracker set:kGAIscreenName value:@"Map View"];
-//    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -503,6 +495,13 @@
     [self.selectedRoutes enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {
         [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[routeId][@"StopSetId"] routeId:routeId];
     }];
+    
+    // Also, if routes have yet to be downloaded, download them!
+    for (NSNumber *routeId in self.selectedButAwaitingDataRoutes) {
+        NSNumber *stopSetId = self.allRoutes[routeId][@"StopSetId"];
+        NSLog(@"Retrying download route id %@, stop set id %@", routeId, stopSetId);
+        [self downloadNewRouteInfoWithId:routeId stopSetId:stopSetId];
+    }
 }
 
 - (void)downloadNewVehicleInfoWithStopSetId:(NSNumber *)stopSetId routeId:(NSNumber *)routeId {
@@ -550,6 +549,7 @@
     
     // Else, proceed as normal
     [self.selectedRoutes addObject:theId];
+    self.screenName = [NSString stringWithFormat:@"Main Map View - %lu routes", (unsigned long)self.selectedRoutes.count];
     
     // Add the route lines to the map
     if (self.routeDefinitionsPolylines[theId] != nil) {
@@ -586,7 +586,9 @@
         // If it's in the queue awaiting to be added, remove it.
         [self.selectedButAwaitingDataRoutes removeObject:theId];
     }
+    
     [self.selectedRoutes removeObject:theId];
+    self.screenName = [NSString stringWithFormat:@"Main Map View - %lu routes", (unsigned long)self.selectedRoutes.count];
     
     // Remove the route line
     if (self.routeDefinitionsPolylines[theId] != nil) {
