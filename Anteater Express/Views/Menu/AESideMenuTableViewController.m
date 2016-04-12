@@ -74,6 +74,7 @@ const NSUInteger kSectionLinks =      3;
         self.selectedRouteIds = [NSMutableSet set];
     }
 
+    [self constructMenu];
 }
 
 - (instancetype)init {

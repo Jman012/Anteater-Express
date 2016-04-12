@@ -120,6 +120,8 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
         [self setRouteScheduleTextForRouteName:route[@"Name"]];
     });
+    
+    self.screenName = [NSString stringWithFormat:@"Route Schedule - %@", self.routeNavBarTitle];
 
 }
 
@@ -133,6 +135,7 @@
     readableDateFormatter.dateFormat = @"h:mm a";
     readableDateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
     
+    NSMutableDictionary *dayPrioritiesToDayNames = [NSMutableDictionary dictionary];
     self.routeScheduleDays = [NSMutableArray array];
     self.routeScheduleFormattedData = [NSMutableDictionary dictionary];
     
@@ -141,7 +144,6 @@
         NSNumber *stopId = stopsDict[@"StopId"];
         NSArray *stopScheduledTimes = [routeSchedulesDao getStopScheduledTimes:stopId.intValue];
         
-        
         for (NSDictionary *stopInfoForDay in stopScheduledTimes) {
             NSString *dayName = stopInfoForDay[@"ScheduleName"];
             if ([dayName isEqualToString:@"Monday - Thursday"]) {
@@ -149,12 +151,19 @@
                 // TODO: Make smarter
                 dayName = @"Mon - Thu";
             }
+            __block NSNumber *dayPriority = @0;
+            NSArray *serviceAllDays = @[@"ServiceSun", @"ServiceMon", @"ServiceTue", @"ServiceWed", @"ServiceThu", @"ServiceFri", @"ServiceSat"];
+            [serviceAllDays enumerateObjectsUsingBlock:^(NSString *serviceDay, NSUInteger idx, BOOL *stop) {
+                NSNumber *onDay = stopInfoForDay[serviceDay];
+                if ([onDay isEqualToNumber:@1]) {
+                    dayPriority = [NSNumber numberWithUnsignedInteger:idx];
+                    *stop = YES;
+                }
+            }];
             NSString *stopName = stopInfoForDay[@"StopDetails"][@"StopName"];
             NSString *subtitle = stopInfoForDay[@"StopDetails"][@"StopLocationSpecific"];
             
-            if ([self.routeScheduleDays containsObject:dayName] == false) {
-                [self.routeScheduleDays addObject:dayName];
-            }
+            dayPrioritiesToDayNames[dayPriority] = dayName;
             
             NSMutableArray *formattedTimes = [NSMutableArray array];
             
@@ -228,9 +237,17 @@
                                        }];
             }
             
+            
         }
         
     }
+    
+    [[[dayPrioritiesToDayNames allKeys] sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(NSNumber *dayPriority, NSUInteger idx, BOOL *stop) {
+        if ([self.routeScheduleDays containsObject:dayPrioritiesToDayNames[dayPriority]] == false) {
+            [self.routeScheduleDays addObject:dayPrioritiesToDayNames[dayPriority]];
+        }
+    }];
+
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
         [self updateHeaderInfo];

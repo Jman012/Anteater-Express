@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Google/Analytics.h>
 
-@interface RouteDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface RouteDetailViewController : GAITrackedViewController <UITableViewDataSource, UITableViewDelegate>
 
 - (void)setRoute:(NSDictionary *)route;
 
