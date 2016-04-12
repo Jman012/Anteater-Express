@@ -10,7 +10,8 @@
 
 #import "NoConnectionViewController.h"
 #import "Utilities.h"
-#import "GAI.h"
+//#import "GAI.h"
+#import <Google/Analytics.h>
 
 NSString * const AENotificationAppDidBecomeActive = @"AENotificationAppDidBecomeActive";
 
@@ -25,17 +26,29 @@ NSString * const AENotificationAppDidBecomeActive = @"AENotificationAppDidBecome
     [GAI sharedInstance].trackUncaughtExceptions = YES;
     // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
     [GAI sharedInstance].dispatchInterval = 20;
-    // Optional: set debug to YES for extra debugging information.
-//    [GAI sharedInstance].debug = YES;
+//     Optional: set debug to YES for extra debugging information.
+    [[GAI sharedInstance].logger setLogLevel:kGAILogLevelVerbose];
     // Create tracker instance.
-    //id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-3170671-13"]; // Disabling this for debugging, don't forget to turn back on!
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-3170671-13"]; // Disabling this for debugging, don't forget to turn back on!
     //id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    
+    
+    // Configure tracker from GoogleService-Info.plist.
+//    NSError *configureError;
+//    [[GGLContext sharedInstance] configureWithError:&configureError];
+//    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+//    
+//    // Optional: configure GAI options.
+//    GAI *gai = [GAI sharedInstance];
+//    gai.dispatchInterval = 5;
+//    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+//    gai.logger.logLevel = kGAILogLevelError;  // remove before app release
     
     // Override point for customization after application launch.
     
 //    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHue:236.0/360.0 saturation:0.69 brightness:0.40 alpha:1.0]];
 //    [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
-    [[UINavigationBar appearance] setTranslucent:YES];
+
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 

@@ -775,7 +775,7 @@
 				LastUpgradeCheck = 0710;
 				TargetAttributes = {
 					4A76A6D91559016100D99B14 = {
-						DevelopmentTeam = 2TJ5K7WSP8;
+						DevelopmentTeam = U6BRU879PK;
 					};
 				};
 			};
@@ -1071,7 +1071,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFD7B2691FFE1B7F66B0DFE /* Pods-Anteater Express.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anteater Express/Anteater Express-Prefix.pch";
@@ -1083,6 +1085,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "UCI.AnteaterExpress.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Anteater Ex";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1092,7 +1095,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6039B7833C1FBE36EB0317D8 /* Pods-Anteater Express.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anteater Express/Anteater Express-Prefix.pch";
@@ -1104,6 +1109,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "UCI.AnteaterExpress.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Anteater Ex";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1148,7 +1154,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anteater Express/Anteater Express-Prefix.pch";
@@ -1160,6 +1168,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "UCI.AnteaterExpress.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Anteater Ex";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};

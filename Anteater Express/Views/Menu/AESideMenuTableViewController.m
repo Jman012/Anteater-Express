@@ -185,12 +185,13 @@ const NSUInteger kSectionLinks =      3;
                           @[
                               [[MapControlInfo alloc] initWithSelection:0 cellIdentifier:kCellIdMapControlCell]
                               ],
-                          lineInfos,
-                          @[
-                              [[ItemInfo alloc] initWithText:@"All Route Updates" storyboardIdentifier:@"AllRouteUpdates" cellIdentifer:kCellIdItemCell],
-                              [[ItemInfo alloc] initWithText:@"News and About" storyboardIdentifier:@"NewsAndAbout" cellIdentifer:kCellIdItemCell]
-                              ]
-                          ]];
+                          lineInfos
+//                          @[
+//                              [[ItemInfo alloc] initWithText:@"All Route Updates" storyboardIdentifier:@"AllRouteUpdates" cellIdentifer:kCellIdItemCell],
+//                              [[ItemInfo alloc] initWithText:@"News and About" storyboardIdentifier:@"NewsAndAbout" cellIdentifer:kCellIdItemCell]
+//                              ]
+                          ]
+                         ];
     
     [self refreshAvailableLines];
 }

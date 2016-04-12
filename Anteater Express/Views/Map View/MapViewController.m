@@ -110,6 +110,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.screenName = @"Main Map View";
     
     [self setupRevealButton];
     
@@ -164,6 +165,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkServerError object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkOk object:nil];
 
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+//    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+//    [tracker set:kGAIscreenName value:@"Map View"];
+//    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

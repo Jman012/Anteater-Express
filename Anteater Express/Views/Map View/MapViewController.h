@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <SWRevealViewController/SWRevealViewController.h>
+#import <Google/Analytics.h>
 
-@interface MapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
+@interface MapViewController : GAITrackedViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
 
 - (void)setAllRoutesArray:(NSArray *)allRoutesArray;
 - (void)showNewRoute:(NSNumber *)theId;
