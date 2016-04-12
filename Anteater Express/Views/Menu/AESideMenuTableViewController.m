@@ -54,6 +54,7 @@ const NSUInteger kSectionLinks =      3;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, strong) NSTimer *syncSelectedLinesTimer;
+@property (nonatomic, strong) NSTimer *retryDownloadLinesTimer;
 
 @end
 
@@ -73,7 +74,6 @@ const NSUInteger kSectionLinks =      3;
         self.selectedRouteIds = [NSMutableSet set];
     }
 
-    [self constructMenu];
 }
 
 - (instancetype)init {
@@ -223,6 +223,16 @@ const NSUInteger kSectionLinks =      3;
     // download the data with an operation object
     AEGetRoutesOp *getRoutesOp = [[AEGetRoutesOp alloc] init];
     getRoutesOp.returnBlock = ^(RoutesAndAnnounceDAO *routesAndAnnounceDAO) {
+        
+        if ([routesAndAnnounceDAO getRoutes] == nil) {
+            if (self.retryDownloadLinesTimer && self.retryDownloadLinesTimer.isValid) {
+                [self.retryDownloadLinesTimer invalidate];
+            }
+            self.retryDownloadLinesTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refreshAvailableLines) userInfo:nil repeats:NO];
+            [self.refreshControl endRefreshing];
+            return;
+        }
+        
         [self.tableView beginUpdates];
         
         self.routesAndAnnounceDAO = routesAndAnnounceDAO;

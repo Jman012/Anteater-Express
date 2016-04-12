@@ -350,10 +350,20 @@
 }
 
 - (void)downloadNewRouteInfoWithId:(NSNumber *)routeId stopSetId:(NSNumber *)routeStopSetId {
+    
+    if (routeId == nil || routeStopSetId == nil) {
+        return;
+    }
+    
     // Given a routeId, download all the info for it and interpret it
     AEGetRouteDefinition *getRouteOp = [[AEGetRouteDefinition alloc] initWithStopSetId:[routeStopSetId integerValue]];
     getRouteOp.returnBlock = ^(RouteDefinitionDAO *routeDefinition) {
         // Note: This is asynchronous, and possibly out of order
+        
+        if (routeDefinition == nil || [routeDefinition getRoutePoints] == nil || [routeDefinition getRouteStops] == nil) {
+            // No data from the network
+            return;
+        }
         
         // Set routeDefinitions
         self.routeDefinitions[routeId] = routeDefinition;
