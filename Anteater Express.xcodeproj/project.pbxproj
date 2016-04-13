@@ -64,6 +64,9 @@
 		1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2081C04241C003B3C2D /* LoadingInfo.m */; };
 		1A16D20D1C04E92A003B3C2D /* AEGetRoutesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */; };
 		1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */; };
+		1A34B34D1CBE17A3004CF2F0 /* 75-phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A34B34A1CBE17A3004CF2F0 /* 75-phone.png */; };
+		1A34B34E1CBE17A3004CF2F0 /* 103-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A34B34B1CBE17A3004CF2F0 /* 103-map.png */; };
+		1A34B34F1CBE17A3004CF2F0 /* 112-group.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A34B34C1CBE17A3004CF2F0 /* 112-group.png */; };
 		1A413A061C52DD3E00454E0E /* AERouteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A413A051C52DD3E00454E0E /* AERouteInfoViewController.m */; };
 		1A4B6F031C27357F00C730EC /* MapControlInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F021C27357F00C730EC /* MapControlInfo.m */; };
 		1A4B6F061C27360300C730EC /* AEMenuMapControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F051C27360300C730EC /* AEMenuMapControlTableViewCell.m */; };
@@ -233,6 +236,9 @@
 		1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRoutesOp.m; path = "AE Data Retrieval/AEGetRoutesOp.m"; sourceTree = "<group>"; };
 		1A16D20E1C0E6B93003B3C2D /* AEGetRouteDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRouteDefinition.h; path = "AE Data Retrieval/AEGetRouteDefinition.h"; sourceTree = "<group>"; };
 		1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRouteDefinition.m; path = "AE Data Retrieval/AEGetRouteDefinition.m"; sourceTree = "<group>"; };
+		1A34B34A1CBE17A3004CF2F0 /* 75-phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "75-phone.png"; sourceTree = "<group>"; };
+		1A34B34B1CBE17A3004CF2F0 /* 103-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "103-map.png"; sourceTree = "<group>"; };
+		1A34B34C1CBE17A3004CF2F0 /* 112-group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "112-group.png"; sourceTree = "<group>"; };
 		1A413A041C52DD3E00454E0E /* AERouteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AERouteInfoViewController.h; path = Views/Menu/AERouteInfoViewController.h; sourceTree = "<group>"; };
 		1A413A051C52DD3E00454E0E /* AERouteInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AERouteInfoViewController.m; path = Views/Menu/AERouteInfoViewController.m; sourceTree = "<group>"; };
 		1A4B6F011C27357F00C730EC /* MapControlInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapControlInfo.h; path = "Views/Menu/Menu Item Info/MapControlInfo.h"; sourceTree = "<group>"; };
@@ -714,6 +720,9 @@
 		4A9571CC1559B313007AE958 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1A34B34A1CBE17A3004CF2F0 /* 75-phone.png */,
+				1A34B34B1CBE17A3004CF2F0 /* 103-map.png */,
+				1A34B34C1CBE17A3004CF2F0 /* 112-group.png */,
 				4AC8B4E315E03CDC007C6CE3 /* UIUnreadIndicator.png */,
 				4AC8B4E415E03CDC007C6CE3 /* UIUnreadIndicatorPressed.png */,
 				4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */,
@@ -811,10 +820,13 @@
 				4A9571D81559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png in Resources */,
 				4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */,
 				4A53A85D1566DDEE00D191AC /* shuttle_E_stopped.png in Resources */,
+				1A34B34E1CBE17A3004CF2F0 /* 103-map.png in Resources */,
 				4A53A85E1566DDEE00D191AC /* shuttle_N_moving.png in Resources */,
 				4A53A85F1566DDEE00D191AC /* shuttle_N_stopped.png in Resources */,
 				4A53A8601566DDEE00D191AC /* shuttle_NE_moving.png in Resources */,
+				1A34B34F1CBE17A3004CF2F0 /* 112-group.png in Resources */,
 				4A53A8611566DDEE00D191AC /* shuttle_NE_stopped.png in Resources */,
+				1A34B34D1CBE17A3004CF2F0 /* 75-phone.png in Resources */,
 				4A53A8621566DDEE00D191AC /* shuttle_NW_moving.png in Resources */,
 				1A6828AF1C4983960062B49F /* ArrivalPredictionView.xib in Resources */,
 				4A53A8631566DDEE00D191AC /* shuttle_NW_stopped.png in Resources */,

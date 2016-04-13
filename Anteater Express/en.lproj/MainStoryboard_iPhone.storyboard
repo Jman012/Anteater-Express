@@ -371,6 +371,280 @@
             </objects>
             <point key="canvasLocation" x="825" y="2532"/>
         </scene>
+        <!--Contact Us-->
+        <scene sceneID="hj6-Ak-gvY">
+            <objects>
+                <viewController title="Contact Us" id="ZnS-9m-jus" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HjW-UD-9L2"/>
+                        <viewControllerLayoutGuide type="bottom" id="V7g-M5-ufe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="76Z-sn-fCS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jle-17-C08">
+                                <rect key="frame" x="20" y="20" width="560" height="523"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="By Phone:">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" (949) 824-5547  ">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="By Email:">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" comments@shuttle.uci.edu  ">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="IT / Mobile App Support:">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" IT@shuttle.uci.edu  ">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Visit Our Website:">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" www.shuttle.uci.edu/contact">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Jle-17-C08" firstAttribute="top" secondItem="HjW-UD-9L2" secondAttribute="bottom" id="Nmp-Ql-du9"/>
+                            <constraint firstItem="Jle-17-C08" firstAttribute="trailing" secondItem="76Z-sn-fCS" secondAttribute="trailingMargin" id="eQB-Cn-ehy"/>
+                            <constraint firstItem="Jle-17-C08" firstAttribute="leading" secondItem="76Z-sn-fCS" secondAttribute="leadingMargin" id="l9I-tK-SXH"/>
+                            <constraint firstItem="V7g-M5-ufe" firstAttribute="top" secondItem="Jle-17-C08" secondAttribute="bottom" constant="8" id="uVY-yi-kfn"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Contact" image="75-phone.png" id="FBF-Jn-6rK"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gqU-zs-9zT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-169" y="4891"/>
+        </scene>
+        <!--How to Ride-->
+        <scene sceneID="W4O-qa-fB2">
+            <objects>
+                <viewController id="StS-EX-4bn" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6hI-0T-uD8"/>
+                        <viewControllerLayoutGuide type="bottom" id="b2N-RR-PsL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="rfC-we-pHy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Zf-ar-J9b">
+                                <rect key="frame" x="20" y="20" width="560" height="523"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Below are some tools Anteater Express provides in order to improve the passenger experience.  To learn about and use all the helpful features that Anteater Express offers, please visit our website at www.shuttle.uci.edu.  </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="GPS Tracking &amp; Arrival Predictions:">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="16" name="Helvetica-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content"> Show the current location of each of our buses currently on route and how many minutes until the next vehicle arrives at each stop.  </string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="SMS Stop Predictions:">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="16" name="Helvetica-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" Allow passengers to estimate bus arrival times for their desired stop location by text message.  ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Bus Stop Signs:">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="16" name="Helvetica-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" Identify route and stop locations for passengers.  ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Time Tables:">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="16" name="Helvetica-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" Show scheduled arrival times at bus stops.  ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Mobile Applications:">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="16" name="Helvetica-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" Apps for iOS and Android are available.">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Zf-ar-J9b" firstAttribute="top" secondItem="6hI-0T-uD8" secondAttribute="bottom" id="SHL-Du-CIr"/>
+                            <constraint firstItem="b2N-RR-PsL" firstAttribute="top" secondItem="6Zf-ar-J9b" secondAttribute="bottom" constant="8" id="fzy-IC-TpP"/>
+                            <constraint firstItem="6Zf-ar-J9b" firstAttribute="trailing" secondItem="rfC-we-pHy" secondAttribute="trailingMargin" id="hGY-aT-ZXM"/>
+                            <constraint firstItem="6Zf-ar-J9b" firstAttribute="leading" secondItem="rfC-we-pHy" secondAttribute="leadingMargin" id="o3V-er-1Hu"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="How to Ride" image="103-map.png" id="IHe-6p-qcc"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jG6-x4-MOl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-169" y="5605"/>
+        </scene>
+        <!--About-->
+        <scene sceneID="4Xw-TJ-JVV">
+            <objects>
+                <viewController title="About" id="6I2-NX-W4Z" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Gg1-fu-gqz"/>
+                        <viewControllerLayoutGuide type="bottom" id="fNj-Xn-z4L"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jGY-wY-89R">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1fy-t8-tmo">
+                                <rect key="frame" x="20" y="28" width="560" height="515"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Anteater Express is the transportation department for the University of California, Irvine.  We transport over 2 million students, staff, and visitors on and off campus to housing complexes, parking structures, academic buildings, and other places of interest.  As the UC Irvine campus continues to grow, so too does the demand for transportation alternatives.  Anteater Express is dedicated to providing safe and efficient transportation to the UC Irvine community.  Anteater Express mobile applications are the official applications brought to you by Anteater Express.  The applications were developed by the Anteater Express IT development team and the content of these applications are maintained by Anteater Express.  </string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Mobile Apps Developed By:">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="14" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content"> James Linnell
+Eric Shively
+Tej Vuligonda</string>
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="1fy-t8-tmo" firstAttribute="top" secondItem="Gg1-fu-gqz" secondAttribute="bottom" constant="8" id="0Tf-jc-sGP"/>
+                            <constraint firstItem="fNj-Xn-z4L" firstAttribute="top" secondItem="1fy-t8-tmo" secondAttribute="bottom" constant="8" id="sZg-ui-zsv"/>
+                            <constraint firstItem="1fy-t8-tmo" firstAttribute="trailing" secondItem="jGY-wY-89R" secondAttribute="trailingMargin" id="tHy-Lh-bCa"/>
+                            <constraint firstItem="1fy-t8-tmo" firstAttribute="leading" secondItem="jGY-wY-89R" secondAttribute="leadingMargin" id="twy-Ai-MWC"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="About" image="112-group.png" id="gof-pw-d21"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="865-VY-kpI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-169" y="4231"/>
+        </scene>
+        <!--About Anteater Express-->
+        <scene sceneID="BN1-eJ-fEG">
+            <objects>
+                <tabBarController storyboardIdentifier="About" title="About Anteater Express" id="9IX-Vq-4uR" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="pjn-aF-G1N">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="6I2-NX-W4Z" kind="relationship" relationship="viewControllers" id="ihq-Lu-Z8y"/>
+                        <segue destination="ZnS-9m-jus" kind="relationship" relationship="viewControllers" id="WHy-6H-PxO"/>
+                        <segue destination="StS-EX-4bn" kind="relationship" relationship="viewControllers" id="NGh-Ro-Lyc"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VQV-Q0-hgr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-989" y="4561"/>
+        </scene>
         <!--News and About-->
         <scene sceneID="AMH-j3-4ZM">
             <objects>
@@ -435,6 +709,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="103-map.png" width="26" height="21"/>
+        <image name="112-group.png" width="32" height="21"/>
+        <image name="75-phone.png" width="24" height="24"/>
         <image name="HamburgerMenuIcon" width="22" height="22"/>
     </resources>
 </document>
