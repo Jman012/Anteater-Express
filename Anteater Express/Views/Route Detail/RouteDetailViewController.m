@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSMutableDictionary *routeScheduleFormattedData;
 @property (nonatomic, assign) BOOL isRouteScheduleLoading;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) IBOutlet UIView *topHairline;
 
 /*
  
@@ -84,6 +85,16 @@
         [self.refreshControl beginRefreshing];
         [self.scheduleTableView scrollRectToVisible:CGRectMake(0, -50, self.scheduleTableView.frame.size.width, self.scheduleTableView.frame.size.height) animated:YES];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.topHairline.constraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *constraint, NSUInteger idx, BOOL *stop) {
+        if ([constraint.identifier isEqualToString:@"hairline"]) {
+            constraint.constant = (1.0 / [UIScreen mainScreen].scale);
+        }
+    }];
 }
 
 - (void)dayControlValueChanged:(UISegmentedControl *)sender {

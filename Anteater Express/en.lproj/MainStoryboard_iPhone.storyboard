@@ -291,10 +291,19 @@
                                     <outlet property="delegate" destination="Axv-qo-e2o" id="XFa-r6-hLr"/>
                                 </connections>
                             </tableView>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="znT-BT-YWD">
+                                <rect key="frame" x="0.0" y="151" width="600" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" identifier="hairline" id="XwV-yb-nyD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="znT-BT-YWD" secondAttribute="trailing" constant="-20" id="2sA-JK-9Nw"/>
                             <constraint firstItem="OLJ-B2-HDc" firstAttribute="bottom" secondItem="Wzx-PM-4eW" secondAttribute="bottom" id="4h8-ue-g8H"/>
+                            <constraint firstItem="znT-BT-YWD" firstAttribute="leading" secondItem="llH-Oo-9wz" secondAttribute="leadingMargin" constant="-20" id="4yo-H1-wZd"/>
                             <constraint firstItem="Wzx-PM-4eW" firstAttribute="top" secondItem="Lw5-0T-x9d" secondAttribute="bottom" constant="8" id="6I4-2M-wn4"/>
                             <constraint firstItem="Wzx-PM-4eW" firstAttribute="top" secondItem="Lw5-0T-x9d" secondAttribute="bottom" constant="8" id="Ag1-II-kSv"/>
                             <constraint firstItem="ici-sr-sGO" firstAttribute="leading" secondItem="Wzx-PM-4eW" secondAttribute="trailing" constant="8" id="Cpr-ju-eeW"/>
@@ -315,6 +324,7 @@
                             <constraint firstItem="Ktj-qZ-gmM" firstAttribute="top" secondItem="OLJ-B2-HDc" secondAttribute="bottom" constant="8.5" id="q2D-dH-9ba"/>
                             <constraint firstItem="vjA-9N-jac" firstAttribute="leading" secondItem="llH-Oo-9wz" secondAttribute="leading" id="r0n-0a-cJo"/>
                             <constraint firstItem="OLJ-B2-HDc" firstAttribute="leading" secondItem="Wzx-PM-4eW" secondAttribute="trailing" constant="8" id="vet-8E-94y"/>
+                            <constraint firstItem="znT-BT-YWD" firstAttribute="top" secondItem="Ktj-qZ-gmM" secondAttribute="bottom" constant="8" id="zIx-88-cdh"/>
                         </constraints>
                     </view>
                     <connections>
@@ -324,6 +334,7 @@
                         <outlet property="fareLabel" destination="OLJ-B2-HDc" id="QSb-wp-LHp"/>
                         <outlet property="scheduleTableView" destination="vjA-9N-jac" id="iDN-6u-T3P"/>
                         <outlet property="titleLabel" destination="ici-sr-sGO" id="El5-ZJ-tdC"/>
+                        <outlet property="topHairline" destination="znT-BT-YWD" id="Kpg-Sl-3ms"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fqp-I7-kSd" userLabel="First Responder" sceneMemberID="firstResponder"/>
