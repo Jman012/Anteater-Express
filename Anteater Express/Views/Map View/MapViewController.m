@@ -220,7 +220,7 @@
                                             buttonTitle:nil
                                          buttonCallback:nil
                                              atPosition:TSMessageNotificationPositionTop
-                                   canBeDismissedByUser:NO];
+                                   canBeDismissedByUser:YES];
         } else if ([senderString isEqualToString:AENetworkServerError]) {
             [TSMessage showNotificationInViewController:self
                                                   title:@"Anteater Express Servers Down"

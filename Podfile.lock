@@ -1,4 +1,5 @@
 PODS:
+  - FRHyperLabel (1.0.2)
   - Google/Analytics (2.0.3):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
@@ -21,11 +22,13 @@ PODS:
     - HexColors (~> 2.2.0)
 
 DEPENDENCIES:
+  - FRHyperLabel
   - Google/Analytics
   - SWRevealViewController (~> 2.3)
   - TSMessages (~> 0.9)
 
 SPEC CHECKSUMS:
+  FRHyperLabel: 967b8b7ffdd86b9f2d44f2981a5688c4d3faa9ac
   Google: 61379f0072bc561a7e174d23a6cbe41bd6d8599c
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleInterchangeUtilities: 427382e42d8a340038bec37c6fdfd316e14b5fa2

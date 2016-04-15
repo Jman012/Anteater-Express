@@ -83,6 +83,7 @@
 		1A773E361C82C9990023DCA8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A773E341C82C9990023DCA8 /* Launch Screen.storyboard */; };
 		1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A79CB8B1C30DC940091DD62 /* Images.xcassets */; };
 		1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */; };
+		1ACBE59E1CC065860044401C /* ExactTimeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBE59D1CC065860044401C /* ExactTimeTableViewCell.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
 		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
@@ -268,6 +269,8 @@
 		1A79CB8B1C30DC940091DD62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircleCheckmark.h; path = Views/Menu/Cells/CircleCheckmark.h; sourceTree = "<group>"; };
 		1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircleCheckmark.m; path = Views/Menu/Cells/CircleCheckmark.m; sourceTree = "<group>"; };
+		1ACBE59C1CC065860044401C /* ExactTimeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExactTimeTableViewCell.h; path = "Views/Route Detail/ExactTimeTableViewCell.h"; sourceTree = "<group>"; };
+		1ACBE59D1CC065860044401C /* ExactTimeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExactTimeTableViewCell.m; path = "Views/Route Detail/ExactTimeTableViewCell.m"; sourceTree = "<group>"; };
 		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
@@ -354,6 +357,8 @@
 			children = (
 				1A015EFC1C7C2B1300AB7C8E /* RouteDetailViewController.h */,
 				1A015EFD1C7C2B1300AB7C8E /* RouteDetailViewController.m */,
+				1ACBE59C1CC065860044401C /* ExactTimeTableViewCell.h */,
+				1ACBE59D1CC065860044401C /* ExactTimeTableViewCell.m */,
 			);
 			name = "Route Detail";
 			sourceTree = "<group>";
@@ -910,6 +915,7 @@
 				1A16D1801BFA9DF6003B3C2D /* MessagesDAL.m in Sources */,
 				1A16D1A91BFA9E02003B3C2D /* RouteStopDetailsViewController.m in Sources */,
 				1A16D1F41C0246B0003B3C2D /* LineInfo.m in Sources */,
+				1ACBE59E1CC065860044401C /* ExactTimeTableViewCell.m in Sources */,
 				1A16D1861BFA9DF6003B3C2D /* RoutesPost.m in Sources */,
 				1A6828A11C474A4C0062B49F /* AEVehicleAnnotation.m in Sources */,
 				4A76A6EF1559016100D99B14 /* AppDelegate.m in Sources */,

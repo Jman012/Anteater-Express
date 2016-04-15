@@ -8,30 +8,46 @@
 
 #import "RouteDetailViewController.h"
 
+#import <FRHyperLabel/FRHyperLabel.h>
+
 #import "ColorConverter.h"
 #import "RouteSchedulesDAO.h"
+#import "ExactTimeTableViewCell.h"
 
 @interface RouteDetailViewController ()
 
+// Header Views
 @property (nonatomic, strong) IBOutlet UIView *colorView;
 @property (nonatomic, strong) IBOutlet UILabel *titleLabel;
 @property (nonatomic, strong) IBOutlet UILabel *detailLabel;
-@property (nonatomic, strong) IBOutlet UILabel *fareLabel;
+@property (nonatomic, strong) IBOutlet FRHyperLabel *fareLabel;
 
+// Information Views
 @property (nonatomic, strong) IBOutlet UISegmentedControl *dayControl;
 @property (nonatomic, strong) IBOutlet UITableView *scheduleTableView;
+@property (strong, nonatomic) IBOutlet UISwitch *approximateTimeSwitch;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) IBOutlet UIView *topHairline;
 
+// Header Data
 @property (nonatomic, strong) UIColor *routeColor;
 @property (nonatomic, strong) NSString *routeNavBarTitle;
 @property (nonatomic, strong) NSString *routeTitle;
 @property (nonatomic, strong) NSString *routeDetail;
 @property (nonatomic, strong) NSString *routeFareText;
 
+// Information Data General
 @property (nonatomic, strong) NSMutableArray *routeScheduleDays;
-@property (nonatomic, strong) NSMutableDictionary *routeScheduleFormattedData;
 @property (nonatomic, assign) BOOL isRouteScheduleLoading;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (strong, nonatomic) IBOutlet UIView *topHairline;
+// Information Data Approximate
+@property (nonatomic, strong) NSMutableDictionary *routeScheduleFormattedData;
+// Information Data Exact
+@property (nonatomic, strong) NSMutableDictionary *exactRouteScheduleData;
+
+@property (nonatomic, strong) NSString *now;
+@property (nonatomic, strong) NSDateFormatter *formatter;
+
+
 
 /*
  
@@ -85,6 +101,15 @@
         [self.refreshControl beginRefreshing];
         [self.scheduleTableView scrollRectToVisible:CGRectMake(0, -50, self.scheduleTableView.frame.size.width, self.scheduleTableView.frame.size.height) animated:YES];
     }
+    
+    self.approximateTimeSwitch.on = YES;
+    self.approximateTimeSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
+    
+    self.formatter = [[NSDateFormatter alloc] init];
+    self.formatter.dateFormat = @"HH:mm:ss";
+    self.formatter.timeZone = [NSTimeZone timeZoneWithName:@"PDT"];
+    
+    self.now = [self.formatter stringFromDate:[NSDate date]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -95,6 +120,12 @@
             constraint.constant = (1.0 / [UIScreen mainScreen].scale);
         }
     }];
+}
+
+- (IBAction)approximateTimeSwitchValuechanged:(UISwitch *)sender {
+    self.now = [self.formatter stringFromDate:[NSDate date]];
+    
+    [self.scheduleTableView reloadData];
 }
 
 - (void)dayControlValueChanged:(UISegmentedControl *)sender {
@@ -108,7 +139,24 @@
     self.colorView.backgroundColor = self.routeColor;
     self.titleLabel.text = self.routeTitle;
     self.detailLabel.text = self.routeDetail;
-    self.fareLabel.text = self.routeFareText;
+    
+    if ([self.routeFareText isEqualToString:@"Paid"]) {
+        //Step 1: Define a normal attributed string for non-link texts
+        NSString *string = @"Paid";
+        NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17.0]};
+        
+        self.fareLabel.attributedText = [[NSAttributedString alloc] initWithString:string attributes:attributes];
+        
+        //Step 2: Define a selection handler block
+        void(^handler)(FRHyperLabel *label, NSString *substring) = ^(FRHyperLabel *label, NSString *substring){
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.shuttle.uci.edu/ride/fares/"]];
+        };
+        
+        //Step 3: Add link substrings
+        [self.fareLabel setLinksForSubstrings:@[@"Paid"] withLinkHandler:handler];
+    } else {
+        self.fareLabel.text = self.routeFareText;
+    }
     
     [self.dayControl removeAllSegments];
     for (int i = 0; i < self.routeScheduleDays.count; ++i) {
@@ -125,6 +173,7 @@
     self.routeTitle = [NSString stringWithFormat:@"%@ Line - %@", route[@"Abbreviation"], route[@"Name"]];
     self.routeDetail = route[@"Description"];
     NSNumber *fare = route[@"Routefare"];
+    
     self.routeFareText = fare.boolValue ? @"Paid" : @"Free";
     
     self.isRouteScheduleLoading = YES;
@@ -149,6 +198,7 @@
     NSMutableDictionary *dayPrioritiesToDayNames = [NSMutableDictionary dictionary];
     self.routeScheduleDays = [NSMutableArray array];
     self.routeScheduleFormattedData = [NSMutableDictionary dictionary];
+    self.exactRouteScheduleData = [NSMutableDictionary dictionary];
     
     RouteSchedulesDAO *routeSchedulesDao = [[RouteSchedulesDAO alloc] initWithRouteName:routeName];
     for (NSDictionary *stopsDict in routeSchedulesDao.getRouteStops) {
@@ -183,11 +233,20 @@
             NSDate *endTime;
             NSArray *timesForThisStopAndDay = stopInfoForDay[@"StopDetails"][@"ScheduledTimes"];
             NSMutableArray *differences = [NSMutableArray array];
+            
+            
 
             // For each specific time for this set of days
+            NSMutableArray *exactTimes = [NSMutableArray array];
+            
             for (int i = 0; i < timesForThisStopAndDay.count; ++i) {
                 NSDictionary *time = timesForThisStopAndDay[i];
                 NSDate *date = [dateFormatter dateFromString:time[@"DepartureTime"]];
+                
+                // Add to exact times array
+//                [exactTimes addObject:[readableDateFormatter stringFromDate:date]];
+                [exactTimes addObject:time[@"DepartureTime"]];
+                
                 if (startTime == nil) {
                     startTime = date;
                 }
@@ -248,6 +307,18 @@
                                        }];
             }
             
+            // Add to exact data
+            if (self.exactRouteScheduleData[dayName] == nil) {
+                self.exactRouteScheduleData[dayName] = [NSMutableArray array];
+            }
+            
+            NSMutableArray *exactDaysArray = self.exactRouteScheduleData[dayName];
+            if (stopName != nil && exactTimes != nil) {
+                [exactDaysArray addObject:@{
+                                            @"title": [NSString stringWithFormat:@"%@", stopName],
+                                            @"times": exactTimes
+                                            }];
+            }
             
         }
         
@@ -273,41 +344,113 @@
     });
 }
 
+#pragma mark - Table View Data Source / Delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.approximateTimeSwitch.on) {
+        return 30.0f;
+    } else {
+        return 18.0f;
+    }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (self.dayControl.selectedSegmentIndex == -1) {
         return 0;
     }
     
     NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
-    NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
-    return dayAllStopsInfo.count;
+    NSArray *dayAllStopsInfo;
+    if (self.approximateTimeSwitch.on) {
+        dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
+        return dayAllStopsInfo.count;
+    } else {
+        dayAllStopsInfo = self.exactRouteScheduleData[daySelected];
+        return dayAllStopsInfo.count;
+    }
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
-    NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
-    NSArray *stopTimes = dayAllStopsInfo[section][@"times"];
-    return stopTimes.count;
+    NSArray *dayAllStopsInfo;
+    if (self.approximateTimeSwitch.on) {
+        dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
+        NSArray *stopTimes = dayAllStopsInfo[section][@"times"];
+        return stopTimes.count;
+    } else {
+        dayAllStopsInfo = self.exactRouteScheduleData[daySelected];
+        NSArray *stopTimes = dayAllStopsInfo[section][@"times"];
+        return (stopTimes.count / 4) + MIN(stopTimes.count % 4, 1);
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"RouteDetailTimeCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    static NSString *exactIdentifier = @"ExactRouteDetailTimeCell";
     
     NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
-    NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
-    NSArray *stopTimes = dayAllStopsInfo[indexPath.section][@"times"];
-    NSString *stopTimeRow = stopTimes[indexPath.row];
-    
-    cell.textLabel.text = stopTimeRow;
-    
-    return cell;
+    NSArray *dayAllStopsInfo;
+    if (self.approximateTimeSwitch.on) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
+        NSArray *stopTimes = dayAllStopsInfo[indexPath.section][@"times"];
+        NSString *stopTimeRow = stopTimes[indexPath.row];
+        
+        cell.textLabel.text = stopTimeRow;
+        
+        return cell;
+    } else {
+        ExactTimeTableViewCell *exactCell = (ExactTimeTableViewCell *)[tableView dequeueReusableCellWithIdentifier:exactIdentifier];
+        dayAllStopsInfo = self.exactRouteScheduleData[daySelected];
+        NSArray *stopTimes = dayAllStopsInfo[indexPath.section][@"times"];
+        NSArray *labelNames = @[@"label1", @"label2", @"label3", @"label4"];
+        
+        for (int i = 0; i < 4; ++i) {
+            NSUInteger idx = indexPath.row * 4 + i;
+            if (idx < stopTimes.count) {
+                NSString *str = stopTimes[idx];
+                
+                NSString *rowDateNow = stopTimes[idx];
+                NSString *rowDatePrev;
+                NSAttributedString *attributedString = nil;
+                if (idx - 1 < stopTimes.count) {
+                    rowDatePrev = stopTimes[idx - 1];
+                    
+                    NSComparisonResult one = [rowDatePrev compare:self.now];
+                    NSComparisonResult two = [rowDateNow compare:self.now];
+                    if ((one == NSOrderedSame || one == NSOrderedAscending) && two == NSOrderedDescending) {
+                        attributedString = [[NSAttributedString alloc] initWithString: stopTimes[idx] attributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSBackgroundColorAttributeName:[UIColor colorWithRed:0.999 green:0.986 blue:0.0 alpha:1.0],NSFontAttributeName:[UIFont systemFontOfSize:10.0]}];
+                        
+                    }
+                }
+
+                UILabel *label = [exactCell valueForKey:labelNames[i]];
+                if (attributedString) {
+                    label.attributedText = attributedString;
+                } else {
+                    label.text = str;
+                }
+            } else {
+                UILabel *label = [exactCell valueForKey:labelNames[i]];
+                label.text = @"";
+            }
+        }
+        
+        return exactCell;
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
-    NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
-    return dayAllStopsInfo[section][@"title"];
+    if (self.approximateTimeSwitch.on) {
+        NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
+        NSArray *dayAllStopsInfo = self.routeScheduleFormattedData[daySelected];
+        return dayAllStopsInfo[section][@"title"];
+    } else {
+        NSString *daySelected = self.routeScheduleDays[self.dayControl.selectedSegmentIndex];
+        NSArray *dayAllStopsInfo = self.exactRouteScheduleData[daySelected];
+        return dayAllStopsInfo[section][@"title"];
+    }
 }
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
