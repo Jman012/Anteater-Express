@@ -47,7 +47,9 @@
 @property (nonatomic, strong) NSMutableDictionary *exactRouteScheduleData;
 
 @property (nonatomic, strong) NSString *now;
-@property (nonatomic, strong) NSDateFormatter *formatter;
+@property (nonatomic, strong) NSDateFormatter *formatterPDT;
+@property (nonatomic, strong) NSDateFormatter *formatterGMT;
+@property (nonatomic, strong) NSDateFormatter *readableDateFormatter;
 
 
 
@@ -107,11 +109,19 @@
     self.approximateTimeSwitch.on = YES;
 //    self.approximateTimeSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
     
-    self.formatter = [[NSDateFormatter alloc] init];
-    self.formatter.dateFormat = @"HH:mm:ss";
-    self.formatter.timeZone = [NSTimeZone timeZoneWithName:@"PDT"];
+    self.formatterPDT = [[NSDateFormatter alloc] init];
+    self.formatterPDT.dateFormat = @"HH:mm:ss";
+    self.formatterPDT.timeZone = [NSTimeZone timeZoneWithName:@"PDT"];
     
-    self.now = [self.formatter stringFromDate:[NSDate date]];
+    self.formatterGMT = [[NSDateFormatter alloc] init];
+    self.formatterGMT.dateFormat = @"HH:mm:ss";
+    self.formatterGMT.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
+    
+    self.readableDateFormatter = [[NSDateFormatter alloc] init];
+    self.readableDateFormatter.dateFormat = @"h:mm a";
+    self.readableDateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+    
+    self.now = [self.formatterPDT stringFromDate:[NSDate date]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -125,7 +135,7 @@
 }
 
 - (IBAction)approximateTimeSwitchValuechanged:(UISwitch *)sender {
-    self.now = [self.formatter stringFromDate:[NSDate date]];
+    self.now = [self.formatterPDT stringFromDate:[NSDate date]];
     
     [self.scheduleTableView reloadData];
 }
@@ -195,9 +205,6 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"HH:mm:ss";
     dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-    NSDateFormatter *readableDateFormatter = [[NSDateFormatter alloc] init];
-    readableDateFormatter.dateFormat = @"h:mm a";
-    readableDateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
     
     NSMutableDictionary *dayPrioritiesToDayNames = [NSMutableDictionary dictionary];
     self.routeScheduleDays = [NSMutableArray array];
@@ -284,9 +291,9 @@
                         double averageTimeBetweenStops = summation / (differences.count - 1);
 
                         // Make the string
-                        NSString *startTimeString = [readableDateFormatter stringFromDate:startTime];
-                        NSString *secondToLastString = [readableDateFormatter stringFromDate:secondToLast];
-                        NSString *endTimeString = [readableDateFormatter stringFromDate:endTime];
+                        NSString *startTimeString = [self.readableDateFormatter stringFromDate:startTime];
+                        NSString *secondToLastString = [self.readableDateFormatter stringFromDate:secondToLast];
+                        NSString *endTimeString = [self.readableDateFormatter stringFromDate:endTime];
                         NSString *text = [NSString stringWithFormat:@"Every ~%d minutes from %@ to %@", (int)round(averageTimeBetweenStops), startTimeString, (lastTimeOfTheSchedule ? endTimeString : secondToLastString)];
                         [formattedTimes addObject:text];
                         
@@ -459,6 +466,9 @@
             if (idx < stopTimes.count) {
                 NSString *str = stopTimes[idx];
                 
+                NSDate *date = [self.formatterGMT dateFromString:str];
+                NSString *readableString = [self.readableDateFormatter stringFromDate:date];
+                
                 NSString *rowDateNow = stopTimes[idx];
                 NSString *rowDatePrev;
                 NSAttributedString *attributedString = nil;
@@ -468,7 +478,7 @@
                     NSComparisonResult one = [rowDatePrev compare:self.now];
                     NSComparisonResult two = [rowDateNow compare:self.now];
                     if ((one == NSOrderedSame || one == NSOrderedAscending) && two == NSOrderedDescending) {
-                        attributedString = [[NSAttributedString alloc] initWithString: stopTimes[idx] attributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSBackgroundColorAttributeName:[UIColor colorWithRed:0.999 green:0.986 blue:0.0 alpha:1.0],NSFontAttributeName:[UIFont systemFontOfSize:10.0]}];
+                        attributedString = [[NSAttributedString alloc] initWithString:readableString attributes:@{NSForegroundColorAttributeName:[UIColor blackColor],NSBackgroundColorAttributeName:[UIColor colorWithRed:0.999 green:0.986 blue:0.0 alpha:1.0],NSFontAttributeName:[UIFont systemFontOfSize:10.0]}];
                         
                     }
                 }
@@ -477,7 +487,7 @@
                 if (attributedString) {
                     label.attributedText = attributedString;
                 } else {
-                    label.text = str;
+                    label.text = readableString;
                 }
             } else {
                 UILabel *label = [exactCell valueForKey:labelNames[i]];
