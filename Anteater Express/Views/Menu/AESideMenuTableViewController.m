@@ -35,7 +35,7 @@
 #import "RouteDetailViewController.h"
 
 NSString *kCellIdBannerCell =     @"AEMenuBannerCell";
-NSString *kCellIdFreeLineCell =   @"AEMenuFreeLineCell";
+NSString *kCellIdFreeLineCell =   @"AEMenuFreeLineCell2";
 NSString *kCellIdPaidLineCell =   @"AEMenuPaidLineCell";
 NSString *kCellIdItemCell =       @"AEMenuItemCell";
 NSString *kCellIdLoadingCell =    @"AEMenuLoadingCell";
@@ -254,7 +254,7 @@ const NSUInteger kSectionLinks =      3;
                 NSArray *vehicleDicts = [routeVehiclesDAO getRouteVehicles];
                 [self.menuSections[kSectionLines] enumerateObjectsUsingBlock:^(LineInfo *lineInfo, NSUInteger idx, BOOL *stop) {
                     if ([lineInfo.routeId isEqualToNumber:routeDict[@"Id"]]) {
-                        lineInfo.active = (vehicleDicts.count != 0);
+                        lineInfo.numActive = vehicleDicts.count;
                         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:kSectionLines]] withRowAnimation:UITableViewRowAnimationAutomatic];
                         *stop = YES;
                     }
@@ -362,8 +362,13 @@ const NSUInteger kSectionLinks =      3;
         AEMenuFreeLineTableViewCell *freeLineCell = (AEMenuFreeLineTableViewCell *)cell;
         freeLineCell.userInteractionEnabled = YES;
         [freeLineCell setLineName:[NSString stringWithFormat:@"%@%@", (lineInfo.paid ? @"($) " : @""), lineInfo.text]];
+        if (lineInfo.numActive == 1) {
+            [freeLineCell setLineSubtitle:@"1 bus"];
+        } else {
+            [freeLineCell setLineSubtitle:[NSString stringWithFormat:@"%lu buses", (unsigned long)lineInfo.numActive]];
+        }
         [freeLineCell setChecked:lineInfo.selected];
-        [freeLineCell setActiveLine:lineInfo.active];
+        [freeLineCell setActiveLine:lineInfo.numActive != 0];
         freeLineCell.color = lineInfo.color;
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdPaidLineCell]) {

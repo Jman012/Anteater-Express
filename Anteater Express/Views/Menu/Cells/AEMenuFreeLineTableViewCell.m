@@ -17,6 +17,7 @@ static UIImage *uncheckedImage = nil;
 
 @property (nonatomic, strong) IBOutlet CircleCheckmark *circleCheckmark;
 @property (nonatomic, strong) IBOutlet UILabel *lineNameLabel;
+@property (nonatomic, strong) IBOutlet UILabel *lineSubtitleLabel;
 
 @end
 
@@ -36,6 +37,10 @@ static UIImage *uncheckedImage = nil;
 
 - (void)setLineName:(NSString *)name {
     self.lineNameLabel.text = name;
+}
+
+- (void)setLineSubtitle:(NSString *)subtitle {
+    self.lineSubtitleLabel.text = subtitle;
 }
 
 - (void)setChecked:(BOOL)checked {

@@ -13,6 +13,7 @@
 #import "ColorConverter.h"
 #import "RouteSchedulesDAO.h"
 #import "ExactTimeTableViewCell.h"
+#import "StopArrivalPredictionDAO.h"
 
 @interface RouteDetailViewController ()
 
@@ -35,6 +36,7 @@
 @property (nonatomic, strong) NSString *routeTitle;
 @property (nonatomic, strong) NSString *routeDetail;
 @property (nonatomic, strong) NSString *routeFareText;
+@property (nonatomic, strong) NSNumber *routeStopSetId;
 
 // Information Data General
 @property (nonatomic, strong) NSMutableArray *routeScheduleDays;
@@ -103,7 +105,7 @@
     }
     
     self.approximateTimeSwitch.on = YES;
-    self.approximateTimeSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
+//    self.approximateTimeSwitch.transform = CGAffineTransformMakeScale(0.75, 0.75);
     
     self.formatter = [[NSDateFormatter alloc] init];
     self.formatter.dateFormat = @"HH:mm:ss";
@@ -167,6 +169,8 @@
 }
 
 - (void)setRoute:(NSDictionary *)route {
+    self.routeStopSetId = route[@"StopSetId"];
+    
     self.routeNavBarTitle = [NSString stringWithFormat:@"%@ Line", route[@"Abbreviation"]];
     
     self.routeColor = [ColorConverter colorWithHexString:route[@"ColorHex"]];
@@ -200,9 +204,12 @@
     self.routeScheduleFormattedData = [NSMutableDictionary dictionary];
     self.exactRouteScheduleData = [NSMutableDictionary dictionary];
     
+    NSMutableArray *stopIds = [NSMutableArray array];
+    
     RouteSchedulesDAO *routeSchedulesDao = [[RouteSchedulesDAO alloc] initWithRouteName:routeName];
     for (NSDictionary *stopsDict in routeSchedulesDao.getRouteStops) {
         NSNumber *stopId = stopsDict[@"StopId"];
+        [stopIds addObject:stopId];
         NSArray *stopScheduledTimes = [routeSchedulesDao getStopScheduledTimes:stopId.intValue];
         
         for (NSDictionary *stopInfoForDay in stopScheduledTimes) {
@@ -298,6 +305,15 @@
                 self.routeScheduleFormattedData[dayName] = [NSMutableArray array];
             }
             
+//            NSLog(@"Getting preds for stopsetid=%@, stopid=%@", self.routeStopSetId, stopId);
+//            StopArrivalPredictionDAO *stopArrivalPredictions = [[StopArrivalPredictionDAO alloc] initWithStopSetID:self.routeStopSetId.intValue andStopID:stopId.intValue];
+//            NSString *bigString = [self formattedSubtitleForPredictions:[stopArrivalPredictions.getArrivalTimes valueForKey:@"Predictions"]];
+//            NSLog(@"Big string: %@", bigString);
+//            NSArray *strings = [bigString componentsSeparatedByString:@"\n"];
+//            [strings enumerateObjectsUsingBlock:^(NSString *str, NSUInteger idx, BOOL *stop) {
+//                [formattedTimes insertObject:str atIndex:idx];
+//            }];
+            
             NSMutableArray *daysArray = self.routeScheduleFormattedData[dayName];
             if (stopName != nil && formattedTimes != nil) {
                 [daysArray addObject:@{
@@ -306,6 +322,10 @@
                                        @"subtitle": subtitle // Unused currently
                                        }];
             }
+            
+            
+            
+            
             
             // Add to exact data
             if (self.exactRouteScheduleData[dayName] == nil) {
@@ -329,6 +349,7 @@
             [self.routeScheduleDays addObject:dayPrioritiesToDayNames[dayPriority]];
         }
     }];
+    
 
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
@@ -342,6 +363,33 @@
         [self.scheduleTableView scrollRectToVisible:CGRectZero animated:YES];
         self.isRouteScheduleLoading = NO;
     });
+}
+
+- (NSString *)formattedSubtitleForPredictions:(NSArray *)predictions {
+    __block NSString *subtitle = @"";
+
+    
+    [predictions enumerateObjectsUsingBlock:^(NSDictionary *predictionDict, NSUInteger idx, BOOL *stopInner) {
+        subtitle = [subtitle stringByAppendingString:@"\n"];
+        subtitle = [subtitle stringByAppendingString:@"  Bus "];
+        subtitle = [subtitle stringByAppendingString:[predictionDict[@"BusName"] stringValue]];
+        subtitle = [subtitle stringByAppendingString:@"\t"];
+        
+        NSString* minutesTillArrival = [predictionDict[@"Minutes"] stringValue];
+        if([minutesTillArrival isEqualToString: @"0"])
+        {
+            subtitle = [subtitle stringByAppendingString:@"arriving"];
+        }
+        else
+        {
+            subtitle = [subtitle stringByAppendingString:@"in "];
+            
+            subtitle = [subtitle stringByAppendingString:minutesTillArrival];
+            subtitle = [subtitle stringByAppendingString:@" min"];
+        }
+    }];
+    
+    return subtitle;
 }
 
 #pragma mark - Table View Data Source / Delegate

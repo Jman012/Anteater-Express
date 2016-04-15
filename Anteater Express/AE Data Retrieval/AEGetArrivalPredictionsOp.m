@@ -38,6 +38,7 @@
         int stopId = self.stopIds[i].intValue;
         
         // Instantiating this will perform the network request
+        NSLog(@"Good getting preds stopsetid=%d, stopid=%d", stopSetId, stopId);
         StopArrivalPredictionDAO *stopArrivalPredictions = [[StopArrivalPredictionDAO alloc] initWithStopSetID:stopSetId andStopID:stopId];
         [daos addObject:stopArrivalPredictions];
     }

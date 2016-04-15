@@ -31,6 +31,9 @@
 #define UCI_LONGITUDE -117.8426
 #define UCI_RADIUS 6500
 
+#define MAP_POINT_PADDING 1000
+#define MAP_LENGTH_PADDING (MAP_POINT_PADDING * 2)
+
 @interface MapViewController ()
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;
@@ -69,6 +72,11 @@
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) MKUserLocation *userLocation;
 
+@property (nonatomic, assign) MKMapPoint northEastPoint;
+@property (nonatomic, assign) MKMapPoint southWestPoint;
+@property (nonatomic, assign) BOOL pointsSet;
+@property (nonatomic, assign) dispatch_once_t mapSetOnce;
+
 @end
 
 @implementation MapViewController
@@ -103,6 +111,8 @@
         self.routeIdForStopSetId = [NSMutableDictionary dictionary];
         self.downloadingDefinitions = [NSMutableSet set];
         self.vehicleAnnotationsForVehicleId = [NSMutableDictionary dictionary];
+        
+        self.pointsSet = NO;
     }
     return self;
 }
@@ -157,7 +167,12 @@
     self.mapView.showsUserLocation = YES;
     self.mapView.delegate = self;
     // Start out on Aldrich Park's center. Later it'll move to the users location
-    [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
+//    [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
+    dispatch_once_t once = self.mapSetOnce;
+    dispatch_once(&once, ^() {
+        CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
+        [self zoomToLocation:uciLocation.coordinate];
+    });
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -232,7 +247,7 @@
                                             buttonTitle:nil
                                          buttonCallback:nil
                                              atPosition:TSMessageNotificationPositionTop
-                                   canBeDismissedByUser:NO];
+                                   canBeDismissedByUser:YES];
         } else if ([senderString isEqualToString:AENetworkOk]) {
             [TSMessage dismissActiveNotification];
         }
@@ -564,6 +579,40 @@
     // Add the route lines to the map
     if (self.routeDefinitionsPolylines[theId] != nil) {
         [self.mapView addOverlay:self.routeDefinitionsPolylines[theId]];
+        
+        MKPolyline *polyline = self.routeDefinitionsPolylines[theId];
+        MKMapPoint northEastPoint = self.northEastPoint;
+        MKMapPoint southWestPoint = self.southWestPoint;
+        for (int i = 0; i < polyline.pointCount; ++i) {
+            MKMapPoint point = polyline.points[i];
+            
+            if (self.pointsSet == NO) {
+                northEastPoint = point;
+                southWestPoint = point;
+                self.pointsSet = YES;
+            }
+            else
+            {
+                if (point.x > northEastPoint.x)
+                    northEastPoint.x = point.x;
+                if(point.y > northEastPoint.y)
+                    northEastPoint.y = point.y;
+                if (point.x < southWestPoint.x)
+                    southWestPoint.x = point.x;
+                if (point.y < southWestPoint.y) 
+                    southWestPoint.y = point.y;
+            }
+        }
+        self.northEastPoint = northEastPoint;
+        self.southWestPoint = southWestPoint;
+        MKMapRect routeRect = MKMapRectMake(self.southWestPoint.x - MAP_POINT_PADDING, self.southWestPoint.y - MAP_POINT_PADDING, self.northEastPoint.x - self.self.southWestPoint.x + MAP_LENGTH_PADDING, self.northEastPoint.y - self.southWestPoint.y + MAP_LENGTH_PADDING);
+        
+        dispatch_once_t once = self.mapSetOnce;
+        dispatch_once(&once, ^() {
+            CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
+            [self zoomToLocation:uciLocation.coordinate];
+        });
+        [self.mapView setVisibleMapRect:routeRect animated:NO];
     }
     // Add the route stops to the map
     if (self.routeStopsForWhichLines[theId] != nil) {
@@ -603,6 +652,47 @@
     // Remove the route line
     if (self.routeDefinitionsPolylines[theId] != nil) {
         [self.mapView removeOverlay:self.routeDefinitionsPolylines[theId]];
+        
+        self.pointsSet = NO;
+        for (id<MKOverlay> overlay in self.mapView.overlays) {
+            if ([overlay isMemberOfClass:[MKPolyline class]] == NO) {
+                continue;
+            }
+            
+            MKPolyline *polyline = (MKPolyline *)overlay;
+            MKMapPoint northEastPoint = self.northEastPoint;
+            MKMapPoint southWestPoint = self.southWestPoint;
+            for (int i = 0; i < polyline.pointCount; ++i) {
+                MKMapPoint point = polyline.points[i];
+                
+                if (self.pointsSet == NO) {
+                    northEastPoint = point;
+                    southWestPoint = point;
+                    self.pointsSet = YES;
+                }
+                else
+                {
+                    if (point.x > northEastPoint.x)
+                        northEastPoint.x = point.x;
+                    if(point.y > northEastPoint.y)
+                        northEastPoint.y = point.y;
+                    if (point.x < southWestPoint.x)
+                        southWestPoint.x = point.x;
+                    if (point.y < southWestPoint.y)
+                        southWestPoint.y = point.y;
+                }
+            }
+            self.northEastPoint = northEastPoint;
+            self.southWestPoint = southWestPoint;
+        }
+        MKMapRect routeRect = MKMapRectMake(self.southWestPoint.x - MAP_POINT_PADDING, self.southWestPoint.y - MAP_POINT_PADDING, self.northEastPoint.x - self.self.southWestPoint.x + MAP_LENGTH_PADDING, self.northEastPoint.y - self.southWestPoint.y + MAP_LENGTH_PADDING);
+        
+        dispatch_once_t once = self.mapSetOnce;
+        dispatch_once(&once, ^() {
+            CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
+            [self zoomToLocation:uciLocation.coordinate];
+        });
+        [self.mapView setVisibleMapRect:routeRect animated:NO];
     }
     // Remove the route stops
     if (self.routeStopsForWhichLines[theId] != nil) {
@@ -740,17 +830,17 @@
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(nonnull MKUserLocation *)userLocation {
     // Only do this once, when we first get the user's location. We don't want it
     // tracking them on every movement.
-    static dispatch_once_t once;
-    dispatch_once(&once, ^() {
-        CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
-        if ([uciLocation distanceFromLocation:userLocation.location] < UCI_RADIUS) {
-            [self zoomToLocation:userLocation.coordinate];
-            self.userLocation = userLocation;
-            if (self.downloadingDefinitions.count == 0) {
-                [self showClosestAnnotation];
-            }
-        }
-    });
+//    static dispatch_once_t once;
+//    dispatch_once(&once, ^() {
+//        CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
+//        if ([uciLocation distanceFromLocation:userLocation.location] < UCI_RADIUS) {
+//            [self zoomToLocation:userLocation.coordinate];
+//            self.userLocation = userLocation;
+//            if (self.downloadingDefinitions.count == 0) {
+//                [self showClosestAnnotation];
+//            }
+//        }
+//    });
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {

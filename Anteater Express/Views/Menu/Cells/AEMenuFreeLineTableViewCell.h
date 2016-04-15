@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UIColor *color;
 
 - (void)setLineName:(NSString *)name;
+- (void)setLineSubtitle:(NSString *)subtitle;
 - (void)toggleChecked;
 - (void)setActiveLine:(BOOL)activeLine;
 
