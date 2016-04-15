@@ -37,7 +37,7 @@
 @interface MapViewController ()
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;
-@property (nonatomic, strong) IBOutlet MKMapView *mapView;
+@property (nonatomic, strong) IBOutlet ASMapView *mapView;
 
 /* Basic/wholistic route info */
 // Holds entire Route dicts, keyed by the RouteId

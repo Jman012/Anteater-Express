@@ -47,7 +47,6 @@
 		1A16D1CC1BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1C61BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m */; };
 		1A16D1CD1BFA9E1E003B3C2D /* AnnouncementsAndNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1C81BFA9E1E003B3C2D /* AnnouncementsAndNews.m */; };
 		1A16D1CE1BFA9E1E003B3C2D /* AnnouncementsPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1CA1BFA9E1E003B3C2D /* AnnouncementsPost.m */; };
-		1A16D1CF1BFAA0BD003B3C2D /* ANTEX_MAC_APP-ICON-114px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571DB1559B374007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png */; };
 		1A16D1D71C023D59003B3C2D /* AESideMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1D61C023D59003B3C2D /* AESideMenuTableViewController.m */; };
 		1A16D1DB1C023F8C003B3C2D /* AEMenuBannerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1DA1C023F8C003B3C2D /* AEMenuBannerTableViewCell.m */; };
 		1A16D1DE1C024076003B3C2D /* AEMenuFreeLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1DD1C024076003B3C2D /* AEMenuFreeLineTableViewCell.m */; };
@@ -84,6 +83,8 @@
 		1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A79CB8B1C30DC940091DD62 /* Images.xcassets */; };
 		1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */; };
 		1ACBE59E1CC065860044401C /* ExactTimeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBE59D1CC065860044401C /* ExactTimeTableViewCell.m */; };
+		1ACBE5A01CC0ADD40044401C /* AnteaterExpress_logo_title_isolated_wide.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACBE59F1CC0ADD40044401C /* AnteaterExpress_logo_title_isolated_wide.png */; };
+		1ACBE5A31CC0B10E0044401C /* ASMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBE5A21CC0B10E0044401C /* ASMapView.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
 		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
@@ -110,11 +111,6 @@
 		4A76A6EF1559016100D99B14 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A76A6EE1559016100D99B14 /* AppDelegate.m */; };
 		4A76A6F21559016100D99B14 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A76A6F01559016100D99B14 /* MainStoryboard_iPhone.storyboard */; };
 		4A76A6F81559016100D99B14 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A76A6F71559016100D99B14 /* ViewController.m */; };
-		4A9571D31559B313007AE958 /* ANTEX_MAC_APP-ICON-1024px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571CD1559B313007AE958 /* ANTEX_MAC_APP-ICON-1024px_V2.png */; };
-		4A9571D51559B313007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571CF1559B313007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png */; };
-		4A9571D61559B313007AE958 /* ANTEX_MAC_APP-ICON-512px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571D01559B313007AE958 /* ANTEX_MAC_APP-ICON-512px_V2.png */; };
-		4A9571D71559B313007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571D11559B313007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png */; };
-		4A9571D81559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A9571D21559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png */; };
 		4AC8B4E515E03CDC007C6CE3 /* UIUnreadIndicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AC8B4E315E03CDC007C6CE3 /* UIUnreadIndicator.png */; };
 		4AC8B4E615E03CDC007C6CE3 /* UIUnreadIndicatorPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AC8B4E415E03CDC007C6CE3 /* UIUnreadIndicatorPressed.png */; };
 		4AD1F9FB155C392000978EAA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD1F9FA155C392000978EAA /* CoreLocation.framework */; };
@@ -271,6 +267,9 @@
 		1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CircleCheckmark.m; path = Views/Menu/Cells/CircleCheckmark.m; sourceTree = "<group>"; };
 		1ACBE59C1CC065860044401C /* ExactTimeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExactTimeTableViewCell.h; path = "Views/Route Detail/ExactTimeTableViewCell.h"; sourceTree = "<group>"; };
 		1ACBE59D1CC065860044401C /* ExactTimeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExactTimeTableViewCell.m; path = "Views/Route Detail/ExactTimeTableViewCell.m"; sourceTree = "<group>"; };
+		1ACBE59F1CC0ADD40044401C /* AnteaterExpress_logo_title_isolated_wide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AnteaterExpress_logo_title_isolated_wide.png; sourceTree = "<group>"; };
+		1ACBE5A11CC0B10E0044401C /* ASMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASMapView.h; path = Utils/ASMapView.h; sourceTree = "<group>"; };
+		1ACBE5A21CC0B10E0044401C /* ASMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASMapView.m; path = Utils/ASMapView.m; sourceTree = "<group>"; };
 		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
@@ -304,16 +303,6 @@
 		4A76A6F11559016100D99B14 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		4A76A6F61559016100D99B14 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		4A76A6F71559016100D99B14 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		4A9571CD1559B313007AE958 /* ANTEX_MAC_APP-ICON-1024px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-1024px_V2.png"; sourceTree = "<group>"; };
-		4A9571CE1559B313007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-114px_V2.png"; sourceTree = "<group>"; };
-		4A9571CF1559B313007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-144px_V2.png"; sourceTree = "<group>"; };
-		4A9571D01559B313007AE958 /* ANTEX_MAC_APP-ICON-512px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-512px_V2.png"; sourceTree = "<group>"; };
-		4A9571D11559B313007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-57px_V2.png"; sourceTree = "<group>"; };
-		4A9571D21559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-72px_V2.png"; sourceTree = "<group>"; };
-		4A9571D91559B31D007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-57px_V2.png"; sourceTree = "<group>"; };
-		4A9571DB1559B374007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-114px_V2.png"; sourceTree = "<group>"; };
-		4A9571DD1559B37C007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-72px_V2.png"; sourceTree = "<group>"; };
-		4A9571DF1559B381007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ANTEX_MAC_APP-ICON-144px_V2.png"; sourceTree = "<group>"; };
 		4AC8B4E315E03CDC007C6CE3 /* UIUnreadIndicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UIUnreadIndicator.png; sourceTree = "<group>"; };
 		4AC8B4E415E03CDC007C6CE3 /* UIUnreadIndicatorPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UIUnreadIndicatorPressed.png; sourceTree = "<group>"; };
 		4AD1F9FA155C392000978EAA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -575,6 +564,8 @@
 		1A52FAC41BF557CF00AF783B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1ACBE5A11CC0B10E0044401C /* ASMapView.h */,
+				1ACBE5A21CC0B10E0044401C /* ASMapView.m */,
 				1A16D1511BFA9DCB003B3C2D /* ColorConverter.h */,
 				1A16D1521BFA9DCB003B3C2D /* ColorConverter.m */,
 				1A16D1591BFA9DCB003B3C2D /* HttpPostExecute.h */,
@@ -655,10 +646,6 @@
 				4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */,
 				4AD1F9FA155C392000978EAA /* CoreLocation.framework */,
 				4AD1F9FD155C393100978EAA /* MapKit.framework */,
-				4A9571DB1559B374007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png */,
-				4A9571DF1559B381007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png */,
-				4A9571D91559B31D007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png */,
-				4A9571DD1559B37C007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png */,
 				4A76A6E41559016100D99B14 /* Anteater Express */,
 				4A76A6DD1559016100D99B14 /* Frameworks */,
 				4A9571CC1559B313007AE958 /* images */,
@@ -725,6 +712,7 @@
 		4A9571CC1559B313007AE958 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1ACBE59F1CC0ADD40044401C /* AnteaterExpress_logo_title_isolated_wide.png */,
 				1A34B34A1CBE17A3004CF2F0 /* 75-phone.png */,
 				1A34B34B1CBE17A3004CF2F0 /* 103-map.png */,
 				1A34B34C1CBE17A3004CF2F0 /* 112-group.png */,
@@ -746,12 +734,6 @@
 				4A53A8591566DDEE00D191AC /* shuttle_SW_stopped.png */,
 				4A53A85A1566DDEE00D191AC /* shuttle_W_moving.png */,
 				4A53A85B1566DDEE00D191AC /* shuttle_W_stopped.png */,
-				4A9571CD1559B313007AE958 /* ANTEX_MAC_APP-ICON-1024px_V2.png */,
-				4A9571CE1559B313007AE958 /* ANTEX_MAC_APP-ICON-114px_V2.png */,
-				4A9571CF1559B313007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png */,
-				4A9571D01559B313007AE958 /* ANTEX_MAC_APP-ICON-512px_V2.png */,
-				4A9571D11559B313007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png */,
-				4A9571D21559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png */,
 			);
 			name = images;
 			path = "Anteater Express/images";
@@ -817,12 +799,7 @@
 			files = (
 				4A76A6E91559016100D99B14 /* InfoPlist.strings in Resources */,
 				4A76A6F21559016100D99B14 /* MainStoryboard_iPhone.storyboard in Resources */,
-				4A9571D31559B313007AE958 /* ANTEX_MAC_APP-ICON-1024px_V2.png in Resources */,
-				1A16D1CF1BFAA0BD003B3C2D /* ANTEX_MAC_APP-ICON-114px_V2.png in Resources */,
-				4A9571D51559B313007AE958 /* ANTEX_MAC_APP-ICON-144px_V2.png in Resources */,
-				4A9571D61559B313007AE958 /* ANTEX_MAC_APP-ICON-512px_V2.png in Resources */,
-				4A9571D71559B313007AE958 /* ANTEX_MAC_APP-ICON-57px_V2.png in Resources */,
-				4A9571D81559B313007AE958 /* ANTEX_MAC_APP-ICON-72px_V2.png in Resources */,
+				1ACBE5A01CC0ADD40044401C /* AnteaterExpress_logo_title_isolated_wide.png in Resources */,
 				4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */,
 				4A53A85D1566DDEE00D191AC /* shuttle_E_stopped.png in Resources */,
 				1A34B34E1CBE17A3004CF2F0 /* 103-map.png in Resources */,
@@ -914,6 +891,7 @@
 				1A16D1841BFA9DF6003B3C2D /* RouteSchedulesDAO.m in Sources */,
 				1A16D1801BFA9DF6003B3C2D /* MessagesDAL.m in Sources */,
 				1A16D1A91BFA9E02003B3C2D /* RouteStopDetailsViewController.m in Sources */,
+				1ACBE5A31CC0B10E0044401C /* ASMapView.m in Sources */,
 				1A16D1F41C0246B0003B3C2D /* LineInfo.m in Sources */,
 				1ACBE59E1CC065860044401C /* ExactTimeTableViewCell.m in Sources */,
 				1A16D1861BFA9DF6003B3C2D /* RoutesPost.m in Sources */,

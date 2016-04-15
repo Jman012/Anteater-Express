@@ -487,7 +487,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="EZm-d9-CBz">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="EZm-d9-CBz" customClass="ASMapView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <connections>
                                     <outlet property="delegate" destination="ZXf-fr-uEJ" id="X88-Dh-yKg"/>
@@ -529,7 +529,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jle-17-C08">
-                                <rect key="frame" x="20" y="20" width="560" height="523"/>
+                                <rect key="frame" x="0.0" y="8" width="600" height="543"/>
                                 <attributedString key="attributedText">
                                     <fragment content="By Phone:">
                                         <attributes>
@@ -585,15 +585,15 @@
                                     </fragment>
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Jle-17-C08" firstAttribute="top" secondItem="HjW-UD-9L2" secondAttribute="bottom" id="Nmp-Ql-du9"/>
-                            <constraint firstItem="Jle-17-C08" firstAttribute="trailing" secondItem="76Z-sn-fCS" secondAttribute="trailingMargin" id="eQB-Cn-ehy"/>
-                            <constraint firstItem="Jle-17-C08" firstAttribute="leading" secondItem="76Z-sn-fCS" secondAttribute="leadingMargin" id="l9I-tK-SXH"/>
-                            <constraint firstItem="V7g-M5-ufe" firstAttribute="top" secondItem="Jle-17-C08" secondAttribute="bottom" constant="8" id="uVY-yi-kfn"/>
+                            <constraint firstItem="Jle-17-C08" firstAttribute="top" secondItem="76Z-sn-fCS" secondAttribute="topMargin" constant="8" id="NSl-TT-aFH"/>
+                            <constraint firstItem="Jle-17-C08" firstAttribute="trailing" secondItem="76Z-sn-fCS" secondAttribute="trailing" id="eQB-Cn-ehy"/>
+                            <constraint firstItem="Jle-17-C08" firstAttribute="leading" secondItem="76Z-sn-fCS" secondAttribute="leading" id="l9I-tK-SXH"/>
+                            <constraint firstItem="V7g-M5-ufe" firstAttribute="top" secondItem="Jle-17-C08" secondAttribute="bottom" id="uVY-yi-kfn"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Contact" image="75-phone.png" id="FBF-Jn-6rK"/>
@@ -615,10 +615,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Zf-ar-J9b">
-                                <rect key="frame" x="20" y="20" width="560" height="523"/>
+                                <rect key="frame" x="0.0" y="8" width="600" height="543"/>
                                 <attributedString key="attributedText">
                                     <fragment>
-                                        <string key="content">Below are some tools Anteater Express provides in order to improve the passenger experience.  To learn about and use all the helpful features that Anteater Express offers, please visit our website at www.shuttle.uci.edu.
+                                        <string key="content">Below are some tools Anteater Express provides in order to improve the passenger experience.  To learn about and use all the helpful features that Anteater Express offers, please visit our website at www.shuttle.uci.edu
 </string>
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -734,16 +734,22 @@ Cg
                                     </fragment>
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6Zf-ar-J9b" firstAttribute="top" secondItem="6hI-0T-uD8" secondAttribute="bottom" id="SHL-Du-CIr"/>
-                            <constraint firstItem="b2N-RR-PsL" firstAttribute="top" secondItem="6Zf-ar-J9b" secondAttribute="bottom" constant="8" id="fzy-IC-TpP"/>
-                            <constraint firstItem="6Zf-ar-J9b" firstAttribute="trailing" secondItem="rfC-we-pHy" secondAttribute="trailingMargin" id="hGY-aT-ZXM"/>
-                            <constraint firstItem="6Zf-ar-J9b" firstAttribute="leading" secondItem="rfC-we-pHy" secondAttribute="leadingMargin" id="o3V-er-1Hu"/>
+                            <constraint firstItem="b2N-RR-PsL" firstAttribute="top" secondItem="6Zf-ar-J9b" secondAttribute="bottom" id="fzy-IC-TpP"/>
+                            <constraint firstItem="6Zf-ar-J9b" firstAttribute="trailing" secondItem="rfC-we-pHy" secondAttribute="trailing" id="hGY-aT-ZXM"/>
+                            <constraint firstItem="6Zf-ar-J9b" firstAttribute="top" secondItem="rfC-we-pHy" secondAttribute="topMargin" constant="8" id="keb-at-AB1"/>
+                            <constraint firstItem="6Zf-ar-J9b" firstAttribute="leading" secondItem="rfC-we-pHy" secondAttribute="leading" id="o3V-er-1Hu"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="SHL-Du-CIr"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="How to Ride" image="103-map.png" id="IHe-6p-qcc"/>
                 </viewController>
@@ -764,7 +770,7 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1fy-t8-tmo">
-                                <rect key="frame" x="20" y="28" width="560" height="515"/>
+                                <rect key="frame" x="0.0" y="8" width="600" height="543"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">Anteater Express is the transportation department for the University of California, Irvine.  We transport over 2 million students, staff, and visitors on and off campus to housing complexes, parking structures, academic buildings, and other places of interest.  As the UC Irvine campus continues to grow, so too does the demand for transportation alternatives.  Anteater Express is dedicated to providing safe and efficient transportation to the UC Irvine community.  Anteater Express mobile applications are the official applications brought to you by Anteater Express.  The applications were developed by the Anteater Express IT development team and the content of these applications are maintained by Anteater Express.  </string>
@@ -773,7 +779,7 @@ Cg
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
-                                    <fragment content="Mobile Apps Developed By:">
+                                    <fragment content="Mobile App Developed By:">
                                         <attributes>
                                             <font key="NSFont" size="14" name="HelveticaNeue-Bold"/>
                                             <font key="NSOriginalFont" size="14" name="HelveticaNeue-Bold"/>
@@ -781,9 +787,9 @@ Cg
                                         </attributes>
                                     </fragment>
                                     <fragment>
-                                        <string key="content"> James Linnell
-Eric Shively
-Tej Vuligonda</string>
+                                        <string key="content"> James Linnell - jlinnell@uci.edu
+Eric Shively - eshively@uci.edu
+Tej Vuligonda - tvuligon@uci.edu</string>
                                         <attributes>
                                             <font key="NSFont" size="14" name="HelveticaNeue"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -791,15 +797,22 @@ Tej Vuligonda</string>
                                     </fragment>
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1fy-t8-tmo" firstAttribute="top" secondItem="Gg1-fu-gqz" secondAttribute="bottom" constant="8" id="0Tf-jc-sGP"/>
-                            <constraint firstItem="fNj-Xn-z4L" firstAttribute="top" secondItem="1fy-t8-tmo" secondAttribute="bottom" constant="8" id="sZg-ui-zsv"/>
-                            <constraint firstItem="1fy-t8-tmo" firstAttribute="trailing" secondItem="jGY-wY-89R" secondAttribute="trailingMargin" id="tHy-Lh-bCa"/>
-                            <constraint firstItem="1fy-t8-tmo" firstAttribute="leading" secondItem="jGY-wY-89R" secondAttribute="leadingMargin" id="twy-Ai-MWC"/>
+                            <constraint firstItem="1fy-t8-tmo" firstAttribute="top" secondItem="Gg1-fu-gqz" secondAttribute="bottom" constant="-20" id="0Tf-jc-sGP"/>
+                            <constraint firstItem="1fy-t8-tmo" firstAttribute="top" secondItem="jGY-wY-89R" secondAttribute="topMargin" constant="8" id="OpR-EI-QMj"/>
+                            <constraint firstItem="fNj-Xn-z4L" firstAttribute="top" secondItem="1fy-t8-tmo" secondAttribute="bottom" id="sZg-ui-zsv"/>
+                            <constraint firstItem="1fy-t8-tmo" firstAttribute="trailing" secondItem="jGY-wY-89R" secondAttribute="trailing" id="tHy-Lh-bCa"/>
+                            <constraint firstItem="1fy-t8-tmo" firstAttribute="leading" secondItem="jGY-wY-89R" secondAttribute="leading" id="twy-Ai-MWC"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="0Tf-jc-sGP"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="About" image="112-group.png" id="gof-pw-d21"/>
                 </viewController>
