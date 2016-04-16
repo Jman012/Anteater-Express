@@ -841,6 +841,7 @@
 //            }
 //        }
 //    });
+    self.userLocation = userLocation;
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
