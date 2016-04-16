@@ -180,6 +180,7 @@ const NSUInteger kSectionLinks =      3;
                                                        routeId:routeDict[@"Id"]
                                                          color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]]
                                                  cellIdentifer:kCellIdFreeLineCell];
+        newLineInfo.numActive = -1;
         newLineInfo.selected = [self.selectedRouteIds containsObject:routeDict[@"Id"]];
         [lineInfos addObject:newLineInfo];
         
@@ -189,54 +190,35 @@ const NSUInteger kSectionLinks =      3;
 
 - (void)constructMenu {
     NSArray *lineInfos = [self constructLineInfos];
-    if (lineInfos == nil) {
-        lineInfos = @[
-                      [[LoadingInfo alloc] initWithCellIdentifer:kCellIdLoadingCell]
-                      ];
-    }
-    
+
     self.menuSections = [NSMutableArray arrayWithArray:@[
                           @[
                               [[BannerItemInfo alloc] initWithBannerImageName:[UIImage imageNamed:@"Anteater-Express-Banner"] cellIdentifer:kCellIdBannerCell]
                               ],
                           @[
                               [[MapControlInfo alloc] initWithSelection:0 cellIdentifier:kCellIdMapControlCell]
-                              ],
-                          lineInfos,
+                              ]
+                          ]];
+    if (lineInfos) {
+        [self.menuSections addObject:@[lineInfos]];
+    } else {
+        [self.menuSections addObject:@[]];
+    }
+    [self.menuSections addObject:
                           @[
                               [[ItemInfo alloc] initWithText:@"About" storyboardIdentifier:@"About" cellIdentifer:kCellIdItemCell]
                               ]
 //                              [[ItemInfo alloc] initWithText:@"All Route Updates" storyboardIdentifier:@"AllRouteUpdates" cellIdentifer:kCellIdItemCell],
 //                              [[ItemInfo alloc] initWithText:@"News and About" storyboardIdentifier:@"NewsAndAbout" cellIdentifer:kCellIdItemCell]
 //                              ]
-                          ]
                          ];
     
     [self refreshAvailableLines];
 }
 
 - (void)refreshAvailableLines {
-    // Check if the loading cell is already there or not
-    // If so, don't change anything just yet
-    // If not, replace all current lines with a loading indicator
-    MenuInfo *loadingInfo;
-    if (self.menuSections[kSectionLines] == nil || [self.menuSections[kSectionLines] count] == 0) {
-        loadingInfo = nil;
-    } else {
-        loadingInfo = self.menuSections[kSectionLines][0];
-    }
+    
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:kSectionLines];
-
-    if (loadingInfo == nil || [loadingInfo.cellIdentifier isEqualToString:kCellIdLoadingCell] == false) {
-        [self.tableView beginUpdates];
-        
-        self.menuSections[kSectionLines] = @[
-                                             [[LoadingInfo alloc] initWithCellIdentifer:kCellIdLoadingCell]
-                                             ];
-        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-        [self.tableView endUpdates];
-    }
     
     // Now that we know the section has the single loading indicator cell,
     // download the data with an operation object
@@ -273,7 +255,7 @@ const NSUInteger kSectionLinks =      3;
                 [self.menuSections[kSectionLines] enumerateObjectsUsingBlock:^(LineInfo *lineInfo, NSUInteger idx, BOOL *stop) {
                     if ([lineInfo.routeId isEqualToNumber:routeDict[@"Id"]]) {
                         lineInfo.numActive = vehicleDicts.count;
-                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:kSectionLines]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:kSectionLines]] withRowAnimation:UITableViewRowAnimationNone];
                         *stop = YES;
                     }
                 }];
@@ -296,7 +278,6 @@ const NSUInteger kSectionLinks =      3;
     };
     
     [self.operationQueue addOperation:getRoutesOp];
-    
     
 }
 
@@ -382,6 +363,8 @@ const NSUInteger kSectionLinks =      3;
         [freeLineCell setLineName:[NSString stringWithFormat:@"%@%@", (lineInfo.paid ? @"($) " : @""), lineInfo.text]];
         if (lineInfo.numActive == 1) {
             [freeLineCell setLineSubtitle:@"1 bus"];
+        } else if (lineInfo.numActive < 0) {
+            [freeLineCell setLineSubtitle:@"Loading..."];
         } else {
             [freeLineCell setLineSubtitle:[NSString stringWithFormat:@"%lu buses", (unsigned long)lineInfo.numActive]];
         }
