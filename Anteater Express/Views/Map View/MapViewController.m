@@ -19,6 +19,7 @@
 #import "AEGetArrivalPredictionsOp.h"
 #import "ColorConverter.h"
 #import "AENetwork.h"
+#import "RouteDetailViewController.h"
 
 #import "AEStopAnnotation.h"
 #import "AEVehicleAnnotation.h"
@@ -892,36 +893,7 @@
             stackView.translatesAutoresizingMaskIntoConstraints = NO;
             [container addSubview:stackView];
             
-            /*
-            // And add a manual subtitle label for above the stack view
-            UILabel *subtitleLabel = [[UILabel alloc] init];
-            subtitleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-            subtitleLabel.text = @"Text subtitle";
-            subtitleLabel.font = [subtitleLabel.font fontWithSize:10.0f];
-            [subtitleLabel sizeToFit];
-            [container addSubview:subtitleLabel];
-            NSLog(@"subtitle label height = %f", subtitleLabel.frame.size.height);
             
-            
-            // Label height
-            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:subtitleLabel.frame.size.height]];
-            
-            // Label left and right
-            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
-            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
-            
-            // Stackview left and right
-            [container addConstraint:[NSLayoutConstraint constraintWithItem:stackView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0]];
-            [container addConstraint:[NSLayoutConstraint constraintWithItem:stackView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeRight multiplier:1.0 constant:0]];
-            
-            // Label top to container top
-            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-            // Label bottom to stackview top
-            [container addConstraint:[NSLayoutConstraint constraintWithItem:subtitleLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:stackView attribute:NSLayoutAttributeTop multiplier:1.0 constant:4]];
-            // Stackview bottom to container bottom
-            [container addConstraint:[NSLayoutConstraint constraintWithItem:stackView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:container attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-             */
-        
             // Then populate the stack view
             [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
                 // Vars
@@ -936,6 +908,12 @@
                 // Use the annotation to make the text for us
                 arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
                 arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
+                arrivalsView.tag = routeId.integerValue;
+                
+                UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(calloutAnnotationViewWasTapped:)];
+                tapRecognizer.numberOfTouchesRequired = 1;
+                tapRecognizer.numberOfTapsRequired = 1;
+                [arrivalsView addGestureRecognizer:tapRecognizer];
 
                 
                 [stackView addArrangedSubview:arrivalsView];
@@ -943,7 +921,6 @@
             }];
         
             view.detailCalloutAccessoryView = stackView;
-//            view.detailCalloutAccessoryView = container;
         };
         [self.operationQueue addOperation:arrivalPredictionsOp];
         
@@ -954,6 +931,16 @@
     if ([view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
         view.detailCalloutAccessoryView = nil;
     }
+}
+
+- (void)calloutAnnotationViewWasTapped:(UITapGestureRecognizer *)sender {
+    UINavigationController *frontNavController = (UINavigationController *)self.navigationController;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
+    RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
+    NSNumber *routeId = [NSNumber numberWithInteger:sender.view.tag];
+    [destVC setRoute:self.allRoutes[routeId]];
+    
+    [frontNavController pushViewController:destVC animated:YES];
 }
 
 #pragma mark - CLLocationManagerDelegate
