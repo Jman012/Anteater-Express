@@ -51,6 +51,7 @@ const NSUInteger kSectionLinks =      3;
 @property (nonatomic, strong) NSMutableArray<NSArray *> *menuSections;
 @property (nonatomic, strong) NSMutableSet<NSNumber *> *selectedRouteIds;
 @property (nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
+@property (nonatomic, strong) NSDate *lastRoutesAndAnnounceRefreshDate;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, strong) NSTimer *syncSelectedLinesTimer;
@@ -135,6 +136,8 @@ const NSUInteger kSectionLinks =      3;
             [mapVC showNewRoute:routeId];
         }];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -146,6 +149,19 @@ const NSUInteger kSectionLinks =      3;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)sender {
+    // If the application became active and the menu data is too old,
+    // then refresh the data
+    
+    NSDate *now = [NSDate date];
+    NSTimeInterval limit = 1 /*hour*/ * 60 /*min/hr*/ * 60 /*sec/min*/;
+    if ([now timeIntervalSinceDate:self.lastRoutesAndAnnounceRefreshDate] >= limit) {
+        NSLog(@"Menu data old. Refreshing.");
+        
+        [self constructMenu];
+    }
 }
 
 #pragma mark - Methods
@@ -235,6 +251,8 @@ const NSUInteger kSectionLinks =      3;
             [self.refreshControl endRefreshing];
             return;
         }
+        
+        self.lastRoutesAndAnnounceRefreshDate = [NSDate date];
         
         [self.tableView beginUpdates];
         
