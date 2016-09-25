@@ -116,11 +116,10 @@
 		4AD1F9FB155C392000978EAA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD1F9FA155C392000978EAA /* CoreLocation.framework */; };
 		4AD1F9FE155C393100978EAA /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD1F9FD155C393100978EAA /* MapKit.framework */; };
 		4AE5283316E348A6003FCA0E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5283216E348A6003FCA0E /* CoreData.framework */; };
-		FCFD59A2FC2955222032106E /* libPods-Anteater Express.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0466F324477296E7A00CE578 /* libPods-Anteater Express.a */; };
+		A03896D89C0F51895FC6B1D2 /* libPods-Anteater Express.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 877D8E1C9AA3DB72B063C764 /* libPods-Anteater Express.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0466F324477296E7A00CE578 /* libPods-Anteater Express.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Anteater Express.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A015EFC1C7C2B1300AB7C8E /* RouteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RouteDetailViewController.h; path = "Views/Route Detail/RouteDetailViewController.h"; sourceTree = "<group>"; };
 		1A015EFD1C7C2B1300AB7C8E /* RouteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RouteDetailViewController.m; path = "Views/Route Detail/RouteDetailViewController.m"; sourceTree = "<group>"; };
 		1A16D1511BFA9DCB003B3C2D /* ColorConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorConverter.h; path = Utils/ColorConverter.h; sourceTree = "<group>"; };
@@ -270,7 +269,6 @@
 		1ACBE59F1CC0ADD40044401C /* AnteaterExpress_logo_title_isolated_wide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AnteaterExpress_logo_title_isolated_wide.png; sourceTree = "<group>"; };
 		1ACBE5A11CC0B10E0044401C /* ASMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASMapView.h; path = Utils/ASMapView.h; sourceTree = "<group>"; };
 		1ACBE5A21CC0B10E0044401C /* ASMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASMapView.m; path = Utils/ASMapView.m; sourceTree = "<group>"; };
-		2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
 		4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoConnectionViewController.m; sourceTree = "<group>"; };
@@ -308,8 +306,10 @@
 		4AD1F9FA155C392000978EAA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		4AD1F9FD155C393100978EAA /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4AE5283216E348A6003FCA0E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		6039B7833C1FBE36EB0317D8 /* Pods-Anteater Express.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.release.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.release.xcconfig"; sourceTree = "<group>"; };
-		7AFD7B2691FFE1B7F66B0DFE /* Pods-Anteater Express.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.debug.xcconfig"; sourceTree = "<group>"; };
+		877D8E1C9AA3DB72B063C764 /* libPods-Anteater Express.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Anteater Express.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DFF9142DA392017210201F9 /* Pods-Anteater Express.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.debug.xcconfig"; sourceTree = "<group>"; };
+		C8076CAE719BBF4CBF437DB5 /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
+		F28E800220469B1D3166B46A /* Pods-Anteater Express.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.release.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,23 +324,13 @@
 				4A76A6DF1559016100D99B14 /* UIKit.framework in Frameworks */,
 				4A76A6E11559016100D99B14 /* Foundation.framework in Frameworks */,
 				4A76A6E31559016100D99B14 /* CoreGraphics.framework in Frameworks */,
-				FCFD59A2FC2955222032106E /* libPods-Anteater Express.a in Frameworks */,
+				A03896D89C0F51895FC6B1D2 /* libPods-Anteater Express.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0C29AFF851399825FD1216B7 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7AFD7B2691FFE1B7F66B0DFE /* Pods-Anteater Express.debug.xcconfig */,
-				6039B7833C1FBE36EB0317D8 /* Pods-Anteater Express.release.xcconfig */,
-				2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		1A015EFF1C7C2B1900AB7C8E /* Route Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -650,7 +640,7 @@
 				4A76A6DD1559016100D99B14 /* Frameworks */,
 				4A9571CC1559B313007AE958 /* images */,
 				4A76A6DB1559016100D99B14 /* Products */,
-				0C29AFF851399825FD1216B7 /* Pods */,
+				9689B9132A133982A6965208 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -668,7 +658,7 @@
 				4A76A6DE1559016100D99B14 /* UIKit.framework */,
 				4A76A6E01559016100D99B14 /* Foundation.framework */,
 				4A76A6E21559016100D99B14 /* CoreGraphics.framework */,
-				0466F324477296E7A00CE578 /* libPods-Anteater Express.a */,
+				877D8E1C9AA3DB72B063C764 /* libPods-Anteater Express.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -739,6 +729,16 @@
 			path = "Anteater Express/images";
 			sourceTree = "<group>";
 		};
+		9689B9132A133982A6965208 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8DFF9142DA392017210201F9 /* Pods-Anteater Express.debug.xcconfig */,
+				F28E800220469B1D3166B46A /* Pods-Anteater Express.release.xcconfig */,
+				C8076CAE719BBF4CBF437DB5 /* Pods-Anteater Express.appstore.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -746,12 +746,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A76A6FB1559016100D99B14 /* Build configuration list for PBXNativeTarget "Anteater Express" */;
 			buildPhases = (
-				50DEA027BE0E8FB15A870EE2 /* Check Pods Manifest.lock */,
+				6A59CCA38E43958EC7409D6A /* [CP] Check Pods Manifest.lock */,
 				4A76A6D61559016100D99B14 /* Sources */,
 				4A76A6D71559016100D99B14 /* Frameworks */,
 				4A76A6D81559016100D99B14 /* Resources */,
-				7BB49FE631ABF6D5C0E4287C /* Embed Pods Frameworks */,
-				25ACBF16D3E84C852A9C5A3A /* Copy Pods Resources */,
+				69A46D4E683E478B132E5C06 /* [CP] Embed Pods Frameworks */,
+				A0D6957AE3BAC23300025965 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -830,29 +830,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		25ACBF16D3E84C852A9C5A3A /* Copy Pods Resources */ = {
+		69A46D4E683E478B132E5C06 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		50DEA027BE0E8FB15A870EE2 /* Check Pods Manifest.lock */ = {
+		6A59CCA38E43958EC7409D6A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -860,19 +860,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		7BB49FE631ABF6D5C0E4287C /* Embed Pods Frameworks */ = {
+		A0D6957AE3BAC23300025965 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1065,7 +1065,7 @@
 		};
 		4A76A6FC1559016100D99B14 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AFD7B2691FFE1B7F66B0DFE /* Pods-Anteater Express.debug.xcconfig */;
+			baseConfigurationReference = 8DFF9142DA392017210201F9 /* Pods-Anteater Express.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1089,7 +1089,7 @@
 		};
 		4A76A6FD1559016100D99B14 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6039B7833C1FBE36EB0317D8 /* Pods-Anteater Express.release.xcconfig */;
+			baseConfigurationReference = F28E800220469B1D3166B46A /* Pods-Anteater Express.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1148,7 +1148,7 @@
 		};
 		4A7F56FD16EC406E009D5EB2 /* AppStore */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E971C5F370F840F2252711B /* Pods-Anteater Express.appstore.xcconfig */;
+			baseConfigurationReference = C8076CAE719BBF4CBF437DB5 /* Pods-Anteater Express.appstore.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

@@ -1,20 +1,21 @@
 PODS:
-  - FRHyperLabel (1.0.2)
-  - Google/Analytics (2.0.3):
+  - FirebaseAnalytics (3.4.2):
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.2)
+  - FirebaseInstanceID (1.0.8)
+  - FRHyperLabel (1.0.3)
+  - Google/Analytics (3.0.3):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
-  - Google/Core (2.0.3):
-    - GoogleInterchangeUtilities (~> 1.0)
-    - GoogleNetworkingUtilities (~> 1.0)
+  - Google/Core (3.0.3):
+    - FirebaseAnalytics (~> 3.2)
+  - GoogleAnalytics (3.17.0)
+  - GoogleInterchangeUtilities (1.2.1):
     - GoogleSymbolUtilities (~> 1.0)
-    - GoogleUtilities (~> 1.1)
-  - GoogleAnalytics (3.14.0)
-  - GoogleInterchangeUtilities (1.2.0):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleNetworkingUtilities (1.2.0):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleSymbolUtilities (1.1.0)
-  - GoogleUtilities (1.2.0):
+  - GoogleSymbolUtilities (1.1.1)
+  - GoogleUtilities (1.3.1):
     - GoogleSymbolUtilities (~> 1.0)
   - HexColors (2.2.1)
   - SWRevealViewController (2.3.0)
@@ -28,15 +29,18 @@ DEPENDENCIES:
   - TSMessages (~> 0.9)
 
 SPEC CHECKSUMS:
-  FRHyperLabel: 967b8b7ffdd86b9f2d44f2981a5688c4d3faa9ac
-  Google: 61379f0072bc561a7e174d23a6cbe41bd6d8599c
-  GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
-  GoogleInterchangeUtilities: 427382e42d8a340038bec37c6fdfd316e14b5fa2
-  GoogleNetworkingUtilities: ec1e9911aca811eb18b7144394fee6168b607785
-  GoogleSymbolUtilities: eb3965ea12710569c7b80db198a39e39b18613f7
-  GoogleUtilities: 85f8ad6b251544286a97163133d042ec95f889c5
+  FirebaseAnalytics: 3f5358d9104adf159cc8d99b7b501e50099a39ad
+  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  FRHyperLabel: 99d08d3667880b4c430071c9afbcb93aaaa34b37
+  Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
+  GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
+  GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
+  GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
+  GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
   HexColors: abfd172e329dab59888614ccba6f216cec59289d
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
   TSMessages: c8cc7b80f2a833af533872cd02010cac061532cc
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 6932c48e376b55d20061db2635e1ead486033afb
+
+COCOAPODS: 1.0.1
