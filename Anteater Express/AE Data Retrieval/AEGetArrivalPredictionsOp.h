@@ -12,8 +12,8 @@
 
 @interface AEGetArrivalPredictionsOp : NSOperation
 
-@property (nonatomic, strong) void (^returnBlock)(StopArrivalPredictionDAO *stopArrivalPredictionsDAO);
+@property (nonatomic, strong) void (^returnBlock)(NSArray<StopArrivalPredictionDAO *> *stopArrivalPredictionsDAOs);
 
-- (instancetype)initWithStopSetId:(NSInteger)theStopSetId stopId:(NSInteger)theStopId;
+- (instancetype)initWithStopSetIds:(NSArray<NSNumber *> *)theStopSetIds stopIds:(NSArray<NSNumber *> *)theStopIds;
 
 @end

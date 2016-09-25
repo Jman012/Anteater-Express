@@ -8,6 +8,8 @@
 
 #import "AEVehicleAnnotation.h"
 
+#import "Utilities.h"
+
 @implementation AEVehicleAnnotation
 
 - (instancetype)initWithVehicleDictionary:(NSDictionary *)theVehicleDictionary routeDict:(NSDictionary *)theRouteDict {
@@ -110,7 +112,40 @@
 }
 
 - (NSString *)subtitle {
-    return [NSString stringWithFormat:@"Last Updated: %@", [self.vehicleDictionary objectForKey:@"Updated"]];
+
+    NSString *updatedTime = [self.vehicleDictionary objectForKey:@"Updated"];
+    NSString *basetime = [updatedTime substringToIndex:updatedTime.length - 1];
+    NSString *period = [updatedTime substringFromIndex:updatedTime.length - 1];
+    NSString *newString;
+    if ([period isEqualToString:@"A"]) {
+        newString = [NSString stringWithFormat:@"%@ AM", basetime];
+    } else if ([period isEqualToString:@"P"]) {
+        newString = [NSString stringWithFormat:@"%@ PM", basetime];
+    } else {
+        newString = nil;
+    }
+    
+    if (newString == nil) {
+        return [NSString stringWithFormat:@"Last Updated: %@", updatedTime];
+    } else {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"h:mm:ss a";
+        formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PDT"];
+        NSDate *theDate = [formatter dateFromString:newString];
+        NSDateComponents *timeComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond) fromDate:theDate];
+        NSDateComponents *dateComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+        NSDateComponents *newComponents = [[NSDateComponents alloc] init];
+        newComponents.year = dateComponents.year;
+        newComponents.month = dateComponents.month;
+        newComponents.day = dateComponents.day;
+        newComponents.hour = timeComponents.hour;
+        newComponents.minute = timeComponents.minute;
+        newComponents.second = timeComponents.second;
+        NSDate* finalDate = [[NSCalendar currentCalendar] dateFromComponents:newComponents];
+
+        NSString *timeAgoString = [Utilities dateDisplayStringFromDate:finalDate];
+        return [NSString stringWithFormat:@"Updated %@", timeAgoString];
+    }
 }
 
 @end

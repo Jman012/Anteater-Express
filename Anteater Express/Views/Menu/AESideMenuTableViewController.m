@@ -29,11 +29,13 @@
 #import "AEMenuMapControlTableViewCell.h"
 
 #import "AEGetRoutesOp.h"
+#import "AEGetVehiclesOp.h"
 
 #import "MapViewController.h"
+#import "RouteDetailViewController.h"
 
 NSString *kCellIdBannerCell =     @"AEMenuBannerCell";
-NSString *kCellIdFreeLineCell =   @"AEMenuFreeLineCell";
+NSString *kCellIdFreeLineCell =   @"AEMenuFreeLineCell2";
 NSString *kCellIdPaidLineCell =   @"AEMenuPaidLineCell";
 NSString *kCellIdItemCell =       @"AEMenuItemCell";
 NSString *kCellIdLoadingCell =    @"AEMenuLoadingCell";
@@ -49,9 +51,11 @@ const NSUInteger kSectionLinks =      3;
 @property (nonatomic, strong) NSMutableArray<NSArray *> *menuSections;
 @property (nonatomic, strong) NSMutableSet<NSNumber *> *selectedRouteIds;
 @property (nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
+@property (nonatomic, strong) NSDate *lastRoutesAndAnnounceRefreshDate;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, strong) NSTimer *syncSelectedLinesTimer;
+@property (nonatomic, strong) NSTimer *retryDownloadLinesTimer;
 
 @end
 
@@ -110,10 +114,14 @@ const NSUInteger kSectionLinks =      3;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
+//    self.view.backgroundColor = [UIColor colorWithHue:236.0/360.0 saturation:0.69 brightness:0.40 alpha:1.0];
+    self.view.backgroundColor = [UIColor colorWithHue:209.0/360.0 saturation:0.10 brightness:0.90 alpha:1.0];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
+//    self.refreshControl.tintColor = [UIColor whiteColor];
     [self.refreshControl addTarget:self action:@selector(pullToRefresh) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
+    
     
     self.revealViewController.rearViewRevealOverdraw = 0.0f;
 
@@ -128,6 +136,8 @@ const NSUInteger kSectionLinks =      3;
             [mapVC showNewRoute:routeId];
         }];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -141,6 +151,19 @@ const NSUInteger kSectionLinks =      3;
     // Dispose of any resources that can be recreated.
 }
 
+- (void)applicationDidBecomeActive:(NSNotification *)sender {
+    // If the application became active and the menu data is too old,
+    // then refresh the data
+    
+    NSDate *now = [NSDate date];
+    NSTimeInterval limit = 1 /*hour*/ * 60 /*min/hr*/ * 60 /*sec/min*/;
+    if ([now timeIntervalSinceDate:self.lastRoutesAndAnnounceRefreshDate] >= limit) {
+        NSLog(@"Menu data old. Refreshing.");
+        
+        [self constructMenu];
+    }
+}
+
 #pragma mark - Methods
 
 - (NSArray *)constructLineInfos {
@@ -150,7 +173,14 @@ const NSUInteger kSectionLinks =      3;
     
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
     [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
-        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:routeDict[@"Name"] paid:NO routeId:routeDict[@"Id"] color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]] cellIdentifer:kCellIdFreeLineCell];
+        NSString *titleString = [NSString stringWithFormat:@"%@ - %@", routeDict[@"Abbreviation"], routeDict[@"Name"]];
+        NSNumber *fare = routeDict[@"Routefare"];
+        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:titleString
+                                                          paid:fare.boolValue
+                                                       routeId:routeDict[@"Id"]
+                                                         color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]]
+                                                 cellIdentifer:kCellIdFreeLineCell];
+        newLineInfo.numActive = -1;
         newLineInfo.selected = [self.selectedRouteIds containsObject:routeDict[@"Id"]];
         [lineInfos addObject:newLineInfo];
         
@@ -160,56 +190,52 @@ const NSUInteger kSectionLinks =      3;
 
 - (void)constructMenu {
     NSArray *lineInfos = [self constructLineInfos];
-    if (lineInfos == nil) {
-        lineInfos = @[
-                      [[LoadingInfo alloc] initWithCellIdentifer:kCellIdLoadingCell]
-                      ];
-    }
-    
+
     self.menuSections = [NSMutableArray arrayWithArray:@[
                           @[
-                              [[BannerItemInfo alloc] initWithBannerImageName:[UIImage imageNamed:@"AE Banner"] cellIdentifer:kCellIdBannerCell]
+                              [[BannerItemInfo alloc] initWithBannerImageName:[UIImage imageNamed:@"Anteater-Express-Banner"] cellIdentifer:kCellIdBannerCell]
                               ],
                           @[
                               [[MapControlInfo alloc] initWithSelection:0 cellIdentifier:kCellIdMapControlCell]
-                              ],
-                          lineInfos,
-                          @[
-                              [[ItemInfo alloc] initWithText:@"All Route Updates" storyboardIdentifier:@"AllRouteUpdates" cellIdentifer:kCellIdItemCell],
-                              [[ItemInfo alloc] initWithText:@"News and About" storyboardIdentifier:@"NewsAndAbout" cellIdentifer:kCellIdItemCell]
                               ]
                           ]];
+    if (lineInfos) {
+        [self.menuSections addObject:@[lineInfos]];
+    } else {
+        [self.menuSections addObject:@[]];
+    }
+    [self.menuSections addObject:
+                          @[
+                              [[ItemInfo alloc] initWithText:@"About" storyboardIdentifier:@"About" cellIdentifer:kCellIdItemCell]
+                              ]
+//                              [[ItemInfo alloc] initWithText:@"All Route Updates" storyboardIdentifier:@"AllRouteUpdates" cellIdentifer:kCellIdItemCell],
+//                              [[ItemInfo alloc] initWithText:@"News and About" storyboardIdentifier:@"NewsAndAbout" cellIdentifer:kCellIdItemCell]
+//                              ]
+                         ];
     
     [self refreshAvailableLines];
 }
 
 - (void)refreshAvailableLines {
-    // Check if the loading cell is already there or not
-    // If so, don't change anything just yet
-    // If not, replace all current lines with a loading indicator
-    MenuInfo *loadingInfo;
-    if (self.menuSections[kSectionLines] == nil || [self.menuSections[kSectionLines] count] == 0) {
-        loadingInfo = nil;
-    } else {
-        loadingInfo = self.menuSections[kSectionLines][0];
-    }
+    
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:kSectionLines];
-
-    if (loadingInfo == nil || [loadingInfo.cellIdentifier isEqualToString:kCellIdLoadingCell] == false) {
-        [self.tableView beginUpdates];
-        
-        self.menuSections[kSectionLines] = @[
-                                             [[LoadingInfo alloc] initWithCellIdentifer:kCellIdLoadingCell]
-                                             ];
-        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-        [self.tableView endUpdates];
-    }
     
     // Now that we know the section has the single loading indicator cell,
     // download the data with an operation object
     AEGetRoutesOp *getRoutesOp = [[AEGetRoutesOp alloc] init];
     getRoutesOp.returnBlock = ^(RoutesAndAnnounceDAO *routesAndAnnounceDAO) {
+        
+        if ([routesAndAnnounceDAO getRoutes] == nil) {
+            if (self.retryDownloadLinesTimer && self.retryDownloadLinesTimer.isValid) {
+                [self.retryDownloadLinesTimer invalidate];
+            }
+            self.retryDownloadLinesTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refreshAvailableLines) userInfo:nil repeats:NO];
+            [self.refreshControl endRefreshing];
+            return;
+        }
+        
+        self.lastRoutesAndAnnounceRefreshDate = [NSDate date];
+        
         [self.tableView beginUpdates];
         
         self.routesAndAnnounceDAO = routesAndAnnounceDAO;
@@ -218,6 +244,24 @@ const NSUInteger kSectionLinks =      3;
         [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
         
         [self.tableView endUpdates];
+        
+        // Request the vehicle data ONCE for each line to see if there are any
+        // vehicles present, and if so, grey out the circles
+        [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
+            NSNumber *stopSetId = routeDict[@"StopSetId"];
+            AEGetVehiclesOp *getVehiclesOp = [[AEGetVehiclesOp alloc] initWithStopSetId:stopSetId.integerValue];
+            getVehiclesOp.returnBlock = ^(RouteVehiclesDAO *routeVehiclesDAO) {
+                NSArray *vehicleDicts = [routeVehiclesDAO getRouteVehicles];
+                [self.menuSections[kSectionLines] enumerateObjectsUsingBlock:^(LineInfo *lineInfo, NSUInteger idx, BOOL *stop) {
+                    if ([lineInfo.routeId isEqualToNumber:routeDict[@"Id"]]) {
+                        lineInfo.numActive = vehicleDicts.count;
+                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:kSectionLines]] withRowAnimation:UITableViewRowAnimationNone];
+                        *stop = YES;
+                    }
+                }];
+            };
+            [self.operationQueue addOperation:getVehiclesOp];
+        }];
         
         // If the refresh control was pulled to trigger this, turn it off
         [self.refreshControl endRefreshing];
@@ -234,7 +278,6 @@ const NSUInteger kSectionLinks =      3;
     };
     
     [self.operationQueue addOperation:getRoutesOp];
-    
     
 }
 
@@ -317,8 +360,16 @@ const NSUInteger kSectionLinks =      3;
         LineInfo *lineInfo = (LineInfo *)menuInfo;
         AEMenuFreeLineTableViewCell *freeLineCell = (AEMenuFreeLineTableViewCell *)cell;
         freeLineCell.userInteractionEnabled = YES;
-        [freeLineCell setLineName:lineInfo.text];
+        [freeLineCell setLineName:[NSString stringWithFormat:@"%@%@", (lineInfo.paid ? @"($) " : @""), lineInfo.text]];
+        if (lineInfo.numActive == 1) {
+            [freeLineCell setLineSubtitle:@"1 bus"];
+        } else if (lineInfo.numActive < 0) {
+            [freeLineCell setLineSubtitle:@"Loading..."];
+        } else {
+            [freeLineCell setLineSubtitle:[NSString stringWithFormat:@"%lu buses", (unsigned long)lineInfo.numActive]];
+        }
         [freeLineCell setChecked:lineInfo.selected];
+        [freeLineCell setActiveLine:lineInfo.numActive != 0];
         freeLineCell.color = lineInfo.color;
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdPaidLineCell]) {
@@ -444,6 +495,18 @@ const NSUInteger kSectionLinks =      3;
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         
+    }
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(nonnull NSIndexPath *)indexPath {
+    if (indexPath.section == kSectionLines) {
+        UINavigationController *frontNavController = (UINavigationController *)self.revealViewController.frontViewController;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
+        RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
+        [destVC setRoute:self.routesAndAnnounceDAO.getRoutes[indexPath.row]];
+        
+        [self.revealViewController revealToggleAnimated:YES];
+        [frontNavController pushViewController:destVC animated:YES];
     }
 }
 

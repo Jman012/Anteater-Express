@@ -17,6 +17,7 @@ static UIImage *uncheckedImage = nil;
 
 @property (nonatomic, strong) IBOutlet CircleCheckmark *circleCheckmark;
 @property (nonatomic, strong) IBOutlet UILabel *lineNameLabel;
+@property (nonatomic, strong) IBOutlet UILabel *lineSubtitleLabel;
 
 @end
 
@@ -38,12 +39,23 @@ static UIImage *uncheckedImage = nil;
     self.lineNameLabel.text = name;
 }
 
+- (void)setLineSubtitle:(NSString *)subtitle {
+    self.lineSubtitleLabel.text = subtitle;
+}
+
 - (void)setChecked:(BOOL)checked {
-    // TODO: Implement this with a picture.
     if (checked) {
         [self.circleCheckmark setChecked:YES];
     } else {
         [self.circleCheckmark setChecked:NO];
+    }
+}
+
+- (void)setActiveLine:(BOOL)activeLine {
+    if (activeLine) {
+        [self.circleCheckmark setCheckMarkStyle:CircleCheckmarkStyleOpenCircle];
+    } else {
+        [self.circleCheckmark setCheckMarkStyle:CircleCheckmarkStyleGrayedOut];
     }
 }
 

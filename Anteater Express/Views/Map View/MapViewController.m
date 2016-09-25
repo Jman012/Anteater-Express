@@ -12,10 +12,14 @@
 #import <SWRevealViewController/SWRevealViewController.h>
 #import <TSMessages/TSMessage.h>
 
+#import "AppDelegate.h"
+
 #import "AEGetRouteDefinition.h"
 #import "AEGetVehiclesOp.h"
 #import "AEGetArrivalPredictionsOp.h"
 #import "ColorConverter.h"
+#import "AENetwork.h"
+#import "RouteDetailViewController.h"
 
 #import "AEStopAnnotation.h"
 #import "AEVehicleAnnotation.h"
@@ -28,10 +32,13 @@
 #define UCI_LONGITUDE -117.8426
 #define UCI_RADIUS 6500
 
+#define MAP_POINT_PADDING 1000
+#define MAP_LENGTH_PADDING (MAP_POINT_PADDING * 2)
+
 @interface MapViewController ()
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;
-@property (nonatomic, strong) IBOutlet MKMapView *mapView;
+@property (nonatomic, strong) IBOutlet ASMapView *mapView;
 
 /* Basic/wholistic route info */
 // Holds entire Route dicts, keyed by the RouteId
@@ -65,6 +72,11 @@
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) MKUserLocation *userLocation;
+
+@property (nonatomic, assign) MKMapPoint northEastPoint;
+@property (nonatomic, assign) MKMapPoint southWestPoint;
+@property (nonatomic, assign) BOOL pointsSet;
+@property (nonatomic, assign) dispatch_once_t mapSetOnce;
 
 @end
 
@@ -100,6 +112,8 @@
         self.routeIdForStopSetId = [NSMutableDictionary dictionary];
         self.downloadingDefinitions = [NSMutableSet set];
         self.vehicleAnnotationsForVehicleId = [NSMutableDictionary dictionary];
+        
+        self.pointsSet = NO;
     }
     return self;
 }
@@ -107,13 +121,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.screenName = [NSString stringWithFormat:@"Main Map View - %lu routes", (unsigned long)self.selectedRoutes.count];
     
     [self setupRevealButton];
-    self.title = @"Anteater Express";
+    
+    // Title with image
+    UIImage *titleImg = [UIImage imageNamed:@"AnteaterExpress_logo_title"];
+    CGFloat widthToHeightRatio = titleImg.size.width / titleImg.size.height;
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = @"Anteater Express";
+    titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    titleLabel.textColor = [UIColor blackColor];
+    [titleLabel sizeToFit];
+    
+    CGFloat titleHeight = titleLabel.frame.size.height;
+    CGFloat imageHeight = titleHeight;
+    CGFloat imageWidth = titleHeight * widthToHeightRatio;
+    
+    titleLabel.frame = CGRectMake(imageWidth + 8, 0, titleLabel.frame.size.width, titleHeight);
+    
+    
+    UIImageView *titleImage = [[UIImageView alloc] initWithImage:titleImg];
+    titleImage.frame = CGRectMake(0, 0, imageWidth, imageHeight);
+    
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, titleLabel.frame.size.width + imageWidth + 8, titleHeight)];
+    [titleView addSubview:titleLabel];
+    [titleView addSubview:titleImage];
+    self.navigationItem.titleView = titleView;
     
     // Setup some complicated gestures so that we can differentiate between moving the map
     // and pulling the side menu out. See also the methods further down under UIGestureRecognizerDelegate
-    [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
     [[self.mapView.subviews[0] gestureRecognizers] enumerateObjectsUsingBlock:^(UIGestureRecognizer * gesture, NSUInteger idx, BOOL *stop){
         if ([gesture isMemberOfClass:[UIPanGestureRecognizer class]]) {
             // We set the delegate for the map view gestures to ourself, so we can cancel
@@ -127,28 +165,37 @@
     self.revealViewController.delegate = self;
     
     [self.mapView setMapType:MKMapTypeStandard];
+    self.mapView.showsUserLocation = YES;
     self.mapView.delegate = self;
     // Start out on Aldrich Park's center. Later it'll move to the users location
-    [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
+//    [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
+    dispatch_once_t once = self.mapSetOnce;
+    dispatch_once(&once, ^() {
+        CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
+        [self zoomToLocation:uciLocation.coordinate];
+    });
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkInternetError object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkServerError object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkOk object:nil];
 
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // Now also initiate the timer to update vehicle positions
-    self.vehicleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
-                                                               target:self
-                                                             selector:@selector(updateAllVehiclesForSelectedRoutes:)
-                                                             userInfo:nil
-                                                              repeats:YES];
+    [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
+    
+    [self startTimer];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
-    // Invalidate the vehicle timer
-    [self.vehicleUpdateTimer invalidate];
+    // So if another view is pushed, don't swipe to the side menu.
+    [self.navigationController.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -167,26 +214,66 @@
     }
 }
 
-- (IBAction)testButtonPressed:(id)sender {
-    [TSMessage showNotificationInViewController:self
-                                          title:@"Test notification"
-                                       subtitle:nil
-                                          image:nil
-                                           type:TSMessageNotificationTypeError
-                                       duration:TSMessageNotificationDurationEndless
-                                       callback:nil
-                                    buttonTitle:nil
-                                 buttonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                           canBeDismissedByUser:YES];
-}
-
 - (void)setMapType:(MKMapType)newType {
     // Called from the side menu, when the user wants
     // to change to satellite or standard.
     if (newType != self.mapView.mapType) {
         [self.mapView setMapType:newType];
     }
+}
+
+- (void)networkResponse:(NSNotification *)sender {
+    if ([sender.object isKindOfClass:[NSString class]]) {
+        NSString *senderString = (NSString *)sender.object;
+        if ([senderString isEqualToString:AENetworkInternetError]) {
+            [TSMessage showNotificationInViewController:self
+                                                  title:@"Bad Internet Connection"
+                                               subtitle:@"Check to see if your phone has WiFi internet access or your cellular connection is working."
+                                                  image:nil
+                                                   type:TSMessageNotificationTypeError
+                                               duration:TSMessageNotificationDurationEndless
+                                               callback:nil
+                                            buttonTitle:nil
+                                         buttonCallback:nil
+                                             atPosition:TSMessageNotificationPositionTop
+                                   canBeDismissedByUser:YES];
+        } else if ([senderString isEqualToString:AENetworkServerError]) {
+            [TSMessage showNotificationInViewController:self
+                                                  title:@"Anteater Express Servers Down"
+                                               subtitle:@"Could not contact the Anteater Express servers to get the necessary information."
+                                                  image:nil
+                                                   type:TSMessageNotificationTypeError
+                                               duration:TSMessageNotificationDurationEndless
+                                               callback:nil
+                                            buttonTitle:nil
+                                         buttonCallback:nil
+                                             atPosition:TSMessageNotificationPositionTop
+                                   canBeDismissedByUser:YES];
+        } else if ([senderString isEqualToString:AENetworkOk]) {
+            [TSMessage dismissActiveNotification];
+        }
+    }
+}
+
+- (void)applicationWillResignActive:(NSNotification *)sender {
+    // Invalidate the vehicle timer
+    [self endTimer];
+    
+    // Remove all vehicles from the view
+    [self.mapView.annotations enumerateObjectsUsingBlock:^(id<MKAnnotation> annotation, NSUInteger idx, BOOL *stop) {
+        if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
+            AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
+            [self.mapView removeAnnotation:vehicleAnnotation];
+            [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicleId];
+        }
+    }];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)sender {
+    // Now also initiate the timer to update vehicle positions
+    [self startTimer];
+
+    [self showClosestAnnotation];
 }
 
 #pragma mark - Route Data handling
@@ -279,10 +366,20 @@
 }
 
 - (void)downloadNewRouteInfoWithId:(NSNumber *)routeId stopSetId:(NSNumber *)routeStopSetId {
+    
+    if (routeId == nil || routeStopSetId == nil) {
+        return;
+    }
+    
     // Given a routeId, download all the info for it and interpret it
     AEGetRouteDefinition *getRouteOp = [[AEGetRouteDefinition alloc] initWithStopSetId:[routeStopSetId integerValue]];
     getRouteOp.returnBlock = ^(RouteDefinitionDAO *routeDefinition) {
         // Note: This is asynchronous, and possibly out of order
+        
+        if (routeDefinition == nil || [routeDefinition getRoutePoints] == nil || [routeDefinition getRouteStops] == nil) {
+            // No data from the network
+            return;
+        }
         
         // Set routeDefinitions
         self.routeDefinitions[routeId] = routeDefinition;
@@ -403,10 +500,34 @@
 
 #pragma mark - Vehicle Data Handling and Updating
 
+- (void)startTimer {
+    if (self.vehicleUpdateTimer == nil || self.vehicleUpdateTimer.valid == NO) {
+        self.vehicleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                                   target:self
+                                                                 selector:@selector(updateAllVehiclesForSelectedRoutes:)
+                                                                 userInfo:nil
+                                                                  repeats:YES];
+        [self updateAllVehiclesForSelectedRoutes:self.vehicleUpdateTimer];
+    }
+}
+
+- (void)endTimer {
+    if (self.vehicleUpdateTimer != nil) {
+        [self.vehicleUpdateTimer invalidate];
+    }
+}
+
 - (void)updateAllVehiclesForSelectedRoutes:(NSTimer *)timer {
     [self.selectedRoutes enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {
         [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[routeId][@"StopSetId"] routeId:routeId];
     }];
+    
+    // Also, if routes have yet to be downloaded, download them!
+    for (NSNumber *routeId in self.selectedButAwaitingDataRoutes) {
+        NSNumber *stopSetId = self.allRoutes[routeId][@"StopSetId"];
+        NSLog(@"Retrying download route id %@, stop set id %@", routeId, stopSetId);
+        [self downloadNewRouteInfoWithId:routeId stopSetId:stopSetId];
+    }
 }
 
 - (void)downloadNewVehicleInfoWithStopSetId:(NSNumber *)stopSetId routeId:(NSNumber *)routeId {
@@ -454,10 +575,45 @@
     
     // Else, proceed as normal
     [self.selectedRoutes addObject:theId];
+    self.screenName = [NSString stringWithFormat:@"Main Map View - %lu routes", (unsigned long)self.selectedRoutes.count];
     
     // Add the route lines to the map
     if (self.routeDefinitionsPolylines[theId] != nil) {
         [self.mapView addOverlay:self.routeDefinitionsPolylines[theId]];
+        
+        MKPolyline *polyline = self.routeDefinitionsPolylines[theId];
+        MKMapPoint northEastPoint = self.northEastPoint;
+        MKMapPoint southWestPoint = self.southWestPoint;
+        for (int i = 0; i < polyline.pointCount; ++i) {
+            MKMapPoint point = polyline.points[i];
+            
+            if (self.pointsSet == NO) {
+                northEastPoint = point;
+                southWestPoint = point;
+                self.pointsSet = YES;
+            }
+            else
+            {
+                if (point.x > northEastPoint.x)
+                    northEastPoint.x = point.x;
+                if(point.y > northEastPoint.y)
+                    northEastPoint.y = point.y;
+                if (point.x < southWestPoint.x)
+                    southWestPoint.x = point.x;
+                if (point.y < southWestPoint.y) 
+                    southWestPoint.y = point.y;
+            }
+        }
+        self.northEastPoint = northEastPoint;
+        self.southWestPoint = southWestPoint;
+        MKMapRect routeRect = MKMapRectMake(self.southWestPoint.x - MAP_POINT_PADDING, self.southWestPoint.y - MAP_POINT_PADDING, self.northEastPoint.x - self.self.southWestPoint.x + MAP_LENGTH_PADDING, self.northEastPoint.y - self.southWestPoint.y + MAP_LENGTH_PADDING);
+        
+        dispatch_once_t once = self.mapSetOnce;
+        dispatch_once(&once, ^() {
+            CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
+            [self zoomToLocation:uciLocation.coordinate];
+        });
+        [self.mapView setVisibleMapRect:routeRect animated:NO];
     }
     // Add the route stops to the map
     if (self.routeStopsForWhichLines[theId] != nil) {
@@ -490,11 +646,54 @@
         // If it's in the queue awaiting to be added, remove it.
         [self.selectedButAwaitingDataRoutes removeObject:theId];
     }
+    
     [self.selectedRoutes removeObject:theId];
+    self.screenName = [NSString stringWithFormat:@"Main Map View - %lu routes", (unsigned long)self.selectedRoutes.count];
     
     // Remove the route line
     if (self.routeDefinitionsPolylines[theId] != nil) {
         [self.mapView removeOverlay:self.routeDefinitionsPolylines[theId]];
+        
+        self.pointsSet = NO;
+        for (id<MKOverlay> overlay in self.mapView.overlays) {
+            if ([overlay isMemberOfClass:[MKPolyline class]] == NO) {
+                continue;
+            }
+            
+            MKPolyline *polyline = (MKPolyline *)overlay;
+            MKMapPoint northEastPoint = self.northEastPoint;
+            MKMapPoint southWestPoint = self.southWestPoint;
+            for (int i = 0; i < polyline.pointCount; ++i) {
+                MKMapPoint point = polyline.points[i];
+                
+                if (self.pointsSet == NO) {
+                    northEastPoint = point;
+                    southWestPoint = point;
+                    self.pointsSet = YES;
+                }
+                else
+                {
+                    if (point.x > northEastPoint.x)
+                        northEastPoint.x = point.x;
+                    if(point.y > northEastPoint.y)
+                        northEastPoint.y = point.y;
+                    if (point.x < southWestPoint.x)
+                        southWestPoint.x = point.x;
+                    if (point.y < southWestPoint.y)
+                        southWestPoint.y = point.y;
+                }
+            }
+            self.northEastPoint = northEastPoint;
+            self.southWestPoint = southWestPoint;
+        }
+        MKMapRect routeRect = MKMapRectMake(self.southWestPoint.x - MAP_POINT_PADDING, self.southWestPoint.y - MAP_POINT_PADDING, self.northEastPoint.x - self.self.southWestPoint.x + MAP_LENGTH_PADDING, self.northEastPoint.y - self.southWestPoint.y + MAP_LENGTH_PADDING);
+        
+        dispatch_once_t once = self.mapSetOnce;
+        dispatch_once(&once, ^() {
+            CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
+            [self zoomToLocation:uciLocation.coordinate];
+        });
+        [self.mapView setVisibleMapRect:routeRect animated:NO];
     }
     // Remove the route stops
     if (self.routeStopsForWhichLines[theId] != nil) {
@@ -553,9 +752,9 @@
             // If it's the second or third or so on line being added, do half alpha as a way
             // to better differentiate overlapping lines. This is how the website currently
             // does it, from what I saw.
-            renderer.strokeColor = [renderer.strokeColor colorWithAlphaComponent:0.5];
+            renderer.strokeColor = [renderer.strokeColor colorWithAlphaComponent:0.75];
         }
-        renderer.lineWidth = 2.0f;
+        renderer.lineWidth = 2.5f;
         
         return renderer;
     }
@@ -616,86 +815,114 @@
         
         return vehicleAnnotationView;
     }
-    
+
     return nil;
+}
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(nonnull NSArray<MKAnnotationView *> *)views {
+    for (MKAnnotationView *view in views) {
+        if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
+            MKAnnotationView *userLocView = (MKAnnotationView *)view;
+            userLocView.canShowCallout = NO;
+        }
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(nonnull MKUserLocation *)userLocation {
     // Only do this once, when we first get the user's location. We don't want it
     // tracking them on every movement.
-    static dispatch_once_t once;
-    dispatch_once(&once, ^() {
-        CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
-        if ([uciLocation distanceFromLocation:userLocation.location] < UCI_RADIUS) {
-            [self zoomToLocation:userLocation.coordinate];
-            self.userLocation = userLocation;
-            if (self.downloadingDefinitions.count == 0) {
-                [self showClosestAnnotation];
-            }
-        }
-    });
+//    static dispatch_once_t once;
+//    dispatch_once(&once, ^() {
+//        CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
+//        if ([uciLocation distanceFromLocation:userLocation.location] < UCI_RADIUS) {
+//            [self zoomToLocation:userLocation.coordinate];
+//            self.userLocation = userLocation;
+//            if (self.downloadingDefinitions.count == 0) {
+//                [self showClosestAnnotation];
+//            }
+//        }
+//    });
+    self.userLocation = userLocation;
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     if ([view isMemberOfClass:[AEStopAnnotationView class]]) {
+
         AEStopAnnotation *stopAnnotaton = (AEStopAnnotation *)view.annotation;
         stopAnnotaton.arrivalPredictions = [NSMutableDictionary dictionary]; // Reset predictions
         
-        if ([view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
-            // If iOS9, reset the detail view
-            view.detailCalloutAccessoryView = nil;
-        }
-        
         // Go through all stopSetIds assigned to this stop annotation
+        __block NSMutableArray *stopSetIds = [NSMutableArray array];
+        __block NSMutableArray *stopIds = [NSMutableArray array];
         [stopAnnotaton.stopSetIds enumerateObjectsUsingBlock:^(NSNumber *stopSetId, NSUInteger idx, BOOL *stop) {
             if ([self stopSetIdInSelected:stopSetId] == false) {
                 // Only download/show predictions for lines that are selected
                 return;
             }
-
-            // Use this for later
-            NSNumber *routeId = self.routeIdForStopSetId[stopSetId];
+            [stopSetIds addObject:stopSetId];
+            [stopIds addObject:stopAnnotaton.stopId];
+        }];
+        
+        // Download the predictions for this stopSetId/stopId combo
+        AEGetArrivalPredictionsOp *arrivalPredictionsOp = [[AEGetArrivalPredictionsOp alloc] initWithStopSetIds:stopSetIds stopIds:stopIds];
+        arrivalPredictionsOp.returnBlock = ^(NSArray<StopArrivalPredictionDAO *> *stopArrivalPredictionsDAOs) {
+            // Here we're done downloading all the arrival predictions
             
-            // Download the predictions for this stopSetId/stopId combo
-            AEGetArrivalPredictionsOp *arrivalPredictionsOp = [[AEGetArrivalPredictionsOp alloc] initWithStopSetId:stopSetId.integerValue
-                                                                                                            stopId:stopAnnotaton.stopId.integerValue];
-            arrivalPredictionsOp.returnBlock = ^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO) {
-                
-                NSArray *predictions = [[stopArrivalPredictionsDAO getArrivalTimes] valueForKey:@"Predictions"];
-                
-                // Assign the predictions for this stop to the annotation,
-                // categorizing by stopSetId
+            // First go through and add all the predictions into the annotation
+            // regardless of subtitle or stack view usage
+            [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
                 [stopAnnotaton willChangeValueForKey:@"subtitle"];
-                stopAnnotaton.arrivalPredictions[stopSetId] = predictions;
+                stopAnnotaton.arrivalPredictions[stopSetIds[idx]] = [stopArrivalPredictionsDAO.getArrivalTimes valueForKey:@"Predictions"];
                 [stopAnnotaton didChangeValueForKey:@"subtitle"];
+            }];
+            
+            // Make sure we can handle stack views and detail callout views
+            if (!NSClassFromString(@"UIStackView") || ![view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
+                // If not we've done all we can
+                return;
+            }
+            
+            UIView *container = [[UIView alloc] init];
+            
+            // Otherwise, we're good. Make the stack view and put it in a container
+            __block UIStackView *stackView = [[UIStackView alloc] init];
+            stackView.axis = UILayoutConstraintAxisVertical;
+            stackView.distribution = UIStackViewDistributionEqualSpacing;
+            stackView.alignment = UIStackViewAlignmentLeading;
+            stackView.spacing = 4;
+            stackView.translatesAutoresizingMaskIntoConstraints = NO;
+            [container addSubview:stackView];
+            
+            
+            // Then populate the stack view
+            [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
+                // Vars
+                NSNumber *stopSetId = stopSetIds[idx];
+                NSNumber *routeId = self.routeIdForStopSetId[stopSetId];
                 
                 // If iOS9, use a stack view to show the times
-                if (NSClassFromString(@"UIStackView") && [view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
-                    
-                    // If no stack view is made yet, make it
-                    if (view.detailCalloutAccessoryView == nil) {
-                        UIStackView *stackView = [[UIStackView alloc] init];
-                        stackView.axis = UILayoutConstraintAxisVertical;
-                        stackView.distribution = UIStackViewDistributionEqualSpacing;
-                        stackView.alignment = UIStackViewAlignmentLeading;
-                        stackView.spacing = 4;
-                        stackView.translatesAutoresizingMaskIntoConstraints = false;
-                        view.detailCalloutAccessoryView = stackView;
-                    }
 
-                    // Add the custom view, assigning the info
-                    ArrivalPredictionView *arrivalsView = [[[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil] firstObject];
-                    // Use the annotation to make the text for us
-                    arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
-                    arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
-                    UIStackView *stackView = (UIStackView *)view.detailCalloutAccessoryView;
-                    [stackView addArrangedSubview:arrivalsView];
-                    [NSTimer scheduledTimerWithTimeInterval:1.0 target:stackView selector:@selector(setNeedsLayout) userInfo:nil repeats:NO];
-                    
-                }
-            };
-            [self.operationQueue addOperation:arrivalPredictionsOp];
-        }];
+                // Add the custom view, assigning the info
+                NSArray *elements = [[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil];
+                ArrivalPredictionView *arrivalsView = [elements firstObject];
+                // Use the annotation to make the text for us
+                arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
+                arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
+                arrivalsView.tag = routeId.integerValue;
+                
+                UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(calloutAnnotationViewWasTapped:)];
+                tapRecognizer.numberOfTouchesRequired = 1;
+                tapRecognizer.numberOfTapsRequired = 1;
+                [arrivalsView addGestureRecognizer:tapRecognizer];
+
+                
+                [stackView addArrangedSubview:arrivalsView];
+                
+            }];
+        
+            view.detailCalloutAccessoryView = stackView;
+        };
+        [self.operationQueue addOperation:arrivalPredictionsOp];
         
     }
 }
@@ -704,6 +931,16 @@
     if ([view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
         view.detailCalloutAccessoryView = nil;
     }
+}
+
+- (void)calloutAnnotationViewWasTapped:(UITapGestureRecognizer *)sender {
+    UINavigationController *frontNavController = (UINavigationController *)self.navigationController;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
+    RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
+    NSNumber *routeId = [NSNumber numberWithInteger:sender.view.tag];
+    [destVC setRoute:self.allRoutes[routeId]];
+    
+    [frontNavController pushViewController:destVC animated:YES];
 }
 
 #pragma mark - CLLocationManagerDelegate

@@ -30,6 +30,9 @@
     UIGraphicsBeginImageContextWithOptions(self.image.size, NO, self.image.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+    CGContextTranslateCTM(context, 0, self.image.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
     CGRect rect = CGRectMake(0, 0, self.image.size.width, self.image.size.height);
     
     // draw alpha-mask
@@ -39,7 +42,7 @@
     CGContextClipToMask(context, rect, self.image.CGImage);
     
     // draw tint color, preserving alpha values of original image
-    CGContextSetBlendMode(context, kCGBlendModeSoftLight);
+    CGContextSetBlendMode(context, kCGBlendModeOverlay);
     [self.tintColor setFill];
     CGContextFillRect(context, rect);
     

@@ -65,6 +65,13 @@ NSString* const VIEWED_ANNOUNCEMENTS = @"viewedAnnouncements";
     return returnValue;
 }
 
++ (NSString *)dateDisplayStringFromDate:(NSDate *)date {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"MMM d, yyy hh:mm:ss a";
+    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"PDT"];
+    return [Utilities dateDisplayString:[formatter stringFromDate:date]];
+}
+
 + (NSString *) dateDisplayString: (NSString *) dateFromJson
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

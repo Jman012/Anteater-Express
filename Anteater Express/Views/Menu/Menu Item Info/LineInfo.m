@@ -17,6 +17,7 @@
         self.routeId = theRouteId;
         self.selected = NO;
         self.color = color;
+        self.numActive = 0;
     }
     return self;
 }

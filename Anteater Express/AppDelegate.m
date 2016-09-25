@@ -10,7 +10,10 @@
 
 #import "NoConnectionViewController.h"
 #import "Utilities.h"
-#import "GAI.h"
+//#import "GAI.h"
+#import <Google/Analytics.h>
+
+NSString * const AENotificationAppDidBecomeActive = @"AENotificationAppDidBecomeActive";
 
 @implementation AppDelegate
 
@@ -24,12 +27,17 @@
     // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
     [GAI sharedInstance].dispatchInterval = 20;
     // Optional: set debug to YES for extra debugging information.
-//    [GAI sharedInstance].debug = YES;
+    [[GAI sharedInstance].logger setLogLevel:kGAILogLevelError];
     // Create tracker instance.
-    //id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-3170671-13"]; // Disabling this for debugging, don't forget to turn back on!
-    //id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-3170671-13"];
     
     // Override point for customization after application launch.
+    
+//    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHue:236.0/360.0 saturation:0.69 brightness:0.40 alpha:1.0]];
+//    [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
+
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor]}];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
     return YES;
 }
@@ -54,6 +62,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 //    NSInteger hasNetworkConnection = [Utilities checkNetworkStatus];
 //    
