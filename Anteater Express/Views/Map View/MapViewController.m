@@ -223,6 +223,10 @@
 }
 
 - (void)networkResponse:(NSNotification *)sender {
+    // Ignore bad connections
+    return;
+    
+    
     if ([sender.object isKindOfClass:[NSString class]]) {
         NSString *senderString = (NSString *)sender.object;
         if ([senderString isEqualToString:AENetworkInternetError]) {
