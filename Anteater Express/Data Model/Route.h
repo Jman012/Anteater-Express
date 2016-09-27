@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "Vehicle.h"
+#import "RouteWaypoints.h"
 
 @interface Route : NSObject
 
@@ -20,5 +21,6 @@
 @property (nonatomic, strong) NSString *desc;
 
 @property (nonatomic, strong) NSArray<Vehicle*> *vehicles;
+@property (nonatomic, strong) RouteWaypoints *waypoints;
 
 @end

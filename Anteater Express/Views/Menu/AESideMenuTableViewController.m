@@ -166,7 +166,6 @@ const NSUInteger kSectionLinks =      3;
                                                  cellIdentifer:kCellIdFreeLineCell
                                                          route:route];
         newLineInfo.numActive = -1;
-        NSLog(@"loading selected=%d for route id=%@", [AEDataModel.shared.selectedRoutes containsObject:route.id], route.id);
         newLineInfo.selected = [AEDataModel.shared.selectedRoutes containsObject:route.id];
         [lineInfos addObject:newLineInfo];
         

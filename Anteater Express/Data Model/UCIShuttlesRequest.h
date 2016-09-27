@@ -21,9 +21,8 @@
 + (void)requestRegions:(void (^)(NSArray<Region*> *regions, NSError *error))completionHandler;
 + (void)requestRoutesForRegion:(NSNumber *)regionId completion:(void (^)(NSArray<Region*> *regions, NSError *error))completionHandler;
 + (Route *)requestRouteForId:(NSNumber *)routeId error:(NSError **)error;
-+ (RouteWaypoints *)requestWaypointsForRouteId:(NSNumber *)routeId error:(NSError **)error;
++ (void)requestWaypointsForRouteId:(NSNumber *)routeId completion:(void (^)(RouteWaypoints *waypoints, NSError *error))completionHandler;
 + (void)requestVehiclesForRouteId:(NSNumber *)routeId completion:(void (^)(NSArray<Vehicle*> *vehicles, NSError *error))completionHandler;
-+ (NSArray<Direction*> *)requestDirectionsForRouteId:(NSNumber *)routeId error:(NSError **)error;
 + (NSArray<Stop*> *)requestStopsForRouteId:(NSNumber *)routeId directionId:(NSNumber *)directionId error:(NSError **)error;
 + (NSArray<Arrival*> *)requestArrivalsForStopId:(NSNumber *)stopId error:(NSError **)error;
 

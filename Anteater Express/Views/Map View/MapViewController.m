@@ -465,6 +465,40 @@
     [self.operationQueue addOperation:getRouteOp];
 }
 
+- (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshWaypoints:(RouteWaypoints *)waypoints forRoute:(Route *)route {
+    if ([aeDataModel.selectedRoutes containsObject:route.id] == false) {
+        return;
+    }
+    
+    [self addWaypoints:waypoints forRoute:route];
+}
+
+- (void)addWaypoints:(RouteWaypoints *)waypoints forRoute:(Route *)route {
+
+    // Convert to thing for mapkit
+    MKMapPoint *routeMapPointsCArray = malloc(sizeof(MKMapPoint) * waypoints.points.count);
+    // Make C Array
+    [waypoints.points enumerateObjectsUsingBlock:^(NSValue *value, NSUInteger idx, BOOL *stop) {
+        MKMapPoint point;
+        [value getValue:&point];
+        routeMapPointsCArray[idx] = point;
+    }];
+    
+    MKPolyline *polyline = [MKPolyline polylineWithPoints:routeMapPointsCArray count:waypoints.points.count];
+    [polyline setTitle:[route.id stringValue]];
+    
+    for (id<MKOverlay> overlay in self.mapView.overlays) {
+        if ([overlay isKindOfClass:[MKPolyline class]]) {
+            MKPolyline *oldPolyline = (MKPolyline *)overlay;
+            if ([oldPolyline.title isEqualToString:[route.id stringValue]]) {
+                [self.mapView removeOverlay:oldPolyline];
+            }
+        }
+    }
+    
+    [self.mapView addOverlay:polyline];
+}
+
 - (void)downloadingRouteInfoDidFinish {
     // Called when the self.downloadingDefinitions.count == 0
     if (self.userLocation != nil) {
@@ -728,13 +762,15 @@
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     // Called for the route polylines
+
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolyline *polyline = (MKPolyline *)overlay;
         NSNumber *routeId = [NSNumber numberWithInteger:polyline.title.integerValue];
         MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:polyline];
+        Route *route = [AEDataModel.shared routeForId:routeId];
         
-        renderer.strokeColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
-        if (self.selectedRoutes.count > 1) {
+        renderer.strokeColor = [ColorConverter colorWithHexString:route.color];
+        if (AEDataModel.shared.selectedRoutes.count > 1) {
             // If it's the second or third or so on line being added, do half alpha as a way
             // to better differentiate overlapping lines. This is how the website currently
             // does it, from what I saw.

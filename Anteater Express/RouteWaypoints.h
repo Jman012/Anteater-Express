@@ -10,4 +10,7 @@
 
 @interface RouteWaypoints : NSObject
 
+// Holds NSValues of MKMapPoints
+@property (nonatomic, strong) NSArray *points;
+
 @end

@@ -25,6 +25,7 @@
 - (void)aeDataModel:(AEDataModel *)aeDataModel didDeselectRoute:(NSNumber *)routeId;
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshVehicles:(NSArray<Vehicle*> *)vehicleList forRoute:(Route *)route;
+- (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshWaypoints:(RouteWaypoints *)waypoints forRoute:(Route *)route;
 
 @end
 
@@ -44,5 +45,6 @@
 
 - (void)refreshRoutes;
 - (void)refreshVehiclesForRoute:(Route *)route;
+- (Route *)routeForId:(NSNumber *)routeId;
 
 @end

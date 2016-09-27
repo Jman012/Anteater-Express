@@ -7,6 +7,7 @@
 //
 
 #import "UCIShuttlesRequest.h"
+#import <MapKit/MapKit.h>
 
 @implementation UCIShuttlesRequest
 
@@ -70,12 +71,49 @@
     }];
 }
 
-+ (Route *)requestRouteForId:(NSInteger)routeId error:(NSError **)error {
++ (Route *)requestRouteForId:(NSNumber *)routeId error:(NSError **)error {
     
 }
 
-+ (RouteWaypoints *)requestWaypointsForRouteId:(NSInteger)routeId error:(NSError **)error {
-    
++ (void)requestWaypointsForRouteId:(NSNumber *)routeId completion:(void (^)(RouteWaypoints *waypoints, NSError *error))completionHandler {
+    [UCIShuttlesRequest sendRequest:[NSString stringWithFormat:@"/Route/%@/Waypoints", routeId] completion:^(NSArray *waypointsJson, NSError *error) {
+        
+        if (error != nil) {
+            completionHandler(nil, error);
+            return;
+        }
+        
+        
+        if (waypointsJson.count == 0) {
+            completionHandler(nil, [NSError errorWithDomain:@"No waypoints found" code:1 userInfo:nil]);
+            return;
+        }
+        NSArray *waypointsJsonArray = waypointsJson[0];
+        
+        RouteWaypoints *waypoints = [[RouteWaypoints alloc] init];
+        NSMutableArray *points = [NSMutableArray arrayWithCapacity:waypointsJsonArray.count];
+        @try {
+            for (NSDictionary *waypointDict in waypointsJsonArray) {
+                NSNumber *lat = waypointDict[@"Latitude"];
+                NSNumber *lon = waypointDict[@"Longitude"];
+                
+                CLLocationDegrees latitude  = lat.doubleValue;
+                CLLocationDegrees longitude = lon.doubleValue;
+                
+                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
+                MKMapPoint mapPoint = MKMapPointForCoordinate(coordinate);
+                
+                NSValue *value = [NSValue valueWithBytes:&mapPoint objCType:@encode(MKMapPoint)];
+                [points addObject:value];
+            }
+        } @catch (NSException *exception) {
+            completionHandler(nil, [NSError errorWithDomain:@"There was an error loading routes" code:1 userInfo:nil]);
+        } @finally {
+            waypoints.points = points;
+            completionHandler(waypoints, nil);
+        }
+        
+    }];
 }
 
 + (void)requestVehiclesForRouteId:(NSNumber *)routeId completion:(void (^)(NSArray<Vehicle*> *vehicles, NSError *error))completionHandler {
@@ -112,15 +150,15 @@
     }];
 }
 
-+ (NSArray<Direction*> *)requestDirectionsForRouteId:(NSInteger)routeId error:(NSError **)error {
++ (NSArray<Direction*> *)requestDirectionsForRouteId:(NSNumber *)routeId error:(NSError **)error {
     
 }
 
-+ (NSArray<Stop*> *)requestStopsForRouteId:(NSInteger)routeId directionId:(NSInteger)directionId error:(NSError **)error {
++ (NSArray<Stop*> *)requestStopsForRouteId:(NSNumber *)routeId directionId:(NSNumber *)directionId error:(NSError **)error {
     
 }
 
-+ (NSArray<Arrival*> *)requestArrivalsForStopId:(NSInteger)stopId error:(NSError **)error {
++ (NSArray<Arrival*> *)requestArrivalsForStopId:(NSNumber *)stopId error:(NSError **)error {
     
 }
 

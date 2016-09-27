@@ -199,6 +199,8 @@
         self.routeForRouteId = [NSMutableDictionary dictionaryWithCapacity:self.routeList.count];
         for (Route *route in self.routeList) {
             self.routeForRouteId[route.id] = route;
+            
+            [self refreshWaypointsForRoute:route];
         }
         
         for (id<AEDataModelDelegate> del in self.delegates) {
@@ -212,6 +214,10 @@
         self.gettingRoutes = false;
     }];
     
+}
+
+- (Route *)routeForId:(NSNumber *)routeId {
+    return self.routeForRouteId[routeId];
 }
 
 - (void)refreshVehiclesForSelectedRoutes {
@@ -232,6 +238,7 @@
 //        NSLog(@"Vehicles: %@", vehicles);
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
+            [self.gettingVehiclesById removeObject:route.id];
             return;
         }
         route.vehicles = [NSMutableArray arrayWithArray:vehicles];
@@ -244,6 +251,33 @@
         }
         
         [self.gettingVehiclesById removeObject:route.id];
+    }];
+}
+
+- (void)refreshWaypointsForRoute:(Route *)route {
+    if ([self.gettingWaypointsById containsObject:route.id]) {
+        return;
+    }
+    [self.gettingWaypointsById addObject:route.id];
+    
+    NSError *e = nil;
+    [UCIShuttlesRequest requestWaypointsForRouteId:route.id completion:^(RouteWaypoints *waypoints, NSError *error) {
+        if (e != nil) {
+            NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
+            [self.gettingWaypointsById removeObject:route.id];
+            return;
+        }
+        
+        route.waypoints = waypoints;
+        for (id<AEDataModelDelegate> del in self.delegates) {
+            if ([del respondsToSelector:@selector(aeDataModel:didRefreshWaypoints:forRoute:)]) {
+                dispatch_async(dispatch_get_main_queue(), ^() {
+                    [del aeDataModel:self didRefreshWaypoints:route.waypoints forRoute:route];
+                });
+            }
+        }
+        
+        [self.gettingWaypointsById removeObject:route.id];
     }];
 }
 
