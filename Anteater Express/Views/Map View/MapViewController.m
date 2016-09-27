@@ -65,7 +65,6 @@
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSNumber*> *routeStopsAnnotationsSelected;
 
 /* Route Vehicle Centric stuff */
-@property (nonatomic, strong) NSTimer *vehicleUpdateTimer;
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*,AEVehicleAnnotation*> *vehicleAnnotationsForVehicleId;
 
 // Misc
@@ -120,6 +119,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [AEDataModel.shared addDelegate:self];
+    
     // Do any additional setup after loading the view.
     self.screenName = [NSString stringWithFormat:@"Main Map View - %lu routes", (unsigned long)self.selectedRoutes.count];
     
@@ -177,9 +179,9 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkInternetError object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkServerError object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkOk object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkInternetError object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkServerError object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkResponse:) name:AENetworkOk object:nil];
 
 }
 
@@ -187,8 +189,6 @@
     [super viewDidAppear:animated];
     
     [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-    
-    [self startTimer];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -222,60 +222,56 @@
     }
 }
 
-- (void)networkResponse:(NSNotification *)sender {
-    // Ignore bad connections
-    return;
-    
-    
-    if ([sender.object isKindOfClass:[NSString class]]) {
-        NSString *senderString = (NSString *)sender.object;
-        if ([senderString isEqualToString:AENetworkInternetError]) {
-            [TSMessage showNotificationInViewController:self
-                                                  title:@"Bad Internet Connection"
-                                               subtitle:@"Check to see if your phone has WiFi internet access or your cellular connection is working."
-                                                  image:nil
-                                                   type:TSMessageNotificationTypeError
-                                               duration:TSMessageNotificationDurationEndless
-                                               callback:nil
-                                            buttonTitle:nil
-                                         buttonCallback:nil
-                                             atPosition:TSMessageNotificationPositionTop
-                                   canBeDismissedByUser:YES];
-        } else if ([senderString isEqualToString:AENetworkServerError]) {
-            [TSMessage showNotificationInViewController:self
-                                                  title:@"Anteater Express Servers Down"
-                                               subtitle:@"Could not contact the Anteater Express servers to get the necessary information."
-                                                  image:nil
-                                                   type:TSMessageNotificationTypeError
-                                               duration:TSMessageNotificationDurationEndless
-                                               callback:nil
-                                            buttonTitle:nil
-                                         buttonCallback:nil
-                                             atPosition:TSMessageNotificationPositionTop
-                                   canBeDismissedByUser:YES];
-        } else if ([senderString isEqualToString:AENetworkOk]) {
-            [TSMessage dismissActiveNotification];
-        }
-    }
-}
+//- (void)networkResponse:(NSNotification *)sender {
+//    // Ignore bad connections
+//    return;
+//    
+//    
+//    if ([sender.object isKindOfClass:[NSString class]]) {
+//        NSString *senderString = (NSString *)sender.object;
+//        if ([senderString isEqualToString:AENetworkInternetError]) {
+//            [TSMessage showNotificationInViewController:self
+//                                                  title:@"Bad Internet Connection"
+//                                               subtitle:@"Check to see if your phone has WiFi internet access or your cellular connection is working."
+//                                                  image:nil
+//                                                   type:TSMessageNotificationTypeError
+//                                               duration:TSMessageNotificationDurationEndless
+//                                               callback:nil
+//                                            buttonTitle:nil
+//                                         buttonCallback:nil
+//                                             atPosition:TSMessageNotificationPositionTop
+//                                   canBeDismissedByUser:YES];
+//        } else if ([senderString isEqualToString:AENetworkServerError]) {
+//            [TSMessage showNotificationInViewController:self
+//                                                  title:@"Anteater Express Servers Down"
+//                                               subtitle:@"Could not contact the Anteater Express servers to get the necessary information."
+//                                                  image:nil
+//                                                   type:TSMessageNotificationTypeError
+//                                               duration:TSMessageNotificationDurationEndless
+//                                               callback:nil
+//                                            buttonTitle:nil
+//                                         buttonCallback:nil
+//                                             atPosition:TSMessageNotificationPositionTop
+//                                   canBeDismissedByUser:YES];
+//        } else if ([senderString isEqualToString:AENetworkOk]) {
+//            [TSMessage dismissActiveNotification];
+//        }
+//    }
+//}
 
 - (void)applicationWillResignActive:(NSNotification *)sender {
-    // Invalidate the vehicle timer
-    [self endTimer];
     
     // Remove all vehicles from the view
     [self.mapView.annotations enumerateObjectsUsingBlock:^(id<MKAnnotation> annotation, NSUInteger idx, BOOL *stop) {
         if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
             AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
             [self.mapView removeAnnotation:vehicleAnnotation];
-            [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicleId];
+            [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicle.id];
         }
     }];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)sender {
-    // Now also initiate the timer to update vehicle positions
-    [self startTimer];
 
     [self showClosestAnnotation];
 }
@@ -504,62 +500,26 @@
 
 #pragma mark - Vehicle Data Handling and Updating
 
-- (void)startTimer {
-    if (self.vehicleUpdateTimer == nil || self.vehicleUpdateTimer.valid == NO) {
-        self.vehicleUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:5.0
-                                                                   target:self
-                                                                 selector:@selector(updateAllVehiclesForSelectedRoutes:)
-                                                                 userInfo:nil
-                                                                  repeats:YES];
-        [self updateAllVehiclesForSelectedRoutes:self.vehicleUpdateTimer];
+- (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshVehicles:(NSArray<Vehicle *> *)vehicleList forRoute:(Route *)route {
+    for (Vehicle *vehicle in vehicleList) {
+        NSNumber *vehicleId = vehicle.id;
+        if (self.vehicleAnnotationsForVehicleId[vehicleId] == nil) {
+            // Not yet set
+            AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicle:vehicle route:route];
+            [self.mapView addAnnotation:vehicleAnnotation];
+            self.vehicleAnnotationsForVehicleId[vehicleId] = vehicleAnnotation;
+        } else {
+            // Already exists
+            AEVehicleAnnotation *vehicleAnnotation = self.vehicleAnnotationsForVehicleId[vehicleId];
+            vehicleAnnotation.vehicle = vehicle;
+            vehicleAnnotation.route = route;
+            
+            // Then try to update the view
+            AEVehicleAnnotationView *vehicleAnnotationView = (AEVehicleAnnotationView *)[self.mapView viewForAnnotation:vehicleAnnotation];
+            vehicleAnnotationView.tintColor = [ColorConverter colorWithHexString:route.color];
+            [vehicleAnnotationView setVehicleImage:vehicleAnnotation.vehiclePicture];
+        }
     }
-}
-
-- (void)endTimer {
-    if (self.vehicleUpdateTimer != nil) {
-        [self.vehicleUpdateTimer invalidate];
-    }
-}
-
-- (void)updateAllVehiclesForSelectedRoutes:(NSTimer *)timer {
-    [self.selectedRoutes enumerateObjectsUsingBlock:^(NSNumber *routeId, BOOL *stop) {
-        [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[routeId][@"StopSetId"] routeId:routeId];
-    }];
-    
-    // Also, if routes have yet to be downloaded, download them!
-    for (NSNumber *routeId in self.selectedButAwaitingDataRoutes) {
-        NSNumber *stopSetId = self.allRoutes[routeId][@"StopSetId"];
-        NSLog(@"Retrying download route id %@, stop set id %@", routeId, stopSetId);
-        [self downloadNewRouteInfoWithId:routeId stopSetId:stopSetId];
-    }
-}
-
-- (void)downloadNewVehicleInfoWithStopSetId:(NSNumber *)stopSetId routeId:(NSNumber *)routeId {
-    AEGetVehiclesOp *getVehiclesOperation = [[AEGetVehiclesOp alloc] initWithStopSetId:stopSetId.integerValue];
-    getVehiclesOperation.returnBlock = ^(RouteVehiclesDAO *routeVehiclesDAO) {
-        
-        [[routeVehiclesDAO getRouteVehicles] enumerateObjectsUsingBlock:^(NSDictionary *vehicleDict, NSUInteger idx, BOOL *stop) {
-            NSNumber *vehicleId = vehicleDict[@"ID"];
-            if (self.vehicleAnnotationsForVehicleId[vehicleId] == nil) {
-                // Not yet set
-                AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicleDictionary:vehicleDict routeDict:self.allRoutes[routeId]];
-                vehicleAnnotation.stopSetId = stopSetId;
-                [self.mapView addAnnotation:vehicleAnnotation];
-                self.vehicleAnnotationsForVehicleId[vehicleId] = vehicleAnnotation;
-            } else {
-                // Already exists
-                AEVehicleAnnotation *vehicleAnnotation = self.vehicleAnnotationsForVehicleId[vehicleId];
-                vehicleAnnotation.vehicleDictionary = vehicleDict;
-                
-                // Then try to update the view
-                AEVehicleAnnotationView *vehicleAnnotationView = (AEVehicleAnnotationView *)[self.mapView viewForAnnotation:vehicleAnnotation];
-                vehicleAnnotationView.tintColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
-                [vehicleAnnotationView setVehicleImage:vehicleAnnotation.vehiclePicture];
-            }
-        }];
-        
-    };
-    [self.operationQueue addOperation:getVehiclesOperation];
 }
 
 #pragma mark - Route selection methods
@@ -641,7 +601,7 @@
     }
     
     // Manually invoke the vehicles to be downloaded
-    [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[theId][@"StopSetId"] routeId:theId];
+//    [self downloadNewVehicleInfoWithStopSetId:self.allRoutes[theId][@"StopSetId"] routeId:theId];
 }
 
 - (void)removeRoute:(NSNumber *)theId {
@@ -723,12 +683,11 @@
     }
     
     // Remove the route buses
-    NSNumber *stopSetId = self.allRoutes[theId][@"StopSetId"];
     [self.mapView.annotations enumerateObjectsUsingBlock:^(id<MKAnnotation> annotation, NSUInteger idx, BOOL *stop) {
         if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
             AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
-            if ([vehicleAnnotation.stopSetId isEqualToNumber:stopSetId]) {
-                [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicleId];
+            if ([vehicleAnnotation.route.id isEqualToNumber:theId]) {
+                [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicle.id];
                 [self.mapView removeAnnotation:vehicleAnnotation];
             }
         }
@@ -813,7 +772,7 @@
         }
         
         // Set Image
-        NSNumber *routeId = vehicleAnnotation.routeDictionary[@"Id"];
+        NSNumber *routeId = vehicleAnnotation.route.id;
         vehicleAnnotationView.tintColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
         [vehicleAnnotationView setVehicleImage:vehicleAnnotation.vehiclePicture];
         

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
+#import "AEDataModel.h"
+
 @interface AEVehicleAnnotation : NSObject <MKAnnotation>
 
 // MKAnnotation protocol
@@ -17,13 +19,11 @@
 
 // Custom
 // Not an array like in AEStopAnnotation because buses are 1-1 with routes.
-@property (nonatomic, strong) NSDictionary *vehicleDictionary;
-@property (nonatomic, strong) NSNumber *stopSetId;
-@property (nonatomic, strong) NSNumber *vehicleId;
+@property (nonatomic, strong) Vehicle *vehicle;
 @property (nonatomic, strong) NSString *vehiclePicture;
-@property (nonatomic, strong) NSDictionary *routeDictionary;
+@property (nonatomic, strong) Route *route;
 
-- (instancetype)initWithVehicleDictionary:(NSDictionary *)theVehicleDictionary routeDict:(NSDictionary *)theRouteDict;
+- (instancetype)initWithVehicle:(Vehicle *)vehicle route:(Route *)route;
 
 
 @end

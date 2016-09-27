@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) Region *region;
 @property (nonatomic, strong) NSMutableSet<NSNumber*> *selectedRouteIDsSet;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, Route*> *routeForRouteId;
 
 @property (nonatomic, assign) BOOL gettingRegion;
 @property (nonatomic, assign) BOOL gettingRoutes;
@@ -25,6 +26,8 @@
 @property (nonatomic, strong) NSMutableSet *gettingDirectionsById;
 @property (nonatomic, strong) NSMutableSet *gettingStopsById;
 @property (nonatomic, strong) NSMutableSet *gettingArrivalsById;
+
+@property (nonatomic, strong) NSTimer *vehicleTimer;
 
 @end
 
@@ -36,6 +39,7 @@
     if (self = [super init]) {
         self.delegates = [NSHashTable weakObjectsHashTable];
         self.selectedRouteIDsSet = [NSMutableSet set];
+        self.routeForRouteId = [NSMutableDictionary dictionary];
         
         self.gettingRegion = false;
         self.gettingRoutes = false;
@@ -64,6 +68,8 @@
     [self refreshRoutes];
     
     [self loadSelectedRoutes];
+    
+    self.vehicleTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refreshVehiclesForSelectedRoutes) userInfo:nil repeats:true];
 }
 
 - (void)loadSelectedRoutes {
@@ -188,6 +194,11 @@
             [self.selectedRouteIDsSet unionSet:foundIds];
         }
         self.routeList = [NSMutableArray arrayWithArray:routes];
+        self.routeForRouteId = [NSMutableDictionary dictionaryWithCapacity:self.routeList.count];
+        for (Route *route in self.routeList) {
+            self.routeForRouteId[route.id] = route;
+        }
+        
         for (id<AEDataModelDelegate> del in self.delegates) {
             if ([del respondsToSelector:@selector(aeDataModel:didRefreshRouteList:)]) {
                 dispatch_async(dispatch_get_main_queue(), ^() {
@@ -199,6 +210,13 @@
         self.gettingRoutes = false;
     }];
     
+}
+
+- (void)refreshVehiclesForSelectedRoutes {
+    for (NSNumber *routeId in self.selectedRouteIDsSet) {
+        Route *route = self.routeForRouteId[routeId];
+        [self refreshVehiclesForRoute:route];
+    }
 }
 
 - (void)refreshVehiclesForRoute:(Route *)route {

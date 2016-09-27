@@ -92,12 +92,14 @@
                 Vehicle *newVehicle = [[Vehicle alloc] init];
                 newVehicle.id = vehicleDict[@"ID"];
                 newVehicle.name = vehicleDict[@"Name"];
-                newVehicle.name = vehicleDict[@"Updated"];
-                newVehicle.name = vehicleDict[@"UpdatedAgo"];
-                newVehicle.name = vehicleDict[@"Latitude"];
-                newVehicle.name = vehicleDict[@"Longitude"];
-                newVehicle.name = vehicleDict[@"Speed"];
-                newVehicle.name = vehicleDict[@"Heading"];
+                newVehicle.updated = vehicleDict[@"Updated"];
+                newVehicle.updatedAgo = vehicleDict[@"UpdatedAgo"];
+                newVehicle.latitude = vehicleDict[@"Latitude"];
+                newVehicle.longitude = vehicleDict[@"Longitude"];
+                newVehicle.speed = vehicleDict[@"Speed"];
+                newVehicle.heading = vehicleDict[@"Heading"];
+                newVehicle.doorStatus = vehicleDict[@"DoorStatus"];
+                newVehicle.apcPercentage = vehicleDict[@"APCPercentage"];
                 
                 [vehicles addObject:newVehicle];
             }

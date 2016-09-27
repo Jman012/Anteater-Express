@@ -18,5 +18,7 @@
 @property (nonatomic, strong) NSNumber *longitude;
 @property (nonatomic, strong) NSNumber *speed;
 @property (nonatomic, strong) NSString *heading;
+@property (nonatomic, strong) NSNumber *doorStatus;
+@property (nonatomic, strong) NSNumber *apcPercentage;
 
 @end
