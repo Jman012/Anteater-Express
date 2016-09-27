@@ -155,7 +155,7 @@
             return;
         }
         
-        NSLog(@"Response data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+//        NSLog(@"Response data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         
         // Convert to JSON
         NSError *jsonError = nil;

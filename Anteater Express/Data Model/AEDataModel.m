@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSHashTable *delegates;
 
 @property (nonatomic, strong) Region *region;
-@property (nonatomic, strong) NSMutableSet<Route*> *selectedRoutesSet;
+@property (nonatomic, strong) NSMutableSet<NSNumber*> *selectedRouteIDsSet;
 
 @end
 
@@ -26,7 +26,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         self.delegates = [NSHashTable weakObjectsHashTable];
-        self.selectedRoutesSet = [NSMutableSet set];
+        self.selectedRouteIDsSet = [NSMutableSet set];
         
         [self initialize];
     }
@@ -44,40 +44,60 @@
 
 - (void)initialize {
     [self refreshRoutes];
+    
+    [self loadSelectedRoutes];
+}
+
+- (void)loadSelectedRoutes {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *ids = [userDefaults objectForKey:@"SelectedRouteIds"];
+    self.selectedRouteIDsSet = [NSMutableSet setWithArray:ids];
+    [self refreshRoutes];
+}
+
+- (void)saveSelectedRoutes {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *selectedRouteIdsArray = [NSArray arrayWithArray:self.selectedRouteIDsSet.allObjects];
+    [userDefaults setObject:selectedRouteIdsArray forKey:@"SelectedRouteIds"];
+    [userDefaults synchronize];
 }
 
 #pragma mark - Selected Routes
 
 - (void)selectRoute:(Route *)route {
-    if ([self.selectedRoutesSet containsObject:route] == false) {
-        [self.selectedRoutesSet addObject:route];
+    if ([self.selectedRouteIDsSet containsObject:route.id] == false) {
+        [self.selectedRouteIDsSet addObject:route.id];
         
         for (id<AEDataModelDelegate> del in self.delegates) {
             if ([del respondsToSelector:@selector(aeDataModel:didSelectRoute:)]) {
                 dispatch_async(dispatch_get_main_queue(), ^() {
-                    [del aeDataModel:self didSelectRoute:route];
+                    [del aeDataModel:self didSelectRoute:route.id];
                 });
             }
         }
+        
+        [self saveSelectedRoutes];
     }
 }
 
 - (void)deselectRoute:(Route *)route {
-    if ([self.selectedRoutesSet containsObject:route] == true) {
-        [self.selectedRoutesSet removeObject:route];
+    if ([self.selectedRouteIDsSet containsObject:route.id] == true) {
+        [self.selectedRouteIDsSet removeObject:route.id];
         
         for (id<AEDataModelDelegate> del in self.delegates) {
             if ([del respondsToSelector:@selector(aeDataModel:didDeselectRoute:)]) {
                 dispatch_async(dispatch_get_main_queue(), ^() {
-                    [del aeDataModel:self didDeselectRoute:route];
+                    [del aeDataModel:self didDeselectRoute:route.id];
                 });
             }
         }
+        
+        [self saveSelectedRoutes];
     }
 }
 
-- (NSSet<Route*> *)selectedRoutes {
-    return [NSSet setWithSet:self.selectedRoutesSet];
+- (NSSet<NSNumber*> *)selectedRoutes {
+    return [NSSet setWithSet:self.selectedRouteIDsSet];
 }
 
 #pragma mark - Routes
@@ -118,6 +138,24 @@
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
             return;
+        }
+        
+        if (self.routeList == nil) {
+            // First time loading the route list, so lets notify delegate of selected routes
+            NSMutableSet *foundIds = [NSMutableSet set];
+            for (NSNumber* routeId in self.selectedRouteIDsSet) {
+                [foundIds addObject:routeId];
+                
+                for (id<AEDataModelDelegate> del in self.delegates) {
+                    if ([del respondsToSelector:@selector(aeDataModel:didSelectRoute:)]) {
+                        dispatch_async(dispatch_get_main_queue(), ^() {
+                            [del aeDataModel:self didSelectRoute:routeId];
+                        });
+                    }
+                }
+            }
+            
+            [self.selectedRouteIDsSet unionSet:foundIds];
         }
         self.routeList = [NSMutableArray arrayWithArray:routes];
         for (id<AEDataModelDelegate> del in self.delegates) {

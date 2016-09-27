@@ -21,8 +21,8 @@
 - (void)aeDataModel:(AEDataModel *)aeDataModel didAddRoute:(Route *)route;
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRemoveRoute:(Route *)route;
 
-- (void)aeDataModel:(AEDataModel *)aeDataModel didSelectRoute:(Route *)route;
-- (void)aeDataModel:(AEDataModel *)aeDataModel didDeselectRoute:(Route *)route;
+- (void)aeDataModel:(AEDataModel *)aeDataModel didSelectRoute:(NSNumber *)routeId;
+- (void)aeDataModel:(AEDataModel *)aeDataModel didDeselectRoute:(NSNumber *)routeId;
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshVehicles:(NSArray<Vehicle*> *)vehicleList forRoute:(Route *)route;
 
@@ -40,7 +40,7 @@
 
 - (void)selectRoute:(Route *)route;
 - (void)deselectRoute:(Route *)route;
-- (NSSet<Route*> *)selectedRoutes;
+- (NSSet<NSNumber*> *)selectedRoutes;
 
 - (void)refreshRoutes;
 - (void)refreshVehiclesForRoute:(Route *)route;

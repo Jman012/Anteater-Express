@@ -8,6 +8,8 @@
 
 #import "MenuInfo.h"
 
+#import "Route.h"
+
 @interface LineInfo : MenuInfo
 
 @property (nonatomic, assign) BOOL paid;
@@ -16,7 +18,8 @@
 @property (nonatomic, assign) BOOL selected;
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, assign) NSInteger numActive;
+@property (nonatomic, strong) Route *route;
 
-- (instancetype)initWithText:(NSString *)theText paid:(BOOL)thePaid routeId:(NSNumber *)theRouteId color:(UIColor *)color cellIdentifer:(NSString *)theCellId;
+- (instancetype)initWithText:(NSString *)theText paid:(BOOL)thePaid routeId:(NSNumber *)theRouteId color:(UIColor *)color cellIdentifer:(NSString *)theCellId route:(Route *)route;
 
 @end
