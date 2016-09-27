@@ -433,6 +433,7 @@ const NSUInteger kSectionLinks =      3;
         UINavigationController *frontNavController = (UINavigationController *)self.revealViewController.frontViewController;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
         RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
+        
 //        [destVC setRoute:self.routesAndAnnounceDAO.getRoutes[indexPath.row]];
         
         [self.revealViewController revealToggleAnimated:YES];
