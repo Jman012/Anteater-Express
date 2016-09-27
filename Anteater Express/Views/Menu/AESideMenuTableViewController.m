@@ -11,6 +11,7 @@
 #import <SWRevealViewController/SWRevealViewController.h>
 #import <MapKit/MapKit.h>
 
+#import "AEDataModel.h"
 #import "RoutesAndAnnounceDAO.h"
 #import "ColorConverter.h"
 
@@ -50,7 +51,8 @@ const NSUInteger kSectionLinks =      3;
 
 @property (nonatomic, strong) NSMutableArray<NSArray *> *menuSections;
 @property (nonatomic, strong) NSMutableSet<NSNumber *> *selectedRouteIds;
-@property (nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
+//@property (nonatomic, strong) RoutesAndAnnounceDAO *routesAndAnnounceDAO;
+@property (nonatomic, strong) NSArray<Route*> *routeList;
 @property (nonatomic, strong) NSDate *lastRoutesAndAnnounceRefreshDate;
 
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
@@ -65,6 +67,8 @@ const NSUInteger kSectionLinks =      3;
 #pragma mark - Init
 
 - (void)initialize {
+    [AEDataModel.shared addDelegate:self];
+    
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.name = @"AESideMenu OpQueue";
     
@@ -167,21 +171,20 @@ const NSUInteger kSectionLinks =      3;
 #pragma mark - Methods
 
 - (NSArray *)constructLineInfos {
-    if (self.routesAndAnnounceDAO == nil) {
+    if (self.routeList == nil) {
         return nil;
     }
     
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
-    [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
-        NSString *titleString = [NSString stringWithFormat:@"%@ - %@", routeDict[@"Abbreviation"], routeDict[@"Name"]];
-        NSNumber *fare = routeDict[@"Routefare"];
-        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:titleString
-                                                          paid:fare.boolValue
-                                                       routeId:routeDict[@"Id"]
-                                                         color:[ColorConverter colorWithHexString:routeDict[@"ColorHex"]]
+    [self.routeList enumerateObjectsUsingBlock:^(Route *route, NSUInteger idx, BOOL *stop) {
+        
+        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:route.name
+                                                          paid:route.fare
+                                                       routeId:route.id
+                                                         color:[ColorConverter colorWithHexString:route.color]
                                                  cellIdentifer:kCellIdFreeLineCell];
         newLineInfo.numActive = -1;
-        newLineInfo.selected = [self.selectedRouteIds containsObject:routeDict[@"Id"]];
+        newLineInfo.selected = [self.selectedRouteIds containsObject:route.id];
         [lineInfos addObject:newLineInfo];
         
     }];
@@ -218,67 +221,64 @@ const NSUInteger kSectionLinks =      3;
 
 - (void)refreshAvailableLines {
     
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:kSectionLines];
-    
     // Now that we know the section has the single loading indicator cell,
     // download the data with an operation object
-    AEGetRoutesOp *getRoutesOp = [[AEGetRoutesOp alloc] init];
-    getRoutesOp.returnBlock = ^(RoutesAndAnnounceDAO *routesAndAnnounceDAO) {
-        
-        if ([routesAndAnnounceDAO getRoutes] == nil) {
-            if (self.retryDownloadLinesTimer && self.retryDownloadLinesTimer.isValid) {
-                [self.retryDownloadLinesTimer invalidate];
-            }
-            self.retryDownloadLinesTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refreshAvailableLines) userInfo:nil repeats:NO];
-            [self.refreshControl endRefreshing];
-            return;
-        }
-        
-        self.lastRoutesAndAnnounceRefreshDate = [NSDate date];
-        
-        [self.tableView beginUpdates];
-        
-        self.routesAndAnnounceDAO = routesAndAnnounceDAO;
-        NSArray *lineInfos = [self constructLineInfos];
-        self.menuSections[kSectionLines] = lineInfos;
-        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-        [self.tableView endUpdates];
-        
-        // Request the vehicle data ONCE for each line to see if there are any
-        // vehicles present, and if so, grey out the circles
-        [self.routesAndAnnounceDAO.getRoutes enumerateObjectsUsingBlock:^(NSDictionary *routeDict, NSUInteger idx, BOOL *stop) {
-            NSNumber *stopSetId = routeDict[@"StopSetId"];
-            AEGetVehiclesOp *getVehiclesOp = [[AEGetVehiclesOp alloc] initWithStopSetId:stopSetId.integerValue];
-            getVehiclesOp.returnBlock = ^(RouteVehiclesDAO *routeVehiclesDAO) {
-                NSArray *vehicleDicts = [routeVehiclesDAO getRouteVehicles];
-                [self.menuSections[kSectionLines] enumerateObjectsUsingBlock:^(LineInfo *lineInfo, NSUInteger idx, BOOL *stop) {
-                    if ([lineInfo.routeId isEqualToNumber:routeDict[@"Id"]]) {
-                        lineInfo.numActive = vehicleDicts.count;
-                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:kSectionLines]] withRowAnimation:UITableViewRowAnimationNone];
-                        *stop = YES;
-                    }
-                }];
-            };
-            [self.operationQueue addOperation:getVehiclesOp];
-        }];
-        
-        // If the refresh control was pulled to trigger this, turn it off
-        [self.refreshControl endRefreshing];
-        
-        // Then tell the map view that we got this new information, and if it needs
-        // to download anything else for it's underlying data structures
-        UIViewController *vc = self.revealViewController.frontViewController;
-        if ([vc isKindOfClass:[UINavigationController class]]) {
-            UIViewController *newVc = [[(UINavigationController *)vc viewControllers] firstObject];
-            if ([newVc isKindOfClass:[MapViewController class]]) {
-                [(MapViewController *)newVc setAllRoutesArray:[routesAndAnnounceDAO getRoutes]];
-            }
-        }
-    };
+    [AEDataModel.shared refreshRoutes];
+}
+
+- (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshRouteList:(NSArray<Route *> *)routeList {
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:kSectionLines];
     
-    [self.operationQueue addOperation:getRoutesOp];
+//    if ([routesAndAnnounceDAO getRoutes] == nil) {
+//        if (self.retryDownloadLinesTimer && self.retryDownloadLinesTimer.isValid) {
+//            [self.retryDownloadLinesTimer invalidate];
+//        }
+//        self.retryDownloadLinesTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refreshAvailableLines) userInfo:nil repeats:NO];
+//        [self.refreshControl endRefreshing];
+//        return;
+//    }
     
+    self.lastRoutesAndAnnounceRefreshDate = [NSDate date];
+    
+    [self.tableView beginUpdates];
+    
+    self.routeList = routeList;
+    NSArray *lineInfos = [self constructLineInfos];
+    self.menuSections[kSectionLines] = lineInfos;
+    [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    [self.tableView endUpdates];
+    
+    // Request the vehicle data ONCE for each line to see if there are any
+    // vehicles present, and if so, grey out the circles
+    [self.routeList enumerateObjectsUsingBlock:^(Route *route, NSUInteger idx, BOOL *stop) {
+        [AEDataModel.shared refreshVehiclesForRoute:route];
+    }];
+    
+    // If the refresh control was pulled to trigger this, turn it off
+    [self.refreshControl endRefreshing];
+    
+    // Then tell the map view that we got this new information, and if it needs
+    // to download anything else for it's underlying data structures
+//    UIViewController *vc = self.revealViewController.frontViewController;
+//    if ([vc isKindOfClass:[UINavigationController class]]) {
+//        UIViewController *newVc = [[(UINavigationController *)vc viewControllers] firstObject];
+        // TODO: Implement this same delegate method in there
+//        if ([newVc isKindOfClass:[MapViewController class]]) {
+//            [(MapViewController *)newVc setAllRoutesArray:[routesAndAnnounceDAO getRoutes]];
+//        }
+//    }
+    
+}
+     
+- (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshVehicles:(NSArray<Vehicle *> *)vehicleList forRoute:(Route *)route {
+    [self.menuSections[kSectionLines] enumerateObjectsUsingBlock:^(LineInfo *lineInfo, NSUInteger idx, BOOL *stop) {
+        if ([lineInfo.routeId isEqualToNumber:route.id]) {
+            lineInfo.numActive = vehicleList.count;
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:kSectionLines]] withRowAnimation:UITableViewRowAnimationNone];
+            *stop = YES;
+        }
+    }];
 }
 
 #pragma mark - NSTimer
@@ -503,7 +503,7 @@ const NSUInteger kSectionLinks =      3;
         UINavigationController *frontNavController = (UINavigationController *)self.revealViewController.frontViewController;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
         RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
-        [destVC setRoute:self.routesAndAnnounceDAO.getRoutes[indexPath.row]];
+//        [destVC setRoute:self.routesAndAnnounceDAO.getRoutes[indexPath.row]];
         
         [self.revealViewController revealToggleAnimated:YES];
         [frontNavController pushViewController:destVC animated:YES];
