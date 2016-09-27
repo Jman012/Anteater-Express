@@ -65,7 +65,9 @@
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSNumber*> *routeStopsAnnotationsSelected;
 
 /* Route Vehicle Centric stuff */
-@property (nonatomic, strong) NSMutableDictionary<NSNumber*,AEVehicleAnnotation*> *vehicleAnnotationsForVehicleId;
+// Route Id -> (Vehicle Id -> Annotation)
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSMutableDictionary*> *vehicleForRouteAndVehicleId;
+//@property (nonatomic, strong) NSMutableDictionary<NSNumber*,AEVehicleAnnotation*> *vehicleAnnotationsForVehicleId;
 
 // Misc
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
@@ -110,7 +112,7 @@
         self.routeStopsForWhichLines = [NSMutableDictionary dictionary];
         self.routeIdForStopSetId = [NSMutableDictionary dictionary];
         self.downloadingDefinitions = [NSMutableSet set];
-        self.vehicleAnnotationsForVehicleId = [NSMutableDictionary dictionary];
+        self.vehicleForRouteAndVehicleId = [NSMutableDictionary dictionary];
         
         self.pointsSet = NO;
     }
@@ -266,7 +268,8 @@
         if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
             AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
             [self.mapView removeAnnotation:vehicleAnnotation];
-            [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicle.id];
+//            [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicle.id];
+            [self.vehicleForRouteAndVehicleId[vehicleAnnotation.route.id] removeObjectForKey:vehicleAnnotation.vehicle.id];
         }
     }];
 }
@@ -501,25 +504,45 @@
 #pragma mark - Vehicle Data Handling and Updating
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshVehicles:(NSArray<Vehicle *> *)vehicleList forRoute:(Route *)route {
+    
+    if ([aeDataModel.selectedRoutes containsObject:route.id] == false) {
+        return;
+    }
+        
+    // Make sure there's a route dict in there for the vehicle
+    if (self.vehicleForRouteAndVehicleId[route.id] == nil) {
+        self.vehicleForRouteAndVehicleId[route.id] = [NSMutableDictionary dictionary];
+    }
+    
+
+    NSMutableSet *visited = [NSMutableSet setWithCapacity:vehicleList.count];
     for (Vehicle *vehicle in vehicleList) {
-        NSNumber *vehicleId = vehicle.id;
-        if (self.vehicleAnnotationsForVehicleId[vehicleId] == nil) {
-            // Not yet set
-            AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicle:vehicle route:route];
-            [self.mapView addAnnotation:vehicleAnnotation];
-            self.vehicleAnnotationsForVehicleId[vehicleId] = vehicleAnnotation;
-        } else {
-            // Already exists
-            AEVehicleAnnotation *vehicleAnnotation = self.vehicleAnnotationsForVehicleId[vehicleId];
+        [visited addObject:vehicle.id];
+        
+        AEVehicleAnnotation *vehicleAnnotation = self.vehicleForRouteAndVehicleId[route.id][vehicle.id];
+        if (vehicleAnnotation != nil) {
+            // Update
             vehicleAnnotation.vehicle = vehicle;
-            vehicleAnnotation.route = route;
             
-            // Then try to update the view
             AEVehicleAnnotationView *vehicleAnnotationView = (AEVehicleAnnotationView *)[self.mapView viewForAnnotation:vehicleAnnotation];
             vehicleAnnotationView.tintColor = [ColorConverter colorWithHexString:route.color];
             [vehicleAnnotationView setVehicleImage:vehicleAnnotation.vehiclePicture];
+        } else {
+            // Make new one
+            AEVehicleAnnotation *vehicleAnnotation = [[AEVehicleAnnotation alloc] initWithVehicle:vehicle route:route];
+            [self.mapView addAnnotation:vehicleAnnotation];
+            self.vehicleForRouteAndVehicleId[route.id][vehicle.id] = vehicleAnnotation;
         }
     }
+    
+    NSMutableSet *toRemove = [NSMutableSet setWithArray:[self.vehicleForRouteAndVehicleId[route.id] allKeys]];
+    [toRemove minusSet:visited];
+    for (NSNumber *vehicleId in toRemove) {
+        AEVehicleAnnotation *vehicleAnnotation = self.vehicleForRouteAndVehicleId[route.id][vehicleId];
+        [self.mapView removeAnnotation:vehicleAnnotation];
+        [self.vehicleForRouteAndVehicleId[route.id] removeObjectForKey:vehicleId];
+    }
+
 }
 
 #pragma mark - Route selection methods
@@ -687,7 +710,7 @@
         if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
             AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
             if ([vehicleAnnotation.route.id isEqualToNumber:theId]) {
-                [self.vehicleAnnotationsForVehicleId removeObjectForKey:vehicleAnnotation.vehicle.id];
+                [self.vehicleForRouteAndVehicleId[theId] removeObjectForKey:vehicleAnnotation.vehicle.id];
                 [self.mapView removeAnnotation:vehicleAnnotation];
             }
         }
@@ -772,8 +795,8 @@
         }
         
         // Set Image
-        NSNumber *routeId = vehicleAnnotation.route.id;
-        vehicleAnnotationView.tintColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
+        
+        vehicleAnnotationView.tintColor = [ColorConverter colorWithHexString:vehicleAnnotation.route.color];
         [vehicleAnnotationView setVehicleImage:vehicleAnnotation.vehiclePicture];
         
         return vehicleAnnotationView;

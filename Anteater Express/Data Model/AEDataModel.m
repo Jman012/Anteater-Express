@@ -100,6 +100,8 @@
             }
         }
         
+        [self refreshVehiclesForRoute:route];
+        
         [self saveSelectedRoutes];
     }
 }
@@ -227,7 +229,7 @@
     
     NSError *e = nil;
     [UCIShuttlesRequest requestVehiclesForRouteId:route.id completion:^(NSArray<Vehicle*> *vehicles, NSError *error) {
-        NSLog(@"Vehicles: %@", vehicles);
+//        NSLog(@"Vehicles: %@", vehicles);
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
             return;
