@@ -90,6 +90,7 @@
         NSLog(@"Regions: %@", regions);
         if (error != nil) {
             NSLog(@"Got error while getting regions: %@", e);
+            return;
         }
         if (regions.count > 0) {
             self.region = regions.firstObject;
@@ -116,6 +117,7 @@
         NSLog(@"Routes: %@", routes);
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
+            return;
         }
         self.routeList = [NSMutableArray arrayWithArray:routes];
         for (id<AEDataModelDelegate> del in self.delegates) {
@@ -137,6 +139,7 @@
         NSLog(@"Routes: %@", vehicles);
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
+            return;
         }
         route.vehicles = [NSMutableArray arrayWithArray:vehicles];
         for (id<AEDataModelDelegate> del in self.delegates) {
