@@ -17,6 +17,15 @@
 @property (nonatomic, strong) Region *region;
 @property (nonatomic, strong) NSMutableSet<NSNumber*> *selectedRouteIDsSet;
 
+@property (nonatomic, assign) BOOL gettingRegion;
+@property (nonatomic, assign) BOOL gettingRoutes;
+@property (nonatomic, strong) NSMutableSet *gettingRouteById;
+@property (nonatomic, strong) NSMutableSet *gettingWaypointsById;
+@property (nonatomic, strong) NSMutableSet *gettingVehiclesById;
+@property (nonatomic, strong) NSMutableSet *gettingDirectionsById;
+@property (nonatomic, strong) NSMutableSet *gettingStopsById;
+@property (nonatomic, strong) NSMutableSet *gettingArrivalsById;
+
 @end
 
 @implementation AEDataModel
@@ -27,6 +36,15 @@
     if (self = [super init]) {
         self.delegates = [NSHashTable weakObjectsHashTable];
         self.selectedRouteIDsSet = [NSMutableSet set];
+        
+        self.gettingRegion = false;
+        self.gettingRoutes = false;
+        self.gettingRouteById = [NSMutableSet set];
+        self.gettingWaypointsById = [NSMutableSet set];
+        self.gettingVehiclesById = [NSMutableSet set];
+        self.gettingDirectionsById = [NSMutableSet set];
+        self.gettingStopsById = [NSMutableSet set];
+        self.gettingArrivalsById = [NSMutableSet set];
         
         [self initialize];
     }
@@ -103,13 +121,17 @@
 #pragma mark - Routes
 
 - (void)refreshRegions {
-    NSError *e = nil;
+    if (self.gettingRegion) {
+        return;
+    }
+    self.gettingRegion = true;
     
-    // Region
+    NSError *e = nil;
     [UCIShuttlesRequest requestRegions:^(NSArray<Region*> *regions, NSError *error) {
         NSLog(@"Regions: %@", regions);
         if (error != nil) {
             NSLog(@"Got error while getting regions: %@", e);
+            self.gettingRegion = false;
             return;
         }
         if (regions.count > 0) {
@@ -119,13 +141,20 @@
             self.region.id = 0;
         }
         
+        self.gettingRegion = false;
         [self refreshRoutes];
     }];
     
 }
 
 - (void)refreshRoutes {
+    if (self.gettingRoutes) {
+        return;
+    }
+    self.gettingRoutes = true;
+    
     if (self.region == nil) {
+        self.gettingRoutes = false;
         [self refreshRegions];
         return;
     }
@@ -137,6 +166,7 @@
         NSLog(@"Routes: %@", routes);
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
+            self.gettingRoutes = false;
             return;
         }
         
@@ -165,16 +195,21 @@
                 });
             }
         }
+        
+        self.gettingRoutes = false;
     }];
     
 }
 
 - (void)refreshVehiclesForRoute:(Route *)route {
-    NSError *e = nil;
+    if ([self.gettingVehiclesById containsObject:route.id]) {
+        return;
+    }
+    [self.gettingVehiclesById addObject:route.id];
     
-    // Routes
+    NSError *e = nil;
     [UCIShuttlesRequest requestVehiclesForRouteId:route.id completion:^(NSArray<Vehicle*> *vehicles, NSError *error) {
-        NSLog(@"Routes: %@", vehicles);
+        NSLog(@"Vehicles: %@", vehicles);
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
             return;
@@ -187,6 +222,8 @@
                 });
             }
         }
+        
+        [self.gettingVehiclesById removeObject:route.id];
     }];
 }
 
