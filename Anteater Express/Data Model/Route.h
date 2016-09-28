@@ -20,7 +20,4 @@
 @property (nonatomic, assign) BOOL fare;
 @property (nonatomic, strong) NSString *desc;
 
-@property (nonatomic, strong) NSArray<Vehicle*> *vehicles;
-@property (nonatomic, strong) RouteWaypoints *waypoints;
-
 @end

@@ -166,7 +166,7 @@
 
 + (void)sendRequest:(NSString *)path completion:(void (^)(NSArray *jsonData, NSError *error))completion {
     NSString *fullPath = [NSString stringWithFormat:@"https://ucishuttles.com%@", path];
-    NSLog(@"Requesting: %@", fullPath);
+//    NSLog(@"Requesting: %@", fullPath);
     NSURL *url = [NSURL URLWithString:fullPath];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     

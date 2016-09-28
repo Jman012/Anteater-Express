@@ -45,6 +45,9 @@
 
 - (void)refreshRoutes;
 - (void)refreshVehiclesForRoute:(Route *)route;
+
 - (Route *)routeForId:(NSNumber *)routeId;
+- (NSArray<Vehicle*> *)vehiclesForRouteId:(NSNumber *)routeId;
+- (RouteWaypoints *)wayPointsForRouteId:(NSNumber *)routeId;
 
 @end

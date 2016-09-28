@@ -17,6 +17,8 @@
 @property (nonatomic, strong) Region *region;
 @property (nonatomic, strong) NSMutableSet<NSNumber*> *selectedRouteIDsSet;
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, Route*> *routeForRouteId;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, RouteWaypoints*> *waypointsForRouteId;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSArray<Vehicle*>*> *vehiclesForRouteId;
 
 @property (nonatomic, assign) BOOL gettingRegion;
 @property (nonatomic, assign) BOOL gettingRoutes;
@@ -40,6 +42,8 @@
         self.delegates = [NSHashTable weakObjectsHashTable];
         self.selectedRouteIDsSet = [NSMutableSet set];
         self.routeForRouteId = [NSMutableDictionary dictionary];
+        self.waypointsForRouteId = [NSMutableDictionary dictionary];
+        self.vehiclesForRouteId = [NSMutableDictionary dictionary];
         
         self.gettingRegion = false;
         self.gettingRoutes = false;
@@ -84,6 +88,20 @@
     NSArray *selectedRouteIdsArray = [NSArray arrayWithArray:self.selectedRouteIDsSet.allObjects];
     [userDefaults setObject:selectedRouteIdsArray forKey:@"SelectedRouteIds"];
     [userDefaults synchronize];
+}
+
+#pragma mark - Getters
+
+- (Route *)routeForId:(NSNumber *)routeId {
+    return self.routeForRouteId[routeId];
+}
+
+- (NSArray<Vehicle*> *)vehiclesForRouteId:(NSNumber *)routeId {
+    return self.vehiclesForRouteId[routeId];
+}
+
+- (RouteWaypoints *)wayPointsForRouteId:(NSNumber *)routeId {
+    return self.waypointsForRouteId[routeId];
 }
 
 #pragma mark - Selected Routes
@@ -136,7 +154,7 @@
     
     NSError *e = nil;
     [UCIShuttlesRequest requestRegions:^(NSArray<Region*> *regions, NSError *error) {
-        NSLog(@"Regions: %@", regions);
+        NSLog(@"Got Regions: %@", regions);
         if (error != nil) {
             NSLog(@"Got error while getting regions: %@", e);
             self.gettingRegion = false;
@@ -171,7 +189,7 @@
     
     // Routes
     [UCIShuttlesRequest requestRoutesForRegion:self.region.id completion:^(NSArray<Region*> *routes, NSError *error) {
-        NSLog(@"Routes: %@", routes);
+        NSLog(@"Got Routes: "); //%@", routes);
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
             self.gettingRoutes = false;
@@ -216,10 +234,6 @@
     
 }
 
-- (Route *)routeForId:(NSNumber *)routeId {
-    return self.routeForRouteId[routeId];
-}
-
 - (void)refreshVehiclesForSelectedRoutes {
     for (NSNumber *routeId in self.selectedRouteIDsSet) {
         Route *route = self.routeForRouteId[routeId];
@@ -241,7 +255,8 @@
             [self.gettingVehiclesById removeObject:route.id];
             return;
         }
-        route.vehicles = [NSMutableArray arrayWithArray:vehicles];
+//        route.vehicles = [NSMutableArray arrayWithArray:vehicles];
+        self.vehiclesForRouteId[route.id] = [NSMutableArray arrayWithArray:vehicles];
         for (id<AEDataModelDelegate> del in self.delegates) {
             if ([del respondsToSelector:@selector(aeDataModel:didRefreshVehicles:forRoute:)]) {
                 dispatch_async(dispatch_get_main_queue(), ^() {
@@ -268,11 +283,11 @@
             return;
         }
         
-        route.waypoints = waypoints;
+        self.waypointsForRouteId[route.id] = waypoints;
         for (id<AEDataModelDelegate> del in self.delegates) {
             if ([del respondsToSelector:@selector(aeDataModel:didRefreshWaypoints:forRoute:)]) {
                 dispatch_async(dispatch_get_main_queue(), ^() {
-                    [del aeDataModel:self didRefreshWaypoints:route.waypoints forRoute:route];
+                    [del aeDataModel:self didRefreshWaypoints:waypoints forRoute:route];
                 });
             }
         }
