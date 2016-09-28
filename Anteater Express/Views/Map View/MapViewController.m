@@ -173,9 +173,8 @@
     self.mapView.showsUserLocation = YES;
     self.mapView.delegate = self;
     // Start out on Aldrich Park's center. Later it'll move to the users location
-    CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
-    [self zoomToLocation:uciLocation.coordinate];
-
+    
+    [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -319,6 +318,7 @@
     NSLog(@"%s", __func__);
     
     if (AEDataModel.shared.selectedRoutes.count == 0) {
+        [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
         return;
     }
     
@@ -1084,7 +1084,7 @@
     mapRegion.center = coordinate;
     mapRegion.span.latitudeDelta = 0.025;
     mapRegion.span.longitudeDelta = 0.025;
-    
+
     [self.mapView setRegion:mapRegion animated:NO];
 }
 

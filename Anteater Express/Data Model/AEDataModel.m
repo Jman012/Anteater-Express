@@ -218,7 +218,9 @@
         for (Route *route in self.routeList) {
             self.routeForRouteId[route.id] = route;
             
-            [self refreshWaypointsForRoute:route];
+            if ([self wayPointsForRouteId:route.id] == nil) {
+                [self refreshWaypointsForRoute:route];
+            }
         }
         
         for (id<AEDataModelDelegate> del in self.delegates) {
