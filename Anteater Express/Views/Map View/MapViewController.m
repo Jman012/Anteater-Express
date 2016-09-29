@@ -250,6 +250,8 @@
     [self refreshVehicles:@[] forRoute:route];
     [self removeWaypointsForRoute:route];
     
+    [self refreshAllStops];
+    
     [self resetMapRect];
 }
 
