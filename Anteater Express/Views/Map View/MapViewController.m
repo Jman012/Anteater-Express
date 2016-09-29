@@ -153,7 +153,6 @@
     
     [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 
     
@@ -204,18 +203,6 @@
     if (newType != self.mapView.mapType) {
         [self.mapView setMapType:newType];
     }
-}
-
-- (void)applicationWillResignActive:(NSNotification *)sender {
-    
-    // Remove all vehicles from the view
-    [self.mapView.annotations enumerateObjectsUsingBlock:^(id<MKAnnotation> annotation, NSUInteger idx, BOOL *stop) {
-        if ([annotation isMemberOfClass:[AEVehicleAnnotation class]]) {
-            AEVehicleAnnotation *vehicleAnnotation = (AEVehicleAnnotation *)annotation;
-            [self.mapView removeAnnotation:vehicleAnnotation];
-            [self.vehicleForRouteAndVehicleId[vehicleAnnotation.route.id] removeObjectForKey:vehicleAnnotation.vehicle.id];
-        }
-    }];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)sender {
