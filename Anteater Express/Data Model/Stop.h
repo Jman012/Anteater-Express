@@ -11,5 +11,8 @@
 @interface Stop : NSObject
 
 @property (nonatomic, assign) NSNumber *id;
+@property (nonatomic, strong) NSNumber *latitude;
+@property (nonatomic, strong) NSNumber *longitude;
+@property (nonatomic, strong) NSString *name;
 
 @end

@@ -10,4 +10,8 @@
 
 @interface Arrival : NSObject
 
+@property (nonatomic, strong) NSNumber *vehicleID;
+@property (nonatomic, strong) NSString *vehicleName;
+@property (nonatomic, strong) NSNumber *secondsToArrival;
+
 @end

@@ -23,7 +23,6 @@
 + (Route *)requestRouteForId:(NSNumber *)routeId error:(NSError **)error;
 + (void)requestWaypointsForRouteId:(NSNumber *)routeId completion:(void (^)(RouteWaypoints *waypoints, NSError *error))completionHandler;
 + (void)requestVehiclesForRouteId:(NSNumber *)routeId completion:(void (^)(NSArray<Vehicle*> *vehicles, NSError *error))completionHandler;
-+ (NSArray<Stop*> *)requestStopsForRouteId:(NSNumber *)routeId directionId:(NSNumber *)directionId error:(NSError **)error;
-+ (NSArray<Arrival*> *)requestArrivalsForStopId:(NSNumber *)stopId error:(NSError **)error;
-
++ (void)requestStopsForRouteId:(NSNumber *)routeId directionId:(NSNumber *)directionId completion:(void (^)(NSArray<Stop*> *stops, NSError *error))completionHandler;
++ (void)requestArrivalsForStopId:(NSNumber *)stopId completion:(void (^)(NSDictionary<NSNumber*,NSArray<Arrival*>*> *arrivalsDict, NSError *error))completionHandler;
 @end

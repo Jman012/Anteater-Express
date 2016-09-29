@@ -12,6 +12,7 @@
 #import "RouteWaypoints.h"
 #import "Stop.h"
 #import "Vehicle.h"
+#import "Arrival.h"
 
 @class AEDataModel;
 
@@ -26,6 +27,8 @@
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshVehicles:(NSArray<Vehicle*> *)vehicleList forRoute:(Route *)route;
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshWaypoints:(RouteWaypoints *)waypoints forRoute:(Route *)route;
+- (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshStops:(NSArray<Stop*> *)stops forRoute:(Route *)route;
+- (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshArrivals:(NSDictionary<NSNumber*,NSArray<Arrival*>*> *)arrivalsDict forStop:(Stop *)stop;
 
 @end
 
@@ -45,9 +48,12 @@
 
 - (void)refreshRoutes;
 - (void)refreshVehiclesForRoute:(Route *)route;
+- (void)refreshArrivalsForStop:(Stop *)stop;
 
 - (Route *)routeForId:(NSNumber *)routeId;
 - (NSArray<Vehicle*> *)vehiclesForRouteId:(NSNumber *)routeId;
 - (RouteWaypoints *)wayPointsForRouteId:(NSNumber *)routeId;
+- (NSArray<NSNumber*> *)stopsForRouteId:(NSNumber *)routeId;
+- (Stop *)stopForStopId:(NSNumber *)stopId;
 
 @end

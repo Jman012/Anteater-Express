@@ -55,14 +55,12 @@
 //@property (nonatomic, strong) NSMutableSet<NSNumber*> *downloadingDefinitions;
 
 /* Route Stop information specifically */
-// RouteId -> @[StopSetId], used as a lookup
-@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSArray<NSNumber*>*> *routeStopsForWhichLines;
-// StopSetId -> RouteId
-@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSNumber*> *routeIdForStopSetId;
+// Route.id -> @[
 // Just holds the MapAnnotation objects. StopId->AEStopAnnotation.
-@property (nonatomic, strong) NSMutableDictionary<NSNumber*, AEStopAnnotation*> *routeStopsAnnotationsDict;
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, AEStopAnnotation*> *stopAnnotationForStopId;
 // Routes share stops, so this is StopId->count as a retain/release method
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSNumber*> *routeStopsAnnotationsSelected;
+@property (nonatomic, weak) MKAnnotationView *selectedStopAnnotationView;
 
 /* Route Vehicle Centric stuff */
 // Route Id -> (Vehicle Id -> Annotation)
@@ -107,10 +105,10 @@
 //        self.selectedButAwaitingDataRoutes = [NSMutableSet set];
 //        self.routeDefinitions = [NSMutableDictionary dictionary];
         self.routeDefinitionsPolylines = [NSMutableDictionary dictionary];
-        self.routeStopsAnnotationsDict = [NSMutableDictionary dictionary];
+        self.stopAnnotationForStopId = [NSMutableDictionary dictionary];
         self.routeStopsAnnotationsSelected = [NSMutableDictionary dictionary];
-        self.routeStopsForWhichLines = [NSMutableDictionary dictionary];
-        self.routeIdForStopSetId = [NSMutableDictionary dictionary];
+//        self.routeStopsForWhichLines = [NSMutableDictionary dictionary];
+//        self.routeIdForStopSetId = [NSMutableDictionary dictionary];
 //        self.downloadingDefinitions = [NSMutableSet set];
         self.vehicleForRouteAndVehicleId = [NSMutableDictionary dictionary];
         
@@ -190,6 +188,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    [self resetMapRect];
     
     [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
@@ -287,7 +287,6 @@
 #pragma mark - Route Data handling
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didSelectRoute:(NSNumber *)routeId {
-    NSLog(@"%s", __func__);
     [self resetScreenName];
     
     Route *route = [aeDataModel routeForId:routeId];
@@ -299,11 +298,12 @@
         [self addWaypoints:[aeDataModel wayPointsForRouteId:routeId] forRoute:route];
     }
     
+    [self refreshAllStops];
+    
     [self resetMapRect];
 }
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didDeselectRoute:(NSNumber *)routeId {
-    NSLog(@"%s", __func__);
     [self resetScreenName];
     
     Route *route = [aeDataModel routeForId:routeId];
@@ -315,7 +315,6 @@
 }
 
 - (void)resetMapRect {
-    NSLog(@"%s", __func__);
     
     if (AEDataModel.shared.selectedRoutes.count == 0) {
         [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
@@ -360,21 +359,21 @@
     [self.mapView setVisibleMapRect:routeRect animated:NO];
 }
 
-- (NSArray *)routeIdsForStopId:(NSNumber *)stopId {
-    // Given a stopId, return all the routeIDs associated with it.
-    // For instance, the bridge stop on the UTC side is a single stop but
-    // recieves the orange yellow purple teal and maybe even some other lines. So
-    // this would return the routeIds for those colored lines and not the rest.
-    __block NSMutableArray *toRet = [NSMutableArray array];
-    [self.routeStopsForWhichLines enumerateKeysAndObjectsUsingBlock:^(NSNumber *curRouteId, NSArray *stopIdArray, BOOL *stop) {
-        [stopIdArray enumerateObjectsUsingBlock:^(NSNumber *curStopId, NSUInteger idx, BOOL *stop2) {
-            if ([stopId isEqualToNumber:curStopId]) {
-                [toRet addObject:curRouteId];
-            }
-        }];
-    }];
-    return toRet;
-}
+//- (NSArray *)routeIdsForStopId:(NSNumber *)stopId {
+//    // Given a stopId, return all the routeIDs associated with it.
+//    // For instance, the bridge stop on the UTC side is a single stop but
+//    // recieves the orange yellow purple teal and maybe even some other lines. So
+//    // this would return the routeIds for those colored lines and not the rest.
+//    __block NSMutableArray *toRet = [NSMutableArray array];
+//    [self.routeStopsForWhichLines enumerateKeysAndObjectsUsingBlock:^(NSNumber *curRouteId, NSArray *stopIdArray, BOOL *stop) {
+//        [stopIdArray enumerateObjectsUsingBlock:^(NSNumber *curStopId, NSUInteger idx, BOOL *stop2) {
+//            if ([stopId isEqualToNumber:curStopId]) {
+//                [toRet addObject:curRouteId];
+//            }
+//        }];
+//    }];
+//    return toRet;
+//}
 
 //- (BOOL)stopSetIdInSelected:(NSNumber *)stopSetId {
 //    __block BOOL ret = false;
@@ -544,8 +543,43 @@
 //    [self.operationQueue addOperation:getRouteOp];
 //}
 
+- (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshStops:(NSArray<Stop *> *)stops forRoute:(Route *)route {
+    if ([aeDataModel.selectedRoutes containsObject:route.id] == false) {
+        return;
+    }
+    
+    [self refreshAllStops];
+}
+
+- (void)refreshAllStops {
+    
+    for (id<MKAnnotation> annotation in self.mapView.annotations) {
+        if ([annotation isKindOfClass:[AEStopAnnotation class]]) {
+            AEStopAnnotation *stopAnnotation = annotation;
+            [self.mapView removeAnnotation:stopAnnotation];
+        }
+    }
+    [self.stopAnnotationForStopId removeAllObjects];
+    
+    for (NSNumber *routeId in AEDataModel.shared.selectedRoutes) {
+        Route *route = [AEDataModel.shared routeForId:routeId];
+        
+        for (NSNumber *stopId in [AEDataModel.shared stopsForRouteId:route.id]) {
+            if (self.stopAnnotationForStopId[stopId] == nil) {
+                Stop *stop = [AEDataModel.shared stopForStopId:stopId];
+                AEStopAnnotation *stopAnnotation = [[AEStopAnnotation alloc] initWithStop:stop];
+                [self.mapView addAnnotation:stopAnnotation];
+                self.stopAnnotationForStopId[stopId] = stopAnnotation;
+                [stopAnnotation.routes addObject:route];
+            } else {
+                AEStopAnnotation *stopAnnotation = self.stopAnnotationForStopId[stopId];
+                [stopAnnotation.routes addObject:route];
+            }
+        }
+    }
+}
+
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshWaypoints:(RouteWaypoints *)waypoints forRoute:(Route *)route {
-    NSLog(@"%s", __func__);
     if ([aeDataModel.selectedRoutes containsObject:route.id] == false) {
         return;
     }
@@ -554,7 +588,6 @@
 }
 
 - (void)addWaypoints:(RouteWaypoints *)waypoints forRoute:(Route *)route {
-    NSLog(@"%s", __func__);
 
     // Convert to thing for mapkit
     MKMapPoint *routeMapPointsCArray = malloc(sizeof(MKMapPoint) * waypoints.points.count);
@@ -581,7 +614,6 @@
 }
 
 - (void)removeWaypointsForRoute:(Route *)route {
-    NSLog(@"%s", __func__);
     for (id<MKOverlay> overlay in self.mapView.overlays) {
         if ([overlay isKindOfClass:[MKPolyline class]]) {
             MKPolyline *polyline = overlay;
@@ -631,7 +663,6 @@
 #pragma mark - Vehicle Data Handling and Updating
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshVehicles:(NSArray<Vehicle *> *)vehicleList forRoute:(Route *)route {
-    NSLog(@"%s", __func__);
     if ([aeDataModel.selectedRoutes containsObject:route.id] == false) {
         return;
     }
@@ -641,7 +672,6 @@
 }
 
 - (void)refreshVehicles:(NSArray<Vehicle*> *)vehicleList forRoute:(Route *)route {
-    NSLog(@"%s", __func__);
     // Make sure there's a route dict in there for the vehicle
     if (self.vehicleForRouteAndVehicleId[route.id] == nil) {
         self.vehicleForRouteAndVehicleId[route.id] = [NSMutableDictionary dictionary];
@@ -890,15 +920,12 @@
         // Setup information needed for later
         static NSString* identifier = @"Pin";
         AEStopAnnotation *stopAnnotation = (AEStopAnnotation *)annotation;
-        NSNumber *stopId = stopAnnotation.stopId;
-        NSArray *routeIdsForThisStop = [self routeIdsForStopId:stopId];
         // Construct colors array from the selected lines, to be passed to the view
         NSMutableArray *colors = [NSMutableArray array];
-//        for (NSNumber *curRouteId in routeIdsForThisStop) {
-//            if ([self.selectedRoutes containsObject:curRouteId] == true) {
-//                [colors addObject:[ColorConverter colorWithHexString:self.allRoutes[curRouteId][@"ColorHex"]]];
-//            }
-//        };
+        for (Route *route in stopAnnotation.routes) {
+            [colors addObject:[ColorConverter colorWithHexString:route.color]];
+        }
+
         
         // Make the stop view
         AEStopAnnotationView *stopAnnView = (AEStopAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
@@ -966,83 +993,133 @@
     self.userLocation = userLocation;
 }
 
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-    if ([view isMemberOfClass:[AEStopAnnotationView class]]) {
-
-        AEStopAnnotation *stopAnnotaton = (AEStopAnnotation *)view.annotation;
-        stopAnnotaton.arrivalPredictions = [NSMutableDictionary dictionary]; // Reset predictions
+- (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshArrivals:(NSDictionary<NSNumber *,NSArray<Arrival *> *> *)arrivalsDict forStop:(Stop *)stop {
+    
+    if (self.selectedStopAnnotationView == nil) {
+        NSLog(@"Got arrivals but we idn't tap anything!");
+        return;
+    }
+    
+    AEStopAnnotation *stopAnnotation = self.selectedStopAnnotationView.annotation;
+    
+    if (!NSClassFromString(@"UIStackView") || ![self.selectedStopAnnotationView respondsToSelector:@selector(detailCalloutAccessoryView)]) {
+        // Set subtitle. We're not iOS9 with stack views and detail views
+    } else {
+        // We're good to go with the detail view
         
-        // Go through all stopSetIds assigned to this stop annotation
-        __block NSMutableArray *stopSetIds = [NSMutableArray array];
-        __block NSMutableArray *stopIds = [NSMutableArray array];
-        [stopAnnotaton.stopSetIds enumerateObjectsUsingBlock:^(NSNumber *stopSetId, NSUInteger idx, BOOL *stop) {
-//            if ([self stopSetIdInSelected:stopSetId] == false) {
-//                // Only download/show predictions for lines that are selected
-//                return;
-//            }
-            [stopSetIds addObject:stopSetId];
-            [stopIds addObject:stopAnnotaton.stopId];
-        }];
+        __block UIStackView *stackView = [[UIStackView alloc] init];
+        stackView.axis = UILayoutConstraintAxisVertical;
+        stackView.distribution = UIStackViewDistributionEqualSpacing;
+        stackView.alignment = UIStackViewAlignmentLeading;
+        stackView.spacing = 4;
+        stackView.translatesAutoresizingMaskIntoConstraints = NO;
         
-        // Download the predictions for this stopSetId/stopId combo
-        AEGetArrivalPredictionsOp *arrivalPredictionsOp = [[AEGetArrivalPredictionsOp alloc] initWithStopSetIds:stopSetIds stopIds:stopIds];
-        arrivalPredictionsOp.returnBlock = ^(NSArray<StopArrivalPredictionDAO *> *stopArrivalPredictionsDAOs) {
-            // Here we're done downloading all the arrival predictions
-            
-            // First go through and add all the predictions into the annotation
-            // regardless of subtitle or stack view usage
-            [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
-                [stopAnnotaton willChangeValueForKey:@"subtitle"];
-                stopAnnotaton.arrivalPredictions[stopSetIds[idx]] = [stopArrivalPredictionsDAO.getArrivalTimes valueForKey:@"Predictions"];
-                [stopAnnotaton didChangeValueForKey:@"subtitle"];
-            }];
-            
-            // Make sure we can handle stack views and detail callout views
-            if (!NSClassFromString(@"UIStackView") || ![view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
-                // If not we've done all we can
-                return;
-            }
-            
-            UIView *container = [[UIView alloc] init];
-            
-            // Otherwise, we're good. Make the stack view and put it in a container
-            __block UIStackView *stackView = [[UIStackView alloc] init];
-            stackView.axis = UILayoutConstraintAxisVertical;
-            stackView.distribution = UIStackViewDistributionEqualSpacing;
-            stackView.alignment = UIStackViewAlignmentLeading;
-            stackView.spacing = 4;
-            stackView.translatesAutoresizingMaskIntoConstraints = NO;
-            [container addSubview:stackView];
-            
-            
-            // Then populate the stack view
-            [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
-                // Vars
-                NSNumber *stopSetId = stopSetIds[idx];
-                NSNumber *routeId = self.routeIdForStopSetId[stopSetId];
+        [arrivalsDict enumerateKeysAndObjectsUsingBlock:^(NSNumber *routeId, NSArray<Arrival*> *arrivalsList, BOOL *stop) {
+            if ([AEDataModel.shared.selectedRoutes containsObject:routeId]) {
+                Route *route = [AEDataModel.shared routeForId:routeId];
                 
-                // If iOS9, use a stack view to show the times
-
-                // Add the custom view, assigning the info
                 NSArray *elements = [[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil];
                 ArrivalPredictionView *arrivalsView = [elements firstObject];
-                // Use the annotation to make the text for us
-//                arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
-//                arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
+
+                arrivalsView.textLabel.text = [stopAnnotation formattedSubtitleForArrivalList:arrivalsList abbreviation:route.shortName];
+                arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:route.color];
                 arrivalsView.tag = routeId.integerValue;
                 
                 UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(calloutAnnotationViewWasTapped:)];
                 tapRecognizer.numberOfTouchesRequired = 1;
                 tapRecognizer.numberOfTapsRequired = 1;
                 [arrivalsView addGestureRecognizer:tapRecognizer];
-
+                
                 
                 [stackView addArrangedSubview:arrivalsView];
-                
-            }];
+            }
+            
+        }];
         
-            view.detailCalloutAccessoryView = stackView;
-        };
+        
+        self.selectedStopAnnotationView.detailCalloutAccessoryView = stackView;
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    if ([view isMemberOfClass:[AEStopAnnotationView class]]) {
+
+        AEStopAnnotation *stopAnnotaton = (AEStopAnnotation *)view.annotation;
+        self.selectedStopAnnotationView = view;
+        [AEDataModel.shared refreshArrivalsForStop:stopAnnotaton.stop];
+//        stopAnnotaton.arrivalPredictions = [NSMutableDictionary dictionary]; // Reset predictions
+        
+        // Go through all stopSetIds assigned to this stop annotation
+//        __block NSMutableArray *stopSetIds = [NSMutableArray array];
+//        __block NSMutableArray *stopIds = [NSMutableArray array];
+//        [stopAnnotaton.stopSetIds enumerateObjectsUsingBlock:^(NSNumber *stopSetId, NSUInteger idx, BOOL *stop) {
+//            if ([self stopSetIdInSelected:stopSetId] == false) {
+//                // Only download/show predictions for lines that are selected
+//                return;
+//            }
+//            [stopSetIds addObject:stopSetId];
+//            [stopIds addObject:stopAnnotaton.stop.id];
+//        }];
+        
+        // Download the predictions for this stopSetId/stopId combo
+//        AEGetArrivalPredictionsOp *arrivalPredictionsOp = [[AEGetArrivalPredictionsOp alloc] initWithStopSetIds:stopSetIds stopIds:stopIds];
+//        arrivalPredictionsOp.returnBlock = ^(NSArray<StopArrivalPredictionDAO *> *stopArrivalPredictionsDAOs) {
+            // Here we're done downloading all the arrival predictions
+            
+            // First go through and add all the predictions into the annotation
+            // regardless of subtitle or stack view usage
+//            [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
+//                [stopAnnotaton willChangeValueForKey:@"subtitle"];
+//                stopAnnotaton.arrivalPredictions[stopSetIds[idx]] = [stopArrivalPredictionsDAO.getArrivalTimes valueForKey:@"Predictions"];
+//                [stopAnnotaton didChangeValueForKey:@"subtitle"];
+//            }];
+//            
+//            // Make sure we can handle stack views and detail callout views
+//            if (!NSClassFromString(@"UIStackView") || ![view respondsToSelector:@selector(detailCalloutAccessoryView)]) {
+//                // If not we've done all we can
+//                return;
+//            }
+//            
+//            UIView *container = [[UIView alloc] init];
+//            
+//            // Otherwise, we're good. Make the stack view and put it in a container
+//            __block UIStackView *stackView = [[UIStackView alloc] init];
+//            stackView.axis = UILayoutConstraintAxisVertical;
+//            stackView.distribution = UIStackViewDistributionEqualSpacing;
+//            stackView.alignment = UIStackViewAlignmentLeading;
+//            stackView.spacing = 4;
+//            stackView.translatesAutoresizingMaskIntoConstraints = NO;
+//            [container addSubview:stackView];
+//            
+//            
+//            // Then populate the stack view
+//            [stopArrivalPredictionsDAOs enumerateObjectsUsingBlock:^(StopArrivalPredictionDAO *stopArrivalPredictionsDAO, NSUInteger idx, BOOL *stop) {
+//                // Vars
+//                NSNumber *stopSetId = stopSetIds[idx];
+//                NSNumber *routeId = self.routeIdForStopSetId[stopSetId];
+//                
+//                // If iOS9, use a stack view to show the times
+//
+//                // Add the custom view, assigning the info
+//                NSArray *elements = [[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil];
+//                ArrivalPredictionView *arrivalsView = [elements firstObject];
+//                // Use the annotation to make the text for us
+////                arrivalsView.textLabel.text = [stopAnnotaton formattedSubtitleForStopSetId:stopSetId abbreviation:self.allRoutes[routeId][@"Abbreviation"]];
+////                arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:self.allRoutes[routeId][@"ColorHex"]];
+//                arrivalsView.tag = routeId.integerValue;
+//                
+//                UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(calloutAnnotationViewWasTapped:)];
+//                tapRecognizer.numberOfTouchesRequired = 1;
+//                tapRecognizer.numberOfTapsRequired = 1;
+//                [arrivalsView addGestureRecognizer:tapRecognizer];
+//
+//                
+//                [stackView addArrangedSubview:arrivalsView];
+//                
+//            }];
+//        
+//            view.detailCalloutAccessoryView = stackView;
+//        };
 //        [self.operationQueue addOperation:arrivalPredictionsOp];
         
     }
@@ -1059,7 +1136,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
     RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
     NSNumber *routeId = [NSNumber numberWithInteger:sender.view.tag];
-//    [destVC setRoute:self.allRoutes[routeId]];
+    [destVC setRoute:[AEDataModel.shared routeForId:routeId]];
     
     [frontNavController pushViewController:destVC animated:YES];
 }

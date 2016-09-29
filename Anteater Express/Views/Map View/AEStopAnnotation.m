@@ -12,50 +12,17 @@
 
 @implementation AEStopAnnotation
 
-- (instancetype)initWithDictionary:(NSDictionary *)initialRouteStopDictionary {
+- (instancetype)initWithStop:(Stop *)stop {
     
     if (self = [super init]) {
         
-        CLLocationDegrees latitude  = [[initialRouteStopDictionary objectForKey:@"Latitude"] doubleValue];
-        CLLocationDegrees longitude = [[initialRouteStopDictionary objectForKey:@"Longitude"] doubleValue];
-        // create our coordinate
-        self.coordinate = CLLocationCoordinate2DMake(latitude, longitude);
-        
-        self.stopId = [initialRouteStopDictionary objectForKey:@"StopId"];
-        self.title = [initialRouteStopDictionary objectForKey:@"Name"]; // Name should be same for all dicts
-        
-        // Set the initial dictionary. More might be added
-        _dictionaries = [NSMutableArray array];
-        [self addNewDictionary:initialRouteStopDictionary];
-        
+        self.stop = stop;
+        self.coordinate = CLLocationCoordinate2DMake(self.stop.latitude.doubleValue, self.stop.longitude.doubleValue);
+        self.title = stop.name;
+        self.routes = [NSMutableArray array];
     }
     
     return self;
-}
-
-- (void)addNewDictionary:(NSDictionary *)newDict {
-    // This will make sure all new dicts added have the same stopId,
-    // otherwise they shouldnt be added here.
-    
-    NSNumber *newStopId = newDict[@"StopId"];
-    for (NSDictionary *curDict in self.dictionaries) {
-        if ([newStopId isEqualToNumber:curDict[@"StopId"]] == false) {
-            NSLog(@"Error: adding new dictionary to stop annotation with mismatching stopId's.");
-            NSLog(@"-> Existing stopId: %@, new stopId: %@", curDict[@"StopId"], newStopId);
-            return;
-        }
-    }
-    
-    // If we make it here, we're good.
-    [_dictionaries addObject:newDict];
-}
-
-- (NSArray<NSNumber*> *)stopSetIds {
-    NSMutableArray *retArray = [NSMutableArray array];
-    [self.dictionaries enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
-        [retArray addObject:dict[@"StopSetId"]];
-    }];
-    return retArray;
 }
 
 - (BOOL)shouldShowSubtitle {
@@ -121,21 +88,20 @@
 
 }
 
-- (NSString *)formattedSubtitleForStopSetId:(NSNumber *)stopSetId abbreviation:(NSString *)abbreviation {
+- (NSString *)formattedSubtitleForArrivalList:(NSArray<Arrival*> *)arrivalList abbreviation:(NSString *)abbreviation {
     __block NSString *subtitle = abbreviation;
-    
-    NSArray *predictions = self.arrivalPredictions[stopSetId];
     
     subtitle = [subtitle stringByAppendingString:@" Line"];
     
-    [predictions enumerateObjectsUsingBlock:^(NSDictionary *predictionDict, NSUInteger idx, BOOL *stopInner) {
+    [arrivalList enumerateObjectsUsingBlock:^(Arrival *arrival, NSUInteger idx, BOOL *stopInner) {
         subtitle = [subtitle stringByAppendingString:@"\n"];
         subtitle = [subtitle stringByAppendingString:@"  Bus "];
-        subtitle = [subtitle stringByAppendingString:[predictionDict[@"BusName"] stringValue]];
+        subtitle = [subtitle stringByAppendingString:arrival.vehicleName];
         subtitle = [subtitle stringByAppendingString:@"\t"];
         
-        NSString* minutesTillArrival = [predictionDict[@"Minutes"] stringValue];
-        if([minutesTillArrival isEqualToString: @"0"])
+        NSNumber *minutes = [NSNumber numberWithDouble:round(arrival.secondsToArrival.doubleValue / 60.0)];
+        NSString* minutesTillArrival = [minutes stringValue];
+        if(arrival.secondsToArrival.doubleValue <= 0)
         {
             subtitle = [subtitle stringByAppendingString:@"arriving"];
         }

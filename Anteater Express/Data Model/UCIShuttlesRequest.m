@@ -107,7 +107,7 @@
                 [points addObject:value];
             }
         } @catch (NSException *exception) {
-            completionHandler(nil, [NSError errorWithDomain:@"There was an error loading routes" code:1 userInfo:nil]);
+            completionHandler(nil, [NSError errorWithDomain:@"There was an error loading waypoints" code:1 userInfo:nil]);
         } @finally {
             waypoints.points = points;
             completionHandler(waypoints, nil);
@@ -142,7 +142,7 @@
                 [vehicles addObject:newVehicle];
             }
         } @catch (NSException *exception) {
-            completionHandler(nil, [NSError errorWithDomain:@"There was an error loading routes" code:1 userInfo:nil]);
+            completionHandler(nil, [NSError errorWithDomain:@"There was an error loading vehicles" code:1 userInfo:nil]);
         } @finally {
             completionHandler([NSArray arrayWithArray:vehicles], nil);
         }
@@ -151,15 +151,69 @@
 }
 
 + (NSArray<Direction*> *)requestDirectionsForRouteId:(NSNumber *)routeId error:(NSError **)error {
-    
+
 }
 
-+ (NSArray<Stop*> *)requestStopsForRouteId:(NSNumber *)routeId directionId:(NSNumber *)directionId error:(NSError **)error {
++ (void)requestStopsForRouteId:(NSNumber *)routeId directionId:(NSNumber *)directionId completion:(void (^)(NSArray<Stop*> *stops, NSError *error))completionHandler {
     
+    [UCIShuttlesRequest sendRequest:[NSString stringWithFormat:@"/Route/%@/Direction/0/Stops", routeId] completion:^(NSArray *stopsJson, NSError *error) {
+        
+        if (error != nil) {
+            completionHandler(nil, error);
+            return;
+        }
+        
+        NSMutableArray<Stop*> *stops = [NSMutableArray arrayWithCapacity:stopsJson.count];
+        @try {
+            for (NSDictionary *stopDict in stopsJson) {
+                Stop *newStop = [[Stop alloc] init];
+                newStop.id = stopDict[@"ID"];
+                newStop.latitude = stopDict[@"Latitude"];
+                newStop.longitude = stopDict[@"Longitude"];
+                newStop.name = stopDict[@"Name"];
+                
+                
+                [stops addObject:newStop];
+            }
+        } @catch (NSException *exception) {
+            completionHandler(nil, [NSError errorWithDomain:@"There was an error loading stop" code:1 userInfo:nil]);
+        } @finally {
+            completionHandler([NSArray arrayWithArray:stops], nil);
+        }
+        
+    }];
 }
 
-+ (NSArray<Arrival*> *)requestArrivalsForStopId:(NSNumber *)stopId error:(NSError **)error {
-    
++ (void)requestArrivalsForStopId:(NSNumber *)stopId completion:(void (^)(NSDictionary<NSNumber*,NSArray<Arrival*>*> *arrivalsDict, NSError *error))completionHandler {
+    [UCIShuttlesRequest sendRequest:[NSString stringWithFormat:@"/Stop/%@/Arrivals", stopId] completion:^(NSArray *arrivalsJson, NSError *error) {
+        
+        if (error != nil) {
+            completionHandler(nil, error);
+            return;
+        }
+        
+        // Route.id -> @[Arrival]
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        @try {
+            for (NSDictionary *routeDict in arrivalsJson) {
+                NSNumber *routeId = routeDict[@"RouteID"];
+                dict[routeId] = [NSMutableArray array];
+                for (NSDictionary *arrivalDict in routeDict[@"Arrivals"]) {
+                    Arrival *newArrival = [[Arrival alloc] init];
+                    newArrival.vehicleID = arrivalDict[@"VehicleID"];
+                    newArrival.vehicleName = arrivalDict[@"VehicleName"];
+                    newArrival.secondsToArrival = arrivalDict[@"SecondsToArrival"];
+                    
+                    [dict[routeId] addObject:newArrival];
+                }
+            }
+        } @catch (NSException *exception) {
+            completionHandler(nil, [NSError errorWithDomain:@"There was an error loading stop" code:1 userInfo:nil]);
+        } @finally {
+            completionHandler(dict, nil);
+        }
+        
+    }];
 }
 
 #pragma mark - General Request

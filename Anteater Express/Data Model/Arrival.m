@@ -10,4 +10,8 @@
 
 @implementation Arrival
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Bus %@ in %@ seconds", self.vehicleName, self.secondsToArrival];
+}
+
 @end

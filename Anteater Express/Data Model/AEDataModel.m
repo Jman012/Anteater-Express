@@ -16,9 +16,16 @@
 
 @property (nonatomic, strong) Region *region;
 @property (nonatomic, strong) NSMutableSet<NSNumber*> *selectedRouteIDsSet;
+// Route.id -> Route
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, Route*> *routeForRouteId;
+// Route.id -> RouteWayPoints
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, RouteWaypoints*> *waypointsForRouteId;
+// Route.id -> @[Vehicle]
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSArray<Vehicle*>*> *vehiclesForRouteId;
+// Route.id -> @[Stop.id]
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSArray<NSNumber*>*> *stopsForRouteId;
+// Stop.id -> Stop
+@property (nonatomic, strong) NSMutableDictionary<NSNumber*, Stop*> *stopForStopId;
 
 @property (nonatomic, assign) BOOL gettingRegion;
 @property (nonatomic, assign) BOOL gettingRoutes;
@@ -44,6 +51,8 @@
         self.routeForRouteId = [NSMutableDictionary dictionary];
         self.waypointsForRouteId = [NSMutableDictionary dictionary];
         self.vehiclesForRouteId = [NSMutableDictionary dictionary];
+        self.stopsForRouteId = [NSMutableDictionary dictionary];
+        self.stopForStopId = [NSMutableDictionary dictionary];
         
         self.gettingRegion = false;
         self.gettingRoutes = false;
@@ -102,6 +111,14 @@
 
 - (RouteWaypoints *)wayPointsForRouteId:(NSNumber *)routeId {
     return self.waypointsForRouteId[routeId];
+}
+
+- (NSArray<NSNumber*> *)stopsForRouteId:(NSNumber *)routeId {
+    return self.stopsForRouteId[routeId];
+}
+
+- (Stop *)stopForStopId:(NSNumber *)stopId {
+    return self.stopForStopId[stopId];
 }
 
 #pragma mark - Selected Routes
@@ -221,6 +238,9 @@
             if ([self wayPointsForRouteId:route.id] == nil) {
                 [self refreshWaypointsForRoute:route];
             }
+            if ([self stopsForRouteId:route.id] == nil) {
+                [self refreshStopsForRoute:route];
+            }
         }
         
         for (id<AEDataModelDelegate> del in self.delegates) {
@@ -253,7 +273,7 @@
     [UCIShuttlesRequest requestVehiclesForRouteId:route.id completion:^(NSArray<Vehicle*> *vehicles, NSError *error) {
 //        NSLog(@"Vehicles: %@", vehicles);
         if (e != nil) {
-            NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
+            NSLog(@"Got error while getting vehicles for route %@: %@", route.id, e);
             [self.gettingVehiclesById removeObject:route.id];
             return;
         }
@@ -280,7 +300,7 @@
     NSError *e = nil;
     [UCIShuttlesRequest requestWaypointsForRouteId:route.id completion:^(RouteWaypoints *waypoints, NSError *error) {
         if (e != nil) {
-            NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
+            NSLog(@"Got error while getting waypoints for route %@: %@", route.id, e);
             [self.gettingWaypointsById removeObject:route.id];
             return;
         }
@@ -295,6 +315,69 @@
         }
         
         [self.gettingWaypointsById removeObject:route.id];
+    }];
+}
+
+- (void)refreshStopsForRoute:(Route *)route {
+    if ([self.gettingStopsById containsObject:route.id]) {
+        return;
+    }
+    [self.gettingStopsById addObject:route.id];
+    
+    NSError *e = nil;
+    [UCIShuttlesRequest requestStopsForRouteId:route.id directionId:@0 completion:^(NSArray<Stop*> *stops, NSError *error) {
+
+        if (e != nil) {
+            NSLog(@"Got error while getting stops for route %@: %@", route.id, e);
+            [self.gettingStopsById removeObject:route.id];
+            return;
+        }
+
+        NSMutableArray *stopIds = [NSMutableArray arrayWithCapacity:stops.count];
+        for (Stop *stop in stops) {
+            self.stopForStopId[stop.id] = stop;
+            [stopIds addObject:stop.id];
+        }
+        self.stopsForRouteId[route.id] = stopIds;
+
+        for (id<AEDataModelDelegate> del in self.delegates) {
+            if ([del respondsToSelector:@selector(aeDataModel:didRefreshStops:forRoute:)]) {
+                dispatch_async(dispatch_get_main_queue(), ^() {
+                    [del aeDataModel:self didRefreshStops:stops forRoute:route];
+                });
+            }
+        }
+        
+        [self.gettingStopsById removeObject:route.id];
+    }];
+}
+
+- (void)refreshArrivalsForStop:(Stop *)stop {
+    if ([self.gettingArrivalsById containsObject:stop.id]) {
+        return;
+    }
+    [self.gettingArrivalsById addObject:stop.id];
+    
+    NSError *e = nil;
+    [UCIShuttlesRequest requestArrivalsForStopId:stop.id completion:^(NSDictionary<NSNumber*,NSArray<Arrival*>*> *arrivalsDict, NSError *error) {
+        NSLog(@"Got arrivals for stop %@: %@", stop.id, arrivalsDict);
+        if (e != nil) {
+            NSLog(@"Got error while getting arrivals for stop %@: %@", stop.id, e);
+            [self.gettingArrivalsById removeObject:stop.id];
+            return;
+        }
+        
+        // Don't need to save this anywhere honestly
+        
+        for (id<AEDataModelDelegate> del in self.delegates) {
+            if ([del respondsToSelector:@selector(aeDataModel:didRefreshArrivals:forStop:)]) {
+                dispatch_async(dispatch_get_main_queue(), ^() {
+                    [del aeDataModel:self didRefreshArrivals:arrivalsDict forStop:stop];
+                });
+            }
+        }
+        
+        [self.gettingArrivalsById removeObject:stop.id];
     }];
 }
 
