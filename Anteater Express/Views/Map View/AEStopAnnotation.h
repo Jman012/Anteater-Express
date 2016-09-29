@@ -18,6 +18,7 @@
 
 // MKAnnotation protocol
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+@property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, copy) NSString *title;
 
 // Custom
@@ -26,8 +27,7 @@
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSArray*> *arrivalPredictions; // StopSetId -> @[Predictions]
 
 - (instancetype)initWithStop:(Stop *)stop;
-- (void)addNewDictionary:(NSDictionary *)newDict;
-- (NSArray<NSNumber*> *)stopSetIds;
 - (NSString *)formattedSubtitleForArrivalList:(NSArray<Arrival*> *)arrivalList abbreviation:(NSString *)abbreviation;
+- (NSString *)makeSubtitleForArrivalDict:(NSDictionary<NSNumber*,NSArray<Arrival*>*> *)arrivalDict;
 
 @end

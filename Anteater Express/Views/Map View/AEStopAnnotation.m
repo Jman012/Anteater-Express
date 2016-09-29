@@ -8,6 +8,7 @@
 
 #import "AEStopAnnotation.h"
 
+#import "AEDataModel.h"
 #import "ColorConverter.h"
 
 @implementation AEStopAnnotation
@@ -30,62 +31,27 @@
     return !NSClassFromString(@"UIStackView");
 }
 
-- (NSString *)subtitle {
+- (NSString *)makeSubtitleForArrivalDict:(NSDictionary<NSNumber*,NSArray<Arrival*>*> *)arrivalDict {
     
-    // Copied from the original
-    if(self.arrivalPredictions != nil && self.arrivalPredictions.count > 0)
-    {
-        __block NSString *subtitle = @"";
-        [self.arrivalPredictions enumerateKeysAndObjectsUsingBlock:^(NSNumber *stopSetId, NSArray *predictions, BOOL *stop) {
-            for(int i = 0; i < [predictions count]; i++)
-            {
-                if(i > 1) //Don't show more than 2 arrival predictions
-                {
-                    *stop = true;
-                }
-                
-                if(i != 0)
-                {
-                    subtitle = [subtitle stringByAppendingString:@"and "];
-                }
-                
-                subtitle = [subtitle stringByAppendingString:@"Bus "];
-                
-                subtitle = [subtitle stringByAppendingString:[[[predictions objectAtIndex:i] valueForKey:@"BusName"] stringValue]];
-                
-                NSString* minutesTillArrival = [[[predictions objectAtIndex:i] valueForKey:@"Minutes"] stringValue];
-                
-                if([minutesTillArrival isEqualToString: @"0"])
-                {
-                    subtitle = [subtitle stringByAppendingString:@" arriving "];
-                }
-                else
-                {
-                    subtitle = [subtitle stringByAppendingString:@" in "];
-                    
-                    subtitle = [subtitle stringByAppendingString:[[[predictions objectAtIndex:i] valueForKey:@"Minutes"] stringValue]];
-                    if([minutesTillArrival isEqualToString: @"1"])
-                    {
-                        subtitle = [subtitle stringByAppendingString:@" minute "];
-                    }
-                    else
-                    {
-                        subtitle = [subtitle stringByAppendingString:@" minutes "];
-                    }
-                }
-            }
-        }];
-        return subtitle;
-    }
-    else
-    {
-        if ([self shouldShowSubtitle] == false) {
-            return nil;
-        } else {
-            return [NSString stringWithFormat:@"Arrival Predictions Loading..."];
+    NSMutableArray *comps = [NSMutableArray array];
+    [arrivalDict enumerateKeysAndObjectsUsingBlock:^(NSNumber *routeId, NSArray<Arrival*> *arrivals, BOOL *stop) {
+        NSString *result = @"";
+        NSString *abbreviation = [AEDataModel.shared routeForId:routeId].shortName;
+        result = [result stringByAppendingString:[NSString stringWithFormat:@"%@ in ", abbreviation]];
+        
+        NSMutableArray *times = [NSMutableArray array];
+        for (Arrival *arrival in arrivals) {
+            NSNumber *minutes = [NSNumber numberWithDouble:round(arrival.secondsToArrival.doubleValue / 60.0)];
+            [times addObject:[minutes stringValue]];
         }
-    }
-
+        
+        result = [result stringByAppendingString:[times componentsJoinedByString:@", "]];
+        result = [result stringByAppendingString:@" mins."];
+        
+        [comps addObject:result];
+    }];
+    
+    return [comps componentsJoinedByString:@" "];
 }
 
 - (NSString *)formattedSubtitleForArrivalList:(NSArray<Arrival*> *)arrivalList abbreviation:(NSString *)abbreviation {
