@@ -360,7 +360,7 @@
     
     NSError *e = nil;
     [UCIShuttlesRequest requestArrivalsForStopId:stop.id completion:^(NSDictionary<NSNumber*,NSArray<Arrival*>*> *arrivalsDict, NSError *error) {
-        NSLog(@"Got arrivals for stop %@: %@", stop.id, arrivalsDict);
+
         if (e != nil) {
             NSLog(@"Got error while getting arrivals for stop %@: %@", stop.id, e);
             [self.gettingArrivalsById removeObject:stop.id];

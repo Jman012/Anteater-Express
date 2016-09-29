@@ -238,8 +238,6 @@
     }
     
     [self refreshAllStops];
-    
-    [self resetMapRect];
 }
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didDeselectRoute:(NSNumber *)routeId {
@@ -251,13 +249,11 @@
     [self removeWaypointsForRoute:route];
     
     [self refreshAllStops];
-    
-    [self resetMapRect];
 }
 
 - (void)resetMapRect {
     
-    if (AEDataModel.shared.selectedRoutes.count == 0) {
+    if (AEDataModel.shared.selectedRoutes.count == 0 || self.mapView.overlays.count == 0) {
         [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
         return;
     }
@@ -297,7 +293,6 @@
     
     MKMapRect routeRect = MKMapRectMake(self.southWestPoint.x - MAP_POINT_PADDING, self.southWestPoint.y - MAP_POINT_PADDING, self.northEastPoint.x - self.self.southWestPoint.x + MAP_LENGTH_PADDING, self.northEastPoint.y - self.southWestPoint.y + MAP_LENGTH_PADDING);
     
-    NSLog(@"setting visible maprect");
     [self.mapView setVisibleMapRect:routeRect animated:NO];
 }
 
@@ -369,6 +364,8 @@
     }
     
     [self.mapView addOverlay:polyline];
+    
+    [self resetMapRect];
 }
 
 - (void)removeWaypointsForRoute:(Route *)route {
@@ -380,13 +377,8 @@
             }
         }
     }
-}
-
-- (void)downloadingRouteInfoDidFinish {
-    // Called when the self.downloadingDefinitions.count == 0
-    if (self.userLocation != nil) {
-        [self showClosestAnnotation];
-    }
+    
+    [self resetMapRect];
 }
 
 - (void)showClosestAnnotation {
@@ -556,26 +548,13 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(nonnull MKUserLocation *)userLocation {
-    // Only do this once, when we first get the user's location. We don't want it
-    // tracking them on every movement.
-//    static dispatch_once_t once;
-//    dispatch_once(&once, ^() {
-//        CLLocation *uciLocation = [[CLLocation alloc] initWithLatitude:UCI_LATITUDE longitude:UCI_LONGITUDE];
-//        if ([uciLocation distanceFromLocation:userLocation.location] < UCI_RADIUS) {
-//            [self zoomToLocation:userLocation.coordinate];
-//            self.userLocation = userLocation;
-//            if (self.downloadingDefinitions.count == 0) {
-//                [self showClosestAnnotation];
-//            }
-//        }
-//    });
     self.userLocation = userLocation;
 }
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshArrivals:(NSDictionary<NSNumber *,NSArray<Arrival *> *> *)arrivalsDict forStop:(Stop *)stop {
     
     if (self.selectedStopAnnotationView == nil) {
-        NSLog(@"Got arrivals but we idn't tap anything!");
+        NSLog(@"Got arrivals but we didn't tap anything!");
         return;
     }
     
