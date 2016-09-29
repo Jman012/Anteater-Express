@@ -37,6 +37,7 @@
 @property (nonatomic, strong) NSMutableSet *gettingArrivalsById;
 
 @property (nonatomic, strong) NSTimer *vehicleTimer;
+@property (nonatomic, strong) NSTimer *routesTimer;
 
 @end
 
@@ -78,18 +79,20 @@
 }
 
 - (void)initialize {
-    [self refreshRoutes];
+    
     
     [self loadSelectedRoutes];
+    [self refreshRoutes];
     
+    // Refresh the selected routes' vehicles every 5 seconds, refresh all routes every 10 minutes.
     self.vehicleTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refreshVehiclesForSelectedRoutes) userInfo:nil repeats:true];
+    self.routesTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 * 60.0 target:self selector:@selector(refreshRoutes) userInfo:nil repeats:true];
 }
 
 - (void)loadSelectedRoutes {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSMutableArray *ids = [userDefaults objectForKey:@"SelectedRouteIds"];
     self.selectedRouteIDsSet = [NSMutableSet setWithArray:ids];
-    [self refreshRoutes];
 }
 
 - (void)saveSelectedRoutes {
@@ -161,7 +164,7 @@
     return [NSSet setWithSet:self.selectedRouteIDsSet];
 }
 
-#pragma mark - Routes
+#pragma mark - Refresh information
 
 - (void)refreshRegions {
     if (self.gettingRegion) {
@@ -171,7 +174,7 @@
     
     NSError *e = nil;
     [UCIShuttlesRequest requestRegions:^(NSArray<Region*> *regions, NSError *error) {
-        NSLog(@"Got Regions: %@", regions);
+        
         if (error != nil) {
             NSLog(@"Got error while getting regions: %@", e);
             self.gettingRegion = false;
@@ -206,7 +209,7 @@
     
     // Routes
     [UCIShuttlesRequest requestRoutesForRegion:self.region.id completion:^(NSArray<Region*> *routes, NSError *error) {
-        NSLog(@"Got Routes: "); //%@", routes);
+        NSLog(@"Got routes (%lu)", (long)routes.count);
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
             self.gettingRoutes = false;
@@ -271,13 +274,13 @@
     
     NSError *e = nil;
     [UCIShuttlesRequest requestVehiclesForRouteId:route.id completion:^(NSArray<Vehicle*> *vehicles, NSError *error) {
-//        NSLog(@"Vehicles: %@", vehicles);
+
         if (e != nil) {
             NSLog(@"Got error while getting vehicles for route %@: %@", route.id, e);
             [self.gettingVehiclesById removeObject:route.id];
             return;
         }
-//        route.vehicles = [NSMutableArray arrayWithArray:vehicles];
+
         self.vehiclesForRouteId[route.id] = [NSMutableArray arrayWithArray:vehicles];
         for (id<AEDataModelDelegate> del in self.delegates) {
             if ([del respondsToSelector:@selector(aeDataModel:didRefreshVehicles:forRoute:)]) {

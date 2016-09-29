@@ -16,6 +16,7 @@
 @property (nonatomic, assign) NSNumber *id;
 @property (nonatomic, strong) NSString *color;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *scheduleName;
 @property (nonatomic, strong) NSString *shortName;
 @property (nonatomic, assign) BOOL fare;
 @property (nonatomic, strong) NSString *desc;

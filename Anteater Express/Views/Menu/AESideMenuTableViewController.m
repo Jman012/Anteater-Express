@@ -68,9 +68,6 @@ const NSUInteger kSectionLinks =      3;
     
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.name = @"AESideMenu OpQueue";
-
-
-    [self constructMenu];
 }
 
 - (instancetype)init {
@@ -159,13 +156,15 @@ const NSUInteger kSectionLinks =      3;
     NSMutableArray *lineInfos = [[NSMutableArray alloc] init];
     [self.routeList enumerateObjectsUsingBlock:^(Route *route, NSUInteger idx, BOOL *stop) {
         
-        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:route.name
+        LineInfo *newLineInfo = [[LineInfo alloc] initWithText:[NSString stringWithFormat:@"%@ - %@", route.shortName, route.name]
                                                           paid:route.fare
                                                        routeId:route.id
                                                          color:[ColorConverter colorWithHexString:route.color]
                                                  cellIdentifer:kCellIdFreeLineCell
                                                          route:route];
-        newLineInfo.numActive = -1;
+        
+        NSArray<Vehicle*> *vehicles = [AEDataModel.shared vehiclesForRouteId:route.id];
+        newLineInfo.numActive = vehicles == nil ? -1 : vehicles.count;
         newLineInfo.selected = [AEDataModel.shared.selectedRoutes containsObject:route.id];
         [lineInfos addObject:newLineInfo];
         
@@ -193,9 +192,6 @@ const NSUInteger kSectionLinks =      3;
                           @[
                               [[ItemInfo alloc] initWithText:@"About" storyboardIdentifier:@"About" cellIdentifer:kCellIdItemCell]
                               ]
-//                              [[ItemInfo alloc] initWithText:@"All Route Updates" storyboardIdentifier:@"AllRouteUpdates" cellIdentifer:kCellIdItemCell],
-//                              [[ItemInfo alloc] initWithText:@"News and About" storyboardIdentifier:@"NewsAndAbout" cellIdentifer:kCellIdItemCell]
-//                              ]
                          ];
     
     [self refreshAvailableLines];
@@ -418,7 +414,6 @@ const NSUInteger kSectionLinks =      3;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
         UIViewController *destVC = [storyboard instantiateViewControllerWithIdentifier:itemInfo.storyboardId];
         
-//        [self.revealViewController setFrontViewController:destVC];
         [self.revealViewController revealToggleAnimated:YES];
         
         [frontNavController pushViewController:destVC animated:YES];
@@ -434,7 +429,8 @@ const NSUInteger kSectionLinks =      3;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
         RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
         
-//        [destVC setRoute:self.routesAndAnnounceDAO.getRoutes[indexPath.row]];
+        LineInfo *routeLineInfo = self.menuSections[kSectionLines][indexPath.row];
+        [destVC setRoute:routeLineInfo.route];
         
         [self.revealViewController revealToggleAnimated:YES];
         [frontNavController pushViewController:destVC animated:YES];

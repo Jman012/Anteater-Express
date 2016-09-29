@@ -36,7 +36,6 @@
 @property (nonatomic, strong) NSString *routeTitle;
 @property (nonatomic, strong) NSString *routeDetail;
 @property (nonatomic, strong) NSString *routeFareText;
-@property (nonatomic, strong) NSNumber *routeStopSetId;
 
 // Information Data General
 @property (nonatomic, strong) NSMutableArray *routeScheduleDays;
@@ -178,21 +177,23 @@
     
 }
 
-- (void)setRoute:(NSDictionary *)route {
-    self.routeStopSetId = route[@"StopSetId"];
+- (void)setRoute:(Route *)route {
     
-    self.routeNavBarTitle = [NSString stringWithFormat:@"%@ Line", route[@"Abbreviation"]];
+    self.routeNavBarTitle = [NSString stringWithFormat:@"%@ Line", route.shortName];
     
-    self.routeColor = [ColorConverter colorWithHexString:route[@"ColorHex"]];
-    self.routeTitle = [NSString stringWithFormat:@"%@ Line - %@", route[@"Abbreviation"], route[@"Name"]];
-    self.routeDetail = route[@"Description"];
-    NSNumber *fare = route[@"Routefare"];
+    self.routeColor = [ColorConverter colorWithHexString:route.color];
+    self.routeTitle = [NSString stringWithFormat:@"%@ Line - %@", route.shortName, route.name];
+    self.routeDetail = route.desc;
+    if (self.routeDetail == nil) {
+        self.routeDetail = @"";
+    }
+    BOOL fare = route.fare;
     
-    self.routeFareText = fare.boolValue ? @"Paid" : @"Free";
+    self.routeFareText = fare ? @"Paid" : @"Free";
     
     self.isRouteScheduleLoading = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
-        [self setRouteScheduleTextForRouteName:route[@"Name"]];
+        [self setRouteScheduleTextForRouteName:route.scheduleName];
     });
     
     self.screenName = [NSString stringWithFormat:@"Route Schedule - %@", self.routeNavBarTitle];
@@ -213,7 +214,9 @@
     
     NSMutableArray *stopIds = [NSMutableArray array];
     
+    NSLog(@"Getting schedule with name: %@", routeName);
     RouteSchedulesDAO *routeSchedulesDao = [[RouteSchedulesDAO alloc] initWithRouteName:routeName];
+    NSLog(@"Results: %@", routeSchedulesDao.getRouteStops);
     for (NSDictionary *stopsDict in routeSchedulesDao.getRouteStops) {
         NSNumber *stopId = stopsDict[@"StopId"];
         [stopIds addObject:stopId];

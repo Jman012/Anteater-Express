@@ -51,7 +51,12 @@
                 NSNumber *theId = routeDict[@"ID"];
                 NSString *color = routeDict[@"Color"];
                 NSString *name = routeDict[@"Name"];
+                name = [name componentsSeparatedByString:@" - "].lastObject;
+                name = [name stringByReplacingOccurrencesOfString:@"-" withString:@" - "];
+                NSString *scheduleName = [name stringByReplacingOccurrencesOfString:@" Weekday" withString:@""];
+                scheduleName = [scheduleName stringByReplacingOccurrencesOfString:@" Weekend" withString:@""];
                 NSString *shortName = routeDict[@"ShortName"];
+                
                 // BOOL fare = regionDict[@""];
                 // NSString *description = regionDict[@""];
                 
@@ -60,6 +65,7 @@
                 newRoute.color = color;
                 newRoute.name = name;
                 newRoute.shortName = shortName;
+                newRoute.scheduleName = scheduleName;
                 [routes addObject:newRoute];
             }
         } @catch (NSException *exception) {
@@ -220,7 +226,7 @@
 
 + (void)sendRequest:(NSString *)path completion:(void (^)(NSArray *jsonData, NSError *error))completion {
     NSString *fullPath = [NSString stringWithFormat:@"https://ucishuttles.com%@", path];
-//    NSLog(@"Requesting: %@", fullPath);
+
     NSURL *url = [NSURL URLWithString:fullPath];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     
@@ -248,8 +254,6 @@
             completion(nil, [NSError errorWithDomain:@"No data" code:3 userInfo:nil]);
             return;
         }
-        
-//        NSLog(@"Response data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         
         // Convert to JSON
         NSError *jsonError = nil;
