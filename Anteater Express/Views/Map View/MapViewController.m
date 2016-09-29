@@ -39,6 +39,11 @@
 
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;
 @property (nonatomic, strong) IBOutlet ASMapView *mapView;
+@property (nonatomic, strong) IBOutlet UIButton *locationButton;
+
+@property (nonatomic, strong) UIImage *locationButtonBusImage;
+@property (nonatomic, strong) UIImage *locationButtonLocationImage;
+@property (nonatomic, assign) BOOL showingLocationImage;
 
 /* Basic/wholistic route info */
 // Made from routDefs, holds the MKPolylines by RouteId
@@ -107,6 +112,26 @@
     
     [self setupRevealButton];
     
+    self.locationButtonBusImage = [[UIImage imageNamed:@"shuttle_E_moving"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.locationButtonLocationImage = [[UIImage imageNamed:@"Location"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    [self.locationButton setImage:self.locationButtonBusImage forState:UIControlStateNormal];
+    self.locationButton.imageView.tintColor = self.view.tintColor;
+    self.locationButton.layer.cornerRadius = 16.0;
+    self.locationButton.layer.masksToBounds = false;
+    self.locationButton.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.locationButton.layer.shadowOffset = CGSizeMake(0.0, 0.5);
+    self.locationButton.layer.shadowRadius = 1.0;
+    self.locationButton.layer.shadowOpacity = 0.5;
+
+    UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+    blurView.frame = self.locationButton.bounds;
+    blurView.userInteractionEnabled = false;
+    blurView.clipsToBounds = true;
+    blurView.layer.cornerRadius = 16.0;
+    [self.locationButton insertSubview:blurView atIndex:0];
+    self.locationButton.backgroundColor = [UIColor clearColor];
+    
+    
     // Title with image
     UIImage *titleImg = [UIImage imageNamed:@"AnteaterExpress_logo_title"];
     CGFloat widthToHeightRatio = titleImg.size.width / titleImg.size.height;
@@ -151,7 +176,7 @@
     self.mapView.delegate = self;
     // Start out on Aldrich Park's center. Later it'll move to the users location
     
-    [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
+    [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE) animated:false userLoc:false];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 
@@ -165,7 +190,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self resetMapRect];
+    [self resetMapRect:false];
     
     [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
@@ -210,6 +235,17 @@
     [self showClosestAnnotation];
 }
 
+- (IBAction)locationButtonTouched:(UIButton *)sender {
+    if (self.showingLocationImage) {
+        [self zoomToLocation:self.userLocation.location.coordinate animated:true userLoc:true];
+        
+        [self.locationButton setImage:self.locationButtonBusImage forState:UIControlStateNormal];
+        self.showingLocationImage = false;
+    } else {
+        [self resetMapRect:true];
+    }
+}
+
 #pragma mark - Route Data handling
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didSelectRoute:(NSNumber *)routeId {
@@ -238,10 +274,10 @@
     [self refreshAllStops];
 }
 
-- (void)resetMapRect {
+- (void)resetMapRect:(BOOL)animated {
     
     if (AEDataModel.shared.selectedRoutes.count == 0 || self.mapView.overlays.count == 0) {
-        [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE)];
+        [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE) animated:animated userLoc:false];
         return;
     }
     
@@ -280,7 +316,9 @@
     
     MKMapRect routeRect = MKMapRectMake(self.southWestPoint.x - MAP_POINT_PADDING, self.southWestPoint.y - MAP_POINT_PADDING, self.northEastPoint.x - self.self.southWestPoint.x + MAP_LENGTH_PADDING, self.northEastPoint.y - self.southWestPoint.y + MAP_LENGTH_PADDING);
     
-    [self.mapView setVisibleMapRect:routeRect animated:NO];
+    [self.mapView setVisibleMapRect:routeRect animated:animated];
+    [self.locationButton setImage:self.locationButtonLocationImage forState:UIControlStateNormal];
+    self.showingLocationImage = true;
 }
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshStops:(NSArray<Stop *> *)stops forRoute:(Route *)route {
@@ -352,7 +390,7 @@
     
     [self.mapView addOverlay:polyline];
     
-    [self resetMapRect];
+    [self resetMapRect:false];
 }
 
 - (void)removeWaypointsForRoute:(Route *)route {
@@ -365,7 +403,7 @@
         }
     }
     
-    [self resetMapRect];
+    [self resetMapRect:false];
 }
 
 - (void)showClosestAnnotation {
@@ -463,7 +501,7 @@
             // does it, from what I saw.
             renderer.strokeColor = [renderer.strokeColor colorWithAlphaComponent:0.75];
         }
-        renderer.lineWidth = 2.5f;
+        renderer.lineWidth = 3.0;
         
         return renderer;
     }
@@ -536,6 +574,14 @@
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(nonnull MKUserLocation *)userLocation {
     self.userLocation = userLocation;
+}
+
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    if (fabs(mapView.region.center.latitude - mapView.userLocation.coordinate.latitude) > 0.00001 &&
+        fabs(mapView.region.center.longitude - mapView.userLocation.coordinate.longitude) > 0.00001) {
+        [self.locationButton setImage:self.locationButtonLocationImage forState:UIControlStateNormal];
+        self.showingLocationImage = true;
+    }
 }
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshArrivals:(NSDictionary<NSNumber *,NSArray<Arrival *> *> *)arrivalsDict forStop:(Stop *)stop {
@@ -629,14 +675,19 @@
     }
 }
 
-- (void)zoomToLocation:(CLLocationCoordinate2D)coordinate {
+- (void)zoomToLocation:(CLLocationCoordinate2D)coordinate animated:(BOOL)animated userLoc:(BOOL)userLoc {
     NSLog(@"zooming to location");
     MKCoordinateRegion mapRegion;
     mapRegion.center = coordinate;
-    mapRegion.span.latitudeDelta = 0.025;
-    mapRegion.span.longitudeDelta = 0.025;
+    if (userLoc) {
+        mapRegion.span.latitudeDelta = 0.01;
+        mapRegion.span.longitudeDelta = 0.01;
+    } else {
+        mapRegion.span.latitudeDelta = 0.025;
+        mapRegion.span.longitudeDelta = 0.025;
+    }
 
-    [self.mapView setRegion:mapRegion animated:NO];
+    [self.mapView setRegion:mapRegion animated:animated];
 }
 
 #pragma mark - SWRevealViewController

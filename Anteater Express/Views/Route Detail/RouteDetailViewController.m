@@ -214,9 +214,7 @@
     
     NSMutableArray *stopIds = [NSMutableArray array];
     
-    NSLog(@"Getting schedule with name: %@", routeName);
     RouteSchedulesDAO *routeSchedulesDao = [[RouteSchedulesDAO alloc] initWithRouteName:routeName];
-    NSLog(@"Results: %@", routeSchedulesDao.getRouteStops);
     for (NSDictionary *stopsDict in routeSchedulesDao.getRouteStops) {
         NSNumber *stopId = stopsDict[@"StopId"];
         [stopIds addObject:stopId];
