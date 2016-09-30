@@ -56,4 +56,8 @@
 - (NSArray<NSNumber*> *)stopsForRouteId:(NSNumber *)routeId;
 - (Stop *)stopForStopId:(NSNumber *)stopId;
 
+/* Hard coded values for the transition from Tomcat server to UCIShuttles.com */
+@property(nonatomic, strong) NSDictionary *routeDescriptions;
+@property(nonatomic, strong) NSSet *routeFares;
+
 @end

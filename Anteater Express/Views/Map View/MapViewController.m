@@ -676,7 +676,7 @@
 }
 
 - (void)zoomToLocation:(CLLocationCoordinate2D)coordinate animated:(BOOL)animated userLoc:(BOOL)userLoc {
-    NSLog(@"zooming to location");
+    
     MKCoordinateRegion mapRegion;
     mapRegion.center = coordinate;
     if (userLoc) {

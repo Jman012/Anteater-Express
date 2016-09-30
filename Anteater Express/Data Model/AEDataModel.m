@@ -64,6 +64,23 @@
         self.gettingStopsById = [NSMutableSet set];
         self.gettingArrivalsById = [NSMutableSet set];
         
+        self.routeDescriptions =
+        @{
+          @317:@"ACC Housing services Camino del Sol/Vista del Campo/Vista del Campo Norte",
+          @932:@"ACC Summer Combined Service for Camino del Sol/Vista del Campo/Vista del Campo Norte",
+          @308:@"Arroyo Vista Housing, UCI Admin, ARC",
+          @527:@"Camino del Sol Housing, UCI Admin",
+          @941:@"District, Diamond Jamboree, UCI Admin, East Campus Housing",
+          @762:@"Irvine Spectrum, UCI Admin, East Campus Housing",
+          @176:@"Circle Around UCI Campus Core",
+          @3161:@"Circle Around UCI Campus Core",
+          @530:@"Vista del Campo Housing - UCI Admin",
+          @528:@"Vista del Campo Norte Housing - UCI Admin",
+          @305:@"Parkwest Apartments - Carlson Ave - UCI Claire Trevor School of the Arts",
+          @2830:@"Park West Summer Route"
+          };
+        self.routeFares = [NSSet setWithArray:@[@932, @941, @762, @305, @2830]];
+        
         [self initialize];
     }
     return self;

@@ -9,6 +9,8 @@
 #import "UCIShuttlesRequest.h"
 #import <MapKit/MapKit.h>
 
+#import "AEDataModel.h"
+
 @implementation UCIShuttlesRequest
 
 #pragma mark - Main requests
@@ -57,8 +59,8 @@
                 scheduleName = [scheduleName stringByReplacingOccurrencesOfString:@" Weekend" withString:@""];
                 NSString *shortName = routeDict[@"ShortName"];
                 
-                // BOOL fare = regionDict[@""];
-                // NSString *description = regionDict[@""];
+                NSString *desc = AEDataModel.shared.routeDescriptions[theId];
+                BOOL fare = [AEDataModel.shared.routeFares containsObject:theId];
                 
                 Route *newRoute = [[Route alloc] init];
                 newRoute.id = theId;
@@ -66,6 +68,8 @@
                 newRoute.name = name;
                 newRoute.shortName = shortName;
                 newRoute.scheduleName = scheduleName;
+                newRoute.desc = desc;
+                newRoute.fare = fare;
                 [routes addObject:newRoute];
             }
         } @catch (NSException *exception) {
