@@ -10,21 +10,24 @@
 #import <MapKit/MapKit.h>
 
 #import "AEStopAnnotationView.h"
+#import "Stop.h"
+#import "Route.h"
+#import "Arrival.h"
 
 @interface AEStopAnnotation : NSObject <MKAnnotation>
 
 // MKAnnotation protocol
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+@property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, copy) NSString *title;
 
 // Custom
-@property (nonatomic, strong, readonly) NSMutableArray *dictionaries;
-@property (nonatomic, strong) NSNumber *stopId;
+@property (nonatomic, strong) Stop *stop;
+@property (nonatomic, strong) NSMutableArray<Route*> *routes;
 @property (nonatomic, strong) NSMutableDictionary<NSNumber*, NSArray*> *arrivalPredictions; // StopSetId -> @[Predictions]
 
-- (instancetype)initWithDictionary:(NSDictionary *)initialRouteStopDictionary;
-- (void)addNewDictionary:(NSDictionary *)newDict;
-- (NSArray<NSNumber*> *)stopSetIds;
-- (NSString *)formattedSubtitleForStopSetId:(NSNumber *)stopSetId abbreviation:(NSString *)abbreviation;
+- (instancetype)initWithStop:(Stop *)stop;
+- (NSString *)formattedSubtitleForArrivalList:(NSArray<Arrival*> *)arrivalList abbreviation:(NSString *)abbreviation;
+- (NSString *)makeSubtitleForArrivalDict:(NSDictionary<NSNumber*,NSArray<Arrival*>*> *)arrivalDict;
 
 @end

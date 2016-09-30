@@ -12,7 +12,9 @@
 #import <Google/Analytics.h>
 #import "ASMapView.h"
 
-@interface MapViewController : GAITrackedViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
+#import "AEDataModel.h"
+
+@interface MapViewController : GAITrackedViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate, MKMapViewDelegate, CLLocationManagerDelegate, AEDataModelDelegate>
 
 - (void)setAllRoutesArray:(NSArray *)allRoutesArray;
 - (void)showNewRoute:(NSNumber *)theId;

@@ -36,7 +36,6 @@
 @property (nonatomic, strong) NSString *routeTitle;
 @property (nonatomic, strong) NSString *routeDetail;
 @property (nonatomic, strong) NSString *routeFareText;
-@property (nonatomic, strong) NSNumber *routeStopSetId;
 
 // Information Data General
 @property (nonatomic, strong) NSMutableArray *routeScheduleDays;
@@ -178,28 +177,70 @@
     
 }
 
-- (void)setRoute:(NSDictionary *)route {
-    self.routeStopSetId = route[@"StopSetId"];
+- (BOOL)loadInformationFromCache:(Route *)route {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *lastSavedStr = [NSString stringWithFormat:@"routeScheduleLastSaved-%@", route.id];
+    NSString *routeScheduleDaysStr = [NSString stringWithFormat:@"routeScheduleDays-%@", route.id];
+    NSString *routeScheduleFormattedDataStr = [NSString stringWithFormat:@"routeScheduleFormattedData-%@", route.id];
+    NSString *exactRouteScheduleDataStr = [NSString stringWithFormat:@"exactRouteScheduleData-%@", route.id];
     
-    self.routeNavBarTitle = [NSString stringWithFormat:@"%@ Line", route[@"Abbreviation"]];
+    NSDate *lastSaved = [userDefaults objectForKey:lastSavedStr];
+    NSLog(@"Loading schedule for route %@, lastSaved data = %@, interval = %f", route.shortName, lastSaved, [lastSaved timeIntervalSinceNow]);
+
+    // If the time since loaded is more then 2 days
+    // min = 60 sec, hour = 60*60 sec, day = 24*60*60
+    if (fabs([lastSaved timeIntervalSinceNow]) > 3 * 24 * 60 * 60) {
+        // Then say we could not load the stuff, to get new schedule
+        return false;
+    }
     
-    self.routeColor = [ColorConverter colorWithHexString:route[@"ColorHex"]];
-    self.routeTitle = [NSString stringWithFormat:@"%@ Line - %@", route[@"Abbreviation"], route[@"Name"]];
-    self.routeDetail = route[@"Description"];
-    NSNumber *fare = route[@"Routefare"];
+    self.routeScheduleDays = [userDefaults objectForKey:routeScheduleDaysStr];
+    self.routeScheduleFormattedData = [userDefaults objectForKey:routeScheduleFormattedDataStr];
+    self.exactRouteScheduleData = [userDefaults objectForKey:exactRouteScheduleDataStr];
     
-    self.routeFareText = fare.boolValue ? @"Paid" : @"Free";
+    return (self.routeScheduleDays != nil) && (self.routeScheduleFormattedData != nil) && (self.exactRouteScheduleData != nil);
+    
+}
+
+- (void)setRoute:(Route *)route {
+    
+    self.routeNavBarTitle = [NSString stringWithFormat:@"%@ Line", route.shortName];
+    
+    self.routeColor = [ColorConverter colorWithHexString:route.color];
+    self.routeTitle = [NSString stringWithFormat:@"%@ Line - %@", route.shortName, route.name];
+    self.routeDetail = route.desc;
+    if (self.routeDetail == nil) {
+        self.routeDetail = @"";
+    }
+    BOOL fare = route.fare;
+    
+    self.routeFareText = fare ? @"Paid" : @"Free";
     
     self.isRouteScheduleLoading = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
-        [self setRouteScheduleTextForRouteName:route[@"Name"]];
+        BOOL loadedFromDisk = [self loadInformationFromCache:route];
+        if (loadedFromDisk == false) {
+            [self setRouteScheduleTextForRouteName:route.scheduleName routeId:route.id];
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^() {
+                [self updateHeaderInfo];
+                
+                if (self.refreshControl != nil) {
+                    [self.refreshControl endRefreshing];
+                    [self.refreshControl removeFromSuperview];
+                }
+                [self.scheduleTableView reloadData];
+                [self.scheduleTableView scrollRectToVisible:CGRectZero animated:YES];
+                self.isRouteScheduleLoading = NO;
+            });
+        }
     });
     
     self.screenName = [NSString stringWithFormat:@"Route Schedule - %@", self.routeNavBarTitle];
 
 }
 
-- (void)setRouteScheduleTextForRouteName:(NSString *)routeName {
+- (void)setRouteScheduleTextForRouteName:(NSString *)routeName routeId:(NSNumber *)routeId {
     // Intended for background execution
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -358,6 +399,19 @@
     }];
     
 
+    // Save info as a cache
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *lastSavedStr = [NSString stringWithFormat:@"routeScheduleLastSaved-%@", routeId];
+    NSString *routeScheduleDaysStr = [NSString stringWithFormat:@"routeScheduleDays-%@", routeId];
+    NSString *routeScheduleFormattedDataStr = [NSString stringWithFormat:@"routeScheduleFormattedData-%@", routeId];
+    NSString *exactRouteScheduleDataStr = [NSString stringWithFormat:@"exactRouteScheduleData-%@", routeId];
+    
+    [userDefaults setObject:[NSDate date]                   forKey:lastSavedStr];
+    [userDefaults setObject:self.routeScheduleDays          forKey:routeScheduleDaysStr];
+    [userDefaults setObject:self.routeScheduleFormattedData forKey:routeScheduleFormattedDataStr];
+    [userDefaults setObject:self.exactRouteScheduleData     forKey:exactRouteScheduleDataStr];
+    [userDefaults synchronize];
+    NSLog(@"Saved, confirmed save date = %@", [userDefaults objectForKey:lastSavedStr]);
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
         [self updateHeaderInfo];

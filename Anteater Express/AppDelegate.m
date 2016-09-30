@@ -10,6 +10,7 @@
 
 #import "NoConnectionViewController.h"
 #import "Utilities.h"
+#import "AEDataModel.h"
 //#import "GAI.h"
 #import <Google/Analytics.h>
 
@@ -38,6 +39,8 @@ NSString * const AENotificationAppDidBecomeActive = @"AENotificationAppDidBecome
 
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
+    AEDataModel.shared;
 
     return YES;
 }

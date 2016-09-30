@@ -8,54 +8,22 @@
 
 #import "AEStopAnnotation.h"
 
+#import "AEDataModel.h"
 #import "ColorConverter.h"
 
 @implementation AEStopAnnotation
 
-- (instancetype)initWithDictionary:(NSDictionary *)initialRouteStopDictionary {
+- (instancetype)initWithStop:(Stop *)stop {
     
     if (self = [super init]) {
         
-        CLLocationDegrees latitude  = [[initialRouteStopDictionary objectForKey:@"Latitude"] doubleValue];
-        CLLocationDegrees longitude = [[initialRouteStopDictionary objectForKey:@"Longitude"] doubleValue];
-        // create our coordinate
-        self.coordinate = CLLocationCoordinate2DMake(latitude, longitude);
-        
-        self.stopId = [initialRouteStopDictionary objectForKey:@"StopId"];
-        self.title = [initialRouteStopDictionary objectForKey:@"Name"]; // Name should be same for all dicts
-        
-        // Set the initial dictionary. More might be added
-        _dictionaries = [NSMutableArray array];
-        [self addNewDictionary:initialRouteStopDictionary];
-        
+        self.stop = stop;
+        self.coordinate = CLLocationCoordinate2DMake(self.stop.latitude.doubleValue, self.stop.longitude.doubleValue);
+        self.title = stop.name;
+        self.routes = [NSMutableArray array];
     }
     
     return self;
-}
-
-- (void)addNewDictionary:(NSDictionary *)newDict {
-    // This will make sure all new dicts added have the same stopId,
-    // otherwise they shouldnt be added here.
-    
-    NSNumber *newStopId = newDict[@"StopId"];
-    for (NSDictionary *curDict in self.dictionaries) {
-        if ([newStopId isEqualToNumber:curDict[@"StopId"]] == false) {
-            NSLog(@"Error: adding new dictionary to stop annotation with mismatching stopId's.");
-            NSLog(@"-> Existing stopId: %@, new stopId: %@", curDict[@"StopId"], newStopId);
-            return;
-        }
-    }
-    
-    // If we make it here, we're good.
-    [_dictionaries addObject:newDict];
-}
-
-- (NSArray<NSNumber*> *)stopSetIds {
-    NSMutableArray *retArray = [NSMutableArray array];
-    [self.dictionaries enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
-        [retArray addObject:dict[@"StopSetId"]];
-    }];
-    return retArray;
 }
 
 - (BOOL)shouldShowSubtitle {
@@ -63,79 +31,43 @@
     return !NSClassFromString(@"UIStackView");
 }
 
-- (NSString *)subtitle {
+- (NSString *)makeSubtitleForArrivalDict:(NSDictionary<NSNumber*,NSArray<Arrival*>*> *)arrivalDict {
     
-    // Copied from the original
-    if(self.arrivalPredictions != nil && self.arrivalPredictions.count > 0)
-    {
-        __block NSString *subtitle = @"";
-        [self.arrivalPredictions enumerateKeysAndObjectsUsingBlock:^(NSNumber *stopSetId, NSArray *predictions, BOOL *stop) {
-            for(int i = 0; i < [predictions count]; i++)
-            {
-                if(i > 1) //Don't show more than 2 arrival predictions
-                {
-                    *stop = true;
-                }
-                
-                if(i != 0)
-                {
-                    subtitle = [subtitle stringByAppendingString:@"and "];
-                }
-                
-                subtitle = [subtitle stringByAppendingString:@"Bus "];
-                
-                subtitle = [subtitle stringByAppendingString:[[[predictions objectAtIndex:i] valueForKey:@"BusName"] stringValue]];
-                
-                NSString* minutesTillArrival = [[[predictions objectAtIndex:i] valueForKey:@"Minutes"] stringValue];
-                
-                if([minutesTillArrival isEqualToString: @"0"])
-                {
-                    subtitle = [subtitle stringByAppendingString:@" arriving "];
-                }
-                else
-                {
-                    subtitle = [subtitle stringByAppendingString:@" in "];
-                    
-                    subtitle = [subtitle stringByAppendingString:[[[predictions objectAtIndex:i] valueForKey:@"Minutes"] stringValue]];
-                    if([minutesTillArrival isEqualToString: @"1"])
-                    {
-                        subtitle = [subtitle stringByAppendingString:@" minute "];
-                    }
-                    else
-                    {
-                        subtitle = [subtitle stringByAppendingString:@" minutes "];
-                    }
-                }
-            }
-        }];
-        return subtitle;
-    }
-    else
-    {
-        if ([self shouldShowSubtitle] == false) {
-            return nil;
-        } else {
-            return [NSString stringWithFormat:@"Arrival Predictions Loading..."];
+    NSMutableArray *comps = [NSMutableArray array];
+    [arrivalDict enumerateKeysAndObjectsUsingBlock:^(NSNumber *routeId, NSArray<Arrival*> *arrivals, BOOL *stop) {
+        NSString *result = @"";
+        NSString *abbreviation = [AEDataModel.shared routeForId:routeId].shortName;
+        result = [result stringByAppendingString:[NSString stringWithFormat:@"%@ in ", abbreviation]];
+        
+        NSMutableArray *times = [NSMutableArray array];
+        for (Arrival *arrival in arrivals) {
+            NSNumber *minutes = [NSNumber numberWithDouble:round(arrival.secondsToArrival.doubleValue / 60.0)];
+            [times addObject:[minutes stringValue]];
         }
-    }
-
+        
+        result = [result stringByAppendingString:[times componentsJoinedByString:@", "]];
+        result = [result stringByAppendingString:@" mins."];
+        
+        [comps addObject:result];
+    }];
+    
+    return [comps componentsJoinedByString:@" "];
 }
 
-- (NSString *)formattedSubtitleForStopSetId:(NSNumber *)stopSetId abbreviation:(NSString *)abbreviation {
+- (NSString *)formattedSubtitleForArrivalList:(NSArray<Arrival*> *)arrivalList abbreviation:(NSString *)abbreviation {
     __block NSString *subtitle = abbreviation;
-    
-    NSArray *predictions = self.arrivalPredictions[stopSetId];
     
     subtitle = [subtitle stringByAppendingString:@" Line"];
     
-    [predictions enumerateObjectsUsingBlock:^(NSDictionary *predictionDict, NSUInteger idx, BOOL *stopInner) {
+    [arrivalList enumerateObjectsUsingBlock:^(Arrival *arrival, NSUInteger idx, BOOL *stopInner) {
         subtitle = [subtitle stringByAppendingString:@"\n"];
         subtitle = [subtitle stringByAppendingString:@"  Bus "];
-        subtitle = [subtitle stringByAppendingString:[predictionDict[@"BusName"] stringValue]];
+        subtitle = [subtitle stringByAppendingString:arrival.vehicleName];
         subtitle = [subtitle stringByAppendingString:@"\t"];
         
-        NSString* minutesTillArrival = [predictionDict[@"Minutes"] stringValue];
-        if([minutesTillArrival isEqualToString: @"0"])
+        NSNumber *minutes = [NSNumber numberWithDouble:round(arrival.secondsToArrival.doubleValue / 60.0)];
+        NSString* minutesTillArrival = [minutes stringValue];
+        if(arrival.secondsToArrival.doubleValue <= 0)
         {
             subtitle = [subtitle stringByAppendingString:@"arriving"];
         }

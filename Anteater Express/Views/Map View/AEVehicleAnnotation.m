@@ -12,24 +12,23 @@
 
 @implementation AEVehicleAnnotation
 
-- (instancetype)initWithVehicleDictionary:(NSDictionary *)theVehicleDictionary routeDict:(NSDictionary *)theRouteDict {
+- (instancetype)initWithVehicle:(Vehicle *)vehicle route:(Route *)route {
     if (self = [super init]) {
-        self.routeDictionary = theRouteDict;
-        self.vehicleDictionary = theVehicleDictionary;
-        self.vehicleId = self.vehicleDictionary[@"ID"];
+        self.route = route;
+        self.vehicle = vehicle;
     }
     return self;
 }
 
-- (void)setVehicleDictionary:(NSDictionary *)vehicleDictionary {
-    _vehicleDictionary = vehicleDictionary;
+- (void)setVehicle:(Vehicle *)vehicle {
+    _vehicle = vehicle;
     [self updateVehiclePicture];
-    self.coordinate = CLLocationCoordinate2DMake([vehicleDictionary[@"Latitude"] doubleValue], [vehicleDictionary[@"Longitude"] doubleValue]);
+    self.coordinate = CLLocationCoordinate2DMake(vehicle.latitude.doubleValue, vehicle.longitude.doubleValue);
 }
 
 - (void)updateVehiclePicture {
-    NSInteger doorStatus = [[self.vehicleDictionary objectForKey:@"DoorStatus"] integerValue];
-    NSString *heading = [self.vehicleDictionary objectForKey:@"Heading"];
+    NSInteger doorStatus = self.vehicle.doorStatus.boolValue;
+    NSString *heading = self.vehicle.heading;
     
     if (doorStatus == 1)
     {
@@ -105,15 +104,15 @@
 
 - (NSString *)title {
     //NSString * doorOpenText = ([[_dictionary objectForKey:@"DoorStatus"] intValue] == 1) ? @"Yes" : @"No";
-    NSString *apcPercentageText = [self.vehicleDictionary objectForKey:@"APCPercentage"];
-    NSString *name = [self.vehicleDictionary objectForKey:@"Name"];
-    NSString *line = [self.routeDictionary objectForKey:@"Abbreviation"];
+    NSNumber *apcPercentageText = self.vehicle.apcPercentage;
+    NSString *name = self.vehicle.name;
+    NSString *line = self.route.shortName;
     return [NSString stringWithFormat:@"%@ Line - Bus %@ - %@%% Full", line, name, apcPercentageText];
 }
 
 - (NSString *)subtitle {
 
-    NSString *updatedTime = [self.vehicleDictionary objectForKey:@"Updated"];
+    NSString *updatedTime = self.vehicle.updated;
     NSString *basetime = [updatedTime substringToIndex:updatedTime.length - 1];
     NSString *period = [updatedTime substringFromIndex:updatedTime.length - 1];
     NSString *newString;

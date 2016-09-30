@@ -25,7 +25,9 @@
 
 - (UIColor *) colorWithHexString: (NSString *) stringToConvert  
 {  
-    NSString *cString = [[stringToConvert stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];  
+    NSString *cString = [[stringToConvert stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
+    
+    if ([cString hasPrefix:@"#"]) cString = [cString substringFromIndex:1];
     
     // String should be 6 or 8 characters  
     if ([cString length] < 6) return nil;//DEFAULT_VOID_COLOR;  

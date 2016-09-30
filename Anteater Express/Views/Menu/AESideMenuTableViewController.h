@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AESideMenuTableViewController : UITableViewController
+#import "AEDataModel.h"
+
+@interface AESideMenuTableViewController : UITableViewController <AEDataModelDelegate>
 
 @end

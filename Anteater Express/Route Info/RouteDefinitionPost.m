@@ -35,7 +35,7 @@
     
     HttpPostExecute* post = [[HttpPostExecute alloc] init]; 
     
-    [post sendRequest:@"http://apps.shuttle.uci.edu:8080/AE_Data_Service/DataAccessServlet" withNameValuePairs:pairs];
+    [post sendRequest:@"http://apps.anteaterexpress.com:8080/AE_Data_Service/DataAccessServlet" withNameValuePairs:pairs];
     
     /*for(NameValuePair *item in pairs)
     {
