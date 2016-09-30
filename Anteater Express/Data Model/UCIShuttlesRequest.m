@@ -240,22 +240,17 @@
     
     
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"error=%@", error);
         if (error != nil) {
             completion(nil, error);
             return;
         }
         
-        NSLog(@"%@", [response class]);
         if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            NSLog(@"status=%ld", (long)httpResponse.statusCode);
             if (httpResponse.statusCode != 200) {
                 completion(nil, [NSError errorWithDomain:@"Bad response" code:2 userInfo:nil]);
                 return;
             }
-        } else {
-            NSLog(@"wrong class: %@", response);
         }
         
         if (data == nil) {
