@@ -184,7 +184,7 @@ const NSUInteger kSectionLinks =      3;
                               ]
                           ]];
     if (lineInfos) {
-        [self.menuSections addObject:@[lineInfos]];
+        [self.menuSections addObject:lineInfos];
     } else {
         [self.menuSections addObject:@[]];
     }
@@ -227,6 +227,10 @@ const NSUInteger kSectionLinks =      3;
     // If the refresh control was pulled to trigger this, turn it off
     [self.refreshControl endRefreshing];
     
+}
+
+- (void)aeDataModelDidGetErrorRefreshingRoutes:(AEDataModel *)aeDataModel {
+    [self.refreshControl endRefreshing];
 }
      
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshVehicles:(NSArray<Vehicle *> *)vehicleList forRoute:(Route *)route {

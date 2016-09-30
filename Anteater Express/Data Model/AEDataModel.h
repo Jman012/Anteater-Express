@@ -30,6 +30,8 @@
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshStops:(NSArray<Stop*> *)stops forRoute:(Route *)route;
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshArrivals:(NSDictionary<NSNumber*,NSArray<Arrival*>*> *)arrivalsDict forStop:(Stop *)stop;
 
+- (void)aeDataModelDidGetErrorRefreshingRoutes:(AEDataModel *)aeDataModel;
+
 @end
 
 @interface AEDataModel : NSObject

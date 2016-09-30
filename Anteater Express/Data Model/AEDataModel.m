@@ -195,6 +195,14 @@
         if (error != nil) {
             NSLog(@"Got error while getting regions: %@", e);
             self.gettingRegion = false;
+            
+            for (id<AEDataModelDelegate> del in self.delegates) {
+                if ([del respondsToSelector:@selector(aeDataModelDidGetErrorRefreshingRoutes:)]) {
+                    dispatch_async(dispatch_get_main_queue(), ^() {
+                        [del aeDataModelDidGetErrorRefreshingRoutes:self];
+                    });
+                }
+            }
             return;
         }
         if (regions.count > 0) {
@@ -225,11 +233,19 @@
     NSError *e = nil;
     
     // Routes
-    [UCIShuttlesRequest requestRoutesForRegion:self.region.id completion:^(NSArray<Region*> *routes, NSError *error) {
+    [UCIShuttlesRequest requestRoutesForRegion:self.region.id completion:^(NSArray<Route*> *routes, NSError *error) {
         NSLog(@"Got routes (%lu)", (long)routes.count);
         if (e != nil) {
             NSLog(@"Got error while getting routes for region %@: %@", self.region.id, e);
             self.gettingRoutes = false;
+            
+            for (id<AEDataModelDelegate> del in self.delegates) {
+                if ([del respondsToSelector:@selector(aeDataModelDidGetErrorRefreshingRoutes:)]) {
+                    dispatch_async(dispatch_get_main_queue(), ^() {
+                        [del aeDataModelDidGetErrorRefreshingRoutes:self];
+                    });
+                }
+            }
             return;
         }
         
@@ -250,6 +266,25 @@
             
             [self.selectedRouteIDsSet unionSet:foundIds];
         }
+        
+        // Before setting new routes, need to see if there's any we need to delete
+        NSMutableSet *idsToRemove = [NSMutableSet set];
+        for (NSNumber *routeId in self.selectedRouteIDsSet) {
+            BOOL remove = true;
+            for (Route *newRoute in routes) {
+                if ([routeId isEqualToNumber:newRoute.id]) {
+                    remove = false;
+                }
+            }
+            if (remove) {
+                [idsToRemove addObject:routeId];
+            }
+        }
+        for (NSNumber *routeId in idsToRemove) {
+            [self deselectRoute:self.routeForRouteId[routeId]];
+        }
+        
+        // Then set the new route list and do other stuff.
         self.routeList = [NSMutableArray arrayWithArray:routes];
         self.routeForRouteId = [NSMutableDictionary dictionaryWithCapacity:self.routeList.count];
         for (Route *route in self.routeList) {
@@ -262,6 +297,7 @@
                 [self refreshStopsForRoute:route];
             }
         }
+        
         
         for (id<AEDataModelDelegate> del in self.delegates) {
             if ([del respondsToSelector:@selector(aeDataModel:didRefreshRouteList:)]) {
@@ -284,6 +320,9 @@
 }
 
 - (void)refreshVehiclesForRoute:(Route *)route {
+    if (route == nil) {
+        return;
+    }
     if ([self.gettingVehiclesById containsObject:route.id]) {
         return;
     }
@@ -312,6 +351,9 @@
 }
 
 - (void)refreshWaypointsForRoute:(Route *)route {
+    if (route == nil) {
+        return;
+    }
     if ([self.gettingWaypointsById containsObject:route.id]) {
         return;
     }
@@ -339,6 +381,9 @@
 }
 
 - (void)refreshStopsForRoute:(Route *)route {
+    if (route == nil) {
+        return;
+    }
     if ([self.gettingStopsById containsObject:route.id]) {
         return;
     }
@@ -373,6 +418,9 @@
 }
 
 - (void)refreshArrivalsForStop:(Stop *)stop {
+    if (stop == nil) {
+        return;
+    }
     if ([self.gettingArrivalsById containsObject:stop.id]) {
         return;
     }

@@ -39,7 +39,7 @@
     }];
 }
 
-+ (void)requestRoutesForRegion:(NSNumber *)regionId completion:(void (^)(NSArray<Region*> *regions, NSError *error))completionHandler {
++ (void)requestRoutesForRegion:(NSNumber *)regionId completion:(void (^)(NSArray<Route*> *regions, NSError *error))completionHandler {
     [UCIShuttlesRequest sendRequest:[NSString stringWithFormat:@"/Region/%@/Routes", regionId] completion:^(NSArray *routeJson, NSError *error) {
         
         if (error != nil) {
