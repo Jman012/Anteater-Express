@@ -358,6 +358,9 @@
 }
 
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshWaypoints:(RouteWaypoints *)waypoints forRoute:(Route *)route {
+    if (waypoints == nil) {
+        return;
+    }
     if ([aeDataModel.selectedRoutes containsObject:route.id] == false) {
         return;
     }
@@ -597,6 +600,8 @@
         // Set subtitle. We're not iOS9 with stack views and detail views
         stopAnnotation.subtitle = [stopAnnotation makeSubtitleForArrivalDict:arrivalsDict];
     
+    } else if (arrivalsDict == nil) {
+        stopAnnotation.subtitle = @"Error";
     } else {
         // We're good to go with the detail view
         

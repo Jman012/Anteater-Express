@@ -230,6 +230,18 @@ const NSUInteger kSectionLinks =      3;
 }
 
 - (void)aeDataModelDidGetErrorRefreshingRoutes:(AEDataModel *)aeDataModel {
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:kSectionLines];
+
+    self.lastRoutesAndAnnounceRefreshDate = [NSDate date];
+    
+    [self.tableView beginUpdates];
+    
+    self.routeList = @[];
+    self.menuSections[kSectionLines] = @[];
+    [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    [self.tableView endUpdates];
+    
     [self.refreshControl endRefreshing];
 }
      
