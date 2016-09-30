@@ -104,10 +104,9 @@
 
 - (NSString *)title {
     //NSString * doorOpenText = ([[_dictionary objectForKey:@"DoorStatus"] intValue] == 1) ? @"Yes" : @"No";
-    NSNumber *apcPercentageText = self.vehicle.apcPercentage;
     NSString *name = self.vehicle.name;
     NSString *line = self.route.shortName;
-    return [NSString stringWithFormat:@"%@ Line - Bus %@ - %@%% Full", line, name, apcPercentageText];
+    return [NSString stringWithFormat:@"%@ Line - Bus %@", line, name];
 }
 
 - (NSString *)subtitle {

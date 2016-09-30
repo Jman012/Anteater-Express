@@ -147,7 +147,6 @@
                 newVehicle.speed = vehicleDict[@"Speed"];
                 newVehicle.heading = vehicleDict[@"Heading"];
                 newVehicle.doorStatus = vehicleDict[@"DoorStatus"];
-                newVehicle.apcPercentage = vehicleDict[@"APCPercentage"];
                 
                 [vehicles addObject:newVehicle];
             }
