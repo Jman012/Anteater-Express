@@ -10,13 +10,4 @@
 
 @interface ASMapView : MKMapView
 
--(void) zoomIn;
--(void) zoomOut;
-
--(CLLocationCoordinate2D) centerOfCoordinatesIn:(CLLocationCoordinate2D*)coordinates count:(NSInteger)count;
-
--(double) degreesToRadians:(CLLocationDegrees)degrees;
-
--(CLLocationDegrees) radiansToDegrees:(double)radians;
-
 @end

@@ -503,7 +503,7 @@
             // does it, from what I saw.
             renderer.strokeColor = [renderer.strokeColor colorWithAlphaComponent:0.75];
         }
-        renderer.lineWidth = 3.0;
+        renderer.lineWidth = 4.0;
         
         return renderer;
     }
