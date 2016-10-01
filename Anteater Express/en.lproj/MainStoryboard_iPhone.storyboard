@@ -239,7 +239,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tGV-0S-xCr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1038.75" y="3360"/>
+            <point key="canvasLocation" x="-1183" y="1544"/>
         </scene>
         <!--Reveal View Controller-->
         <scene sceneID="ox5-Lh-ftA">
@@ -252,7 +252,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jtI-Ni-xV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1038.75" y="2532.5"/>
+            <point key="canvasLocation" x="-1183" y="716"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yRi-AC-Z5s">
@@ -268,7 +268,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kYo-Zz-p9u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-168.75" y="2532.5"/>
+            <point key="canvasLocation" x="-313" y="716"/>
         </scene>
         <!--Route Detail View Controller-->
         <scene sceneID="f0N-UK-Nhj">
@@ -473,7 +473,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fqp-I7-kSd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-169" y="3360"/>
+            <point key="canvasLocation" x="-313" y="1544"/>
         </scene>
         <!--Anteater Express-->
         <scene sceneID="q7r-M2-cW6">
@@ -528,7 +528,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q6l-gN-8kE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="825" y="2532"/>
+            <point key="canvasLocation" x="681" y="716"/>
         </scene>
         <!--Contact Us-->
         <scene sceneID="hj6-Ak-gvY">
@@ -614,7 +614,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gqU-zs-9zT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-169" y="4891"/>
+            <point key="canvasLocation" x="-313" y="3075"/>
         </scene>
         <!--How to Ride-->
         <scene sceneID="W4O-qa-fB2">
@@ -769,7 +769,7 @@ Cg
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jG6-x4-MOl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-169" y="5605"/>
+            <point key="canvasLocation" x="-313" y="3789"/>
         </scene>
         <!--About-->
         <scene sceneID="4Xw-TJ-JVV">
@@ -832,7 +832,7 @@ Tej Vuligonda - tvuligon@uci.edu</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="865-VY-kpI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-169" y="4231"/>
+            <point key="canvasLocation" x="-313" y="2415"/>
         </scene>
         <!--About Anteater Express-->
         <scene sceneID="BN1-eJ-fEG">
@@ -851,7 +851,7 @@ Tej Vuligonda - tvuligon@uci.edu</string>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VQV-Q0-hgr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-989" y="4561"/>
+            <point key="canvasLocation" x="-1133" y="2745"/>
         </scene>
         <!--News and About-->
         <scene sceneID="AMH-j3-4ZM">
@@ -882,7 +882,7 @@ Tej Vuligonda - tvuligon@uci.edu</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n9D-CR-goC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="843.75" y="4055"/>
+            <point key="canvasLocation" x="699" y="2239"/>
         </scene>
         <!--Route Updates-->
         <scene sceneID="MJS-pG-ppv">
@@ -913,7 +913,7 @@ Tej Vuligonda - tvuligon@uci.edu</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ImE-Qb-S3n" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="843.75" y="3360"/>
+            <point key="canvasLocation" x="699" y="1544"/>
         </scene>
     </scenes>
     <resources>
