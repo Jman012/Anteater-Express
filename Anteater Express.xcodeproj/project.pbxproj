@@ -26,31 +26,9 @@
 		1A16D18A1BFA9DF6003B3C2D /* RouteVehiclesPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D17B1BFA9DF6003B3C2D /* RouteVehiclesPost.m */; };
 		1A16D18B1BFA9DF6003B3C2D /* StopArrivalPredictionDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D17D1BFA9DF6003B3C2D /* StopArrivalPredictionDAO.m */; };
 		1A16D18C1BFA9DF6003B3C2D /* StopArrivalPredictionPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D17F1BFA9DF6003B3C2D /* StopArrivalPredictionPost.m */; };
-		1A16D1A41BFA9E02003B3C2D /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D18E1BFA9E02003B3C2D /* MenuViewController.m */; };
-		1A16D1A51BFA9E02003B3C2D /* ParentCustomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1901BFA9E02003B3C2D /* ParentCustomViewController.m */; };
-		1A16D1A61BFA9E02003B3C2D /* ImageAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1931BFA9E02003B3C2D /* ImageAnnotationView.m */; };
-		1A16D1A71BFA9E02003B3C2D /* MapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1951BFA9E02003B3C2D /* MapAnnotation.m */; };
-		1A16D1A81BFA9E02003B3C2D /* RouteTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1971BFA9E02003B3C2D /* RouteTabView.m */; };
-		1A16D1A91BFA9E02003B3C2D /* RouteStopDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D19A1BFA9E02003B3C2D /* RouteStopDetailsViewController.m */; };
-		1A16D1AA1BFA9E02003B3C2D /* ScheduleTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D19C1BFA9E02003B3C2D /* ScheduleTabView.m */; };
-		1A16D1AB1BFA9E02003B3C2D /* StopCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D19E1BFA9E02003B3C2D /* StopCustomCell.m */; };
-		1A16D1AC1BFA9E02003B3C2D /* StopDepartureTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1A01BFA9E02003B3C2D /* StopDepartureTimeCell.m */; };
-		1A16D1AD1BFA9E02003B3C2D /* UpdateTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1A31BFA9E02003B3C2D /* UpdateTabView.m */; };
-		1A16D1B81BFA9E0D003B3C2D /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1AF1BFA9E0D003B3C2D /* AboutUsViewController.m */; };
-		1A16D1B91BFA9E0D003B3C2D /* ContactUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1B11BFA9E0D003B3C2D /* ContactUsViewController.m */; };
-		1A16D1BA1BFA9E0D003B3C2D /* FaresViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1B31BFA9E0D003B3C2D /* FaresViewController.m */; };
-		1A16D1BB1BFA9E0D003B3C2D /* HowToRideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1B51BFA9E0D003B3C2D /* HowToRideViewController.m */; };
-		1A16D1BC1BFA9E0D003B3C2D /* ServicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1B71BFA9E0D003B3C2D /* ServicesViewController.m */; };
-		1A16D1C11BFA9E16003B3C2D /* AllRouteUpdates.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1BE1BFA9E16003B3C2D /* AllRouteUpdates.m */; };
-		1A16D1C21BFA9E16003B3C2D /* RouteUpdateDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1C01BFA9E16003B3C2D /* RouteUpdateDetailsViewController.m */; };
-		1A16D1CB1BFA9E1E003B3C2D /* AnnouncementCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1C41BFA9E1E003B3C2D /* AnnouncementCustomCell.m */; };
-		1A16D1CC1BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1C61BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m */; };
-		1A16D1CD1BFA9E1E003B3C2D /* AnnouncementsAndNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1C81BFA9E1E003B3C2D /* AnnouncementsAndNews.m */; };
-		1A16D1CE1BFA9E1E003B3C2D /* AnnouncementsPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1CA1BFA9E1E003B3C2D /* AnnouncementsPost.m */; };
 		1A16D1D71C023D59003B3C2D /* AESideMenuTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1D61C023D59003B3C2D /* AESideMenuTableViewController.m */; };
 		1A16D1DB1C023F8C003B3C2D /* AEMenuBannerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1DA1C023F8C003B3C2D /* AEMenuBannerTableViewCell.m */; };
 		1A16D1DE1C024076003B3C2D /* AEMenuFreeLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1DD1C024076003B3C2D /* AEMenuFreeLineTableViewCell.m */; };
-		1A16D1E41C024154003B3C2D /* AEMenuPaidLineTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1E31C024154003B3C2D /* AEMenuPaidLineTableViewCell.m */; };
 		1A16D1E71C024310003B3C2D /* AEMenuItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1E61C024310003B3C2D /* AEMenuItemTableViewCell.m */; };
 		1A16D1EE1C0245FF003B3C2D /* MenuInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1ED1C0245FF003B3C2D /* MenuInfo.m */; };
 		1A16D1F11C02461E003B3C2D /* BannerItemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1F01C02461E003B3C2D /* BannerItemInfo.m */; };
@@ -59,14 +37,13 @@
 		1A16D1FA1C026092003B3C2D /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1F91C026092003B3C2D /* MapViewController.m */; };
 		1A16D1FF1C026EFD003B3C2D /* AllRouteUpdatesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D1FE1C026EFD003B3C2D /* AllRouteUpdatesViewController.m */; };
 		1A16D2021C026F10003B3C2D /* NewsAndAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2011C026F10003B3C2D /* NewsAndAboutViewController.m */; };
-		1A16D2061C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */; };
-		1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D2081C04241C003B3C2D /* LoadingInfo.m */; };
 		1A16D20D1C04E92A003B3C2D /* AEGetRoutesOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */; };
 		1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A16D20F1C0E6B93003B3C2D /* AEGetRouteDefinition.m */; };
 		1A34B34D1CBE17A3004CF2F0 /* 75-phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A34B34A1CBE17A3004CF2F0 /* 75-phone.png */; };
 		1A34B34E1CBE17A3004CF2F0 /* 103-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A34B34B1CBE17A3004CF2F0 /* 103-map.png */; };
 		1A34B34F1CBE17A3004CF2F0 /* 112-group.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A34B34C1CBE17A3004CF2F0 /* 112-group.png */; };
-		1A413A061C52DD3E00454E0E /* AERouteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A413A051C52DD3E00454E0E /* AERouteInfoViewController.m */; };
+		1A3AA5CA1D9F404000B0D05B /* AnnouncementsPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AA5C91D9F404000B0D05B /* AnnouncementsPost.m */; };
+		1A3AA5CD1D9F41DE00B0D05B /* RouteWaypoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AA5CC1D9F41DE00B0D05B /* RouteWaypoints.m */; };
 		1A4B6F031C27357F00C730EC /* MapControlInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F021C27357F00C730EC /* MapControlInfo.m */; };
 		1A4B6F061C27360300C730EC /* AEMenuMapControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F051C27360300C730EC /* AEMenuMapControlTableViewCell.m */; };
 		1A4B6F0F1C28B5C400C730EC /* AEStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */; };
@@ -78,14 +55,12 @@
 		1A6828AA1C48B56A0062B49F /* AEGetArrivalPredictionsOp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828A91C48B56A0062B49F /* AEGetArrivalPredictionsOp.m */; };
 		1A6828AD1C49821F0062B49F /* ArrivalPredictionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */; };
 		1A6828AF1C4983960062B49F /* ArrivalPredictionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */; };
-		1A773E321C81247D0023DCA8 /* AENetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A773E311C81247D0023DCA8 /* AENetwork.m */; };
 		1A773E361C82C9990023DCA8 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A773E341C82C9990023DCA8 /* Launch Screen.storyboard */; };
 		1A79CB8C1C30DC940091DD62 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A79CB8B1C30DC940091DD62 /* Images.xcassets */; };
 		1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A79CB941C337F1F0091DD62 /* CircleCheckmark.m */; };
 		1AC96F9C1D99E1240079AF7B /* AEDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC96F9B1D99E1240079AF7B /* AEDataModel.m */; };
 		1AC96F9F1D99E60B0079AF7B /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC96F9E1D99E60B0079AF7B /* Route.m */; };
 		1AC96FA21D99E61D0079AF7B /* Region.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC96FA11D99E61D0079AF7B /* Region.m */; };
-		1AC96FA51D99E6460079AF7B /* RouteWaypoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC96FA41D99E6460079AF7B /* RouteWaypoints.m */; };
 		1AC96FA81D99E69F0079AF7B /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC96FA71D99E69F0079AF7B /* Stop.m */; };
 		1AC96FAB1D99E83D0079AF7B /* Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC96FAA1D99E83D0079AF7B /* Vehicle.m */; };
 		1AC96FAE1D99EFE30079AF7B /* UCIShuttlesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC96FAD1D99EFE30079AF7B /* UCIShuttlesRequest.m */; };
@@ -95,7 +70,6 @@
 		1ACBE5A01CC0ADD40044401C /* AnteaterExpress_logo_title_isolated_wide.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ACBE59F1CC0ADD40044401C /* AnteaterExpress_logo_title_isolated_wide.png */; };
 		1ACBE5A31CC0B10E0044401C /* ASMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ACBE5A21CC0B10E0044401C /* ASMapView.m */; };
 		4A4E0C4A16D09149003E0668 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */; };
-		4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */; };
 		4A53A85C1566DDEE00D191AC /* shuttle_E_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */; };
 		4A53A85D1566DDEE00D191AC /* shuttle_E_stopped.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84D1566DDEE00D191AC /* shuttle_E_stopped.png */; };
 		4A53A85E1566DDEE00D191AC /* shuttle_N_moving.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A53A84E1566DDEE00D191AC /* shuttle_N_moving.png */; };
@@ -119,7 +93,6 @@
 		4A76A6EB1559016100D99B14 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A76A6EA1559016100D99B14 /* main.m */; };
 		4A76A6EF1559016100D99B14 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A76A6EE1559016100D99B14 /* AppDelegate.m */; };
 		4A76A6F21559016100D99B14 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A76A6F01559016100D99B14 /* MainStoryboard_iPhone.storyboard */; };
-		4A76A6F81559016100D99B14 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A76A6F71559016100D99B14 /* ViewController.m */; };
 		4AC8B4E515E03CDC007C6CE3 /* UIUnreadIndicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AC8B4E315E03CDC007C6CE3 /* UIUnreadIndicator.png */; };
 		4AC8B4E615E03CDC007C6CE3 /* UIUnreadIndicatorPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 4AC8B4E415E03CDC007C6CE3 /* UIUnreadIndicatorPressed.png */; };
 		4AD1F9FB155C392000978EAA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD1F9FA155C392000978EAA /* CoreLocation.framework */; };
@@ -167,56 +140,12 @@
 		1A16D17D1BFA9DF6003B3C2D /* StopArrivalPredictionDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StopArrivalPredictionDAO.m; path = "Route Info/StopArrivalPredictionDAO.m"; sourceTree = "<group>"; };
 		1A16D17E1BFA9DF6003B3C2D /* StopArrivalPredictionPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StopArrivalPredictionPost.h; path = "Route Info/StopArrivalPredictionPost.h"; sourceTree = "<group>"; };
 		1A16D17F1BFA9DF6003B3C2D /* StopArrivalPredictionPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StopArrivalPredictionPost.m; path = "Route Info/StopArrivalPredictionPost.m"; sourceTree = "<group>"; };
-		1A16D18D1BFA9E02003B3C2D /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuViewController.h; path = Route/MenuViewController.h; sourceTree = "<group>"; };
-		1A16D18E1BFA9E02003B3C2D /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuViewController.m; path = Route/MenuViewController.m; sourceTree = "<group>"; };
-		1A16D18F1BFA9E02003B3C2D /* ParentCustomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParentCustomViewController.h; path = Route/ParentCustomViewController.h; sourceTree = "<group>"; };
-		1A16D1901BFA9E02003B3C2D /* ParentCustomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParentCustomViewController.m; path = Route/ParentCustomViewController.m; sourceTree = "<group>"; };
-		1A16D1921BFA9E02003B3C2D /* ImageAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAnnotationView.h; sourceTree = "<group>"; };
-		1A16D1931BFA9E02003B3C2D /* ImageAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageAnnotationView.m; sourceTree = "<group>"; };
-		1A16D1941BFA9E02003B3C2D /* MapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapAnnotation.h; sourceTree = "<group>"; };
-		1A16D1951BFA9E02003B3C2D /* MapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapAnnotation.m; sourceTree = "<group>"; };
-		1A16D1961BFA9E02003B3C2D /* RouteTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteTabView.h; sourceTree = "<group>"; };
-		1A16D1971BFA9E02003B3C2D /* RouteTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteTabView.m; sourceTree = "<group>"; };
-		1A16D1991BFA9E02003B3C2D /* RouteStopDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteStopDetailsViewController.h; sourceTree = "<group>"; };
-		1A16D19A1BFA9E02003B3C2D /* RouteStopDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteStopDetailsViewController.m; sourceTree = "<group>"; };
-		1A16D19B1BFA9E02003B3C2D /* ScheduleTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleTabView.h; sourceTree = "<group>"; };
-		1A16D19C1BFA9E02003B3C2D /* ScheduleTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleTabView.m; sourceTree = "<group>"; };
-		1A16D19D1BFA9E02003B3C2D /* StopCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopCustomCell.h; sourceTree = "<group>"; };
-		1A16D19E1BFA9E02003B3C2D /* StopCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopCustomCell.m; sourceTree = "<group>"; };
-		1A16D19F1BFA9E02003B3C2D /* StopDepartureTimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopDepartureTimeCell.h; sourceTree = "<group>"; };
-		1A16D1A01BFA9E02003B3C2D /* StopDepartureTimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopDepartureTimeCell.m; sourceTree = "<group>"; };
-		1A16D1A21BFA9E02003B3C2D /* UpdateTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateTabView.h; sourceTree = "<group>"; };
-		1A16D1A31BFA9E02003B3C2D /* UpdateTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateTabView.m; sourceTree = "<group>"; };
-		1A16D1AE1BFA9E0D003B3C2D /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutUsViewController.h; path = "About Anteater Express/AboutUsViewController.h"; sourceTree = "<group>"; };
-		1A16D1AF1BFA9E0D003B3C2D /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutUsViewController.m; path = "About Anteater Express/AboutUsViewController.m"; sourceTree = "<group>"; };
-		1A16D1B01BFA9E0D003B3C2D /* ContactUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactUsViewController.h; path = "About Anteater Express/ContactUsViewController.h"; sourceTree = "<group>"; };
-		1A16D1B11BFA9E0D003B3C2D /* ContactUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactUsViewController.m; path = "About Anteater Express/ContactUsViewController.m"; sourceTree = "<group>"; };
-		1A16D1B21BFA9E0D003B3C2D /* FaresViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FaresViewController.h; path = "About Anteater Express/FaresViewController.h"; sourceTree = "<group>"; };
-		1A16D1B31BFA9E0D003B3C2D /* FaresViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FaresViewController.m; path = "About Anteater Express/FaresViewController.m"; sourceTree = "<group>"; };
-		1A16D1B41BFA9E0D003B3C2D /* HowToRideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HowToRideViewController.h; path = "About Anteater Express/HowToRideViewController.h"; sourceTree = "<group>"; };
-		1A16D1B51BFA9E0D003B3C2D /* HowToRideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HowToRideViewController.m; path = "About Anteater Express/HowToRideViewController.m"; sourceTree = "<group>"; };
-		1A16D1B61BFA9E0D003B3C2D /* ServicesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServicesViewController.h; path = "About Anteater Express/ServicesViewController.h"; sourceTree = "<group>"; };
-		1A16D1B71BFA9E0D003B3C2D /* ServicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServicesViewController.m; path = "About Anteater Express/ServicesViewController.m"; sourceTree = "<group>"; };
-		1A16D1BD1BFA9E16003B3C2D /* AllRouteUpdates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AllRouteUpdates.h; path = "All Route Updates/AllRouteUpdates.h"; sourceTree = "<group>"; };
-		1A16D1BE1BFA9E16003B3C2D /* AllRouteUpdates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AllRouteUpdates.m; path = "All Route Updates/AllRouteUpdates.m"; sourceTree = "<group>"; };
-		1A16D1BF1BFA9E16003B3C2D /* RouteUpdateDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RouteUpdateDetailsViewController.h; path = "All Route Updates/RouteUpdateDetailsViewController.h"; sourceTree = "<group>"; };
-		1A16D1C01BFA9E16003B3C2D /* RouteUpdateDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RouteUpdateDetailsViewController.m; path = "All Route Updates/RouteUpdateDetailsViewController.m"; sourceTree = "<group>"; };
-		1A16D1C31BFA9E1E003B3C2D /* AnnouncementCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnouncementCustomCell.h; path = "General News/AnnouncementCustomCell.h"; sourceTree = "<group>"; };
-		1A16D1C41BFA9E1E003B3C2D /* AnnouncementCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnnouncementCustomCell.m; path = "General News/AnnouncementCustomCell.m"; sourceTree = "<group>"; };
-		1A16D1C51BFA9E1E003B3C2D /* AnnouncementDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnouncementDetailsViewController.h; path = "General News/AnnouncementDetailsViewController.h"; sourceTree = "<group>"; };
-		1A16D1C61BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnnouncementDetailsViewController.m; path = "General News/AnnouncementDetailsViewController.m"; sourceTree = "<group>"; };
-		1A16D1C71BFA9E1E003B3C2D /* AnnouncementsAndNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnouncementsAndNews.h; path = "General News/AnnouncementsAndNews.h"; sourceTree = "<group>"; };
-		1A16D1C81BFA9E1E003B3C2D /* AnnouncementsAndNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnnouncementsAndNews.m; path = "General News/AnnouncementsAndNews.m"; sourceTree = "<group>"; };
-		1A16D1C91BFA9E1E003B3C2D /* AnnouncementsPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnouncementsPost.h; path = "General News/AnnouncementsPost.h"; sourceTree = "<group>"; };
-		1A16D1CA1BFA9E1E003B3C2D /* AnnouncementsPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnnouncementsPost.m; path = "General News/AnnouncementsPost.m"; sourceTree = "<group>"; };
 		1A16D1D51C023D59003B3C2D /* AESideMenuTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AESideMenuTableViewController.h; path = Views/Menu/AESideMenuTableViewController.h; sourceTree = "<group>"; };
 		1A16D1D61C023D59003B3C2D /* AESideMenuTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AESideMenuTableViewController.m; path = Views/Menu/AESideMenuTableViewController.m; sourceTree = "<group>"; };
 		1A16D1D91C023F8C003B3C2D /* AEMenuBannerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEMenuBannerTableViewCell.h; path = Views/Menu/Cells/AEMenuBannerTableViewCell.h; sourceTree = "<group>"; };
 		1A16D1DA1C023F8C003B3C2D /* AEMenuBannerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEMenuBannerTableViewCell.m; path = Views/Menu/Cells/AEMenuBannerTableViewCell.m; sourceTree = "<group>"; };
 		1A16D1DC1C024076003B3C2D /* AEMenuFreeLineTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEMenuFreeLineTableViewCell.h; path = Views/Menu/Cells/AEMenuFreeLineTableViewCell.h; sourceTree = "<group>"; };
 		1A16D1DD1C024076003B3C2D /* AEMenuFreeLineTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEMenuFreeLineTableViewCell.m; path = Views/Menu/Cells/AEMenuFreeLineTableViewCell.m; sourceTree = "<group>"; };
-		1A16D1E21C024154003B3C2D /* AEMenuPaidLineTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEMenuPaidLineTableViewCell.h; path = Views/Menu/Cells/AEMenuPaidLineTableViewCell.h; sourceTree = "<group>"; };
-		1A16D1E31C024154003B3C2D /* AEMenuPaidLineTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEMenuPaidLineTableViewCell.m; path = Views/Menu/Cells/AEMenuPaidLineTableViewCell.m; sourceTree = "<group>"; };
 		1A16D1E51C024310003B3C2D /* AEMenuItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEMenuItemTableViewCell.h; path = Views/Menu/Cells/AEMenuItemTableViewCell.h; sourceTree = "<group>"; };
 		1A16D1E61C024310003B3C2D /* AEMenuItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEMenuItemTableViewCell.m; path = Views/Menu/Cells/AEMenuItemTableViewCell.m; sourceTree = "<group>"; };
 		1A16D1EC1C0245FF003B3C2D /* MenuInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuInfo.h; path = "Views/Menu/Menu Item Info/MenuInfo.h"; sourceTree = "<group>"; };
@@ -233,10 +162,6 @@
 		1A16D1FE1C026EFD003B3C2D /* AllRouteUpdatesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AllRouteUpdatesViewController.m; path = "Views/All Route Updates/AllRouteUpdatesViewController.m"; sourceTree = "<group>"; };
 		1A16D2001C026F10003B3C2D /* NewsAndAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewsAndAboutViewController.h; path = "Views/News and About/NewsAndAboutViewController.h"; sourceTree = "<group>"; };
 		1A16D2011C026F10003B3C2D /* NewsAndAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewsAndAboutViewController.m; path = "Views/News and About/NewsAndAboutViewController.m"; sourceTree = "<group>"; };
-		1A16D2041C0423BE003B3C2D /* AEMenuLoadingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEMenuLoadingTableViewCell.h; path = Views/Menu/Cells/AEMenuLoadingTableViewCell.h; sourceTree = "<group>"; };
-		1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEMenuLoadingTableViewCell.m; path = Views/Menu/Cells/AEMenuLoadingTableViewCell.m; sourceTree = "<group>"; };
-		1A16D2071C04241C003B3C2D /* LoadingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingInfo.h; path = "Views/Menu/Menu Item Info/LoadingInfo.h"; sourceTree = "<group>"; };
-		1A16D2081C04241C003B3C2D /* LoadingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingInfo.m; path = "Views/Menu/Menu Item Info/LoadingInfo.m"; sourceTree = "<group>"; };
 		1A16D20B1C04E92A003B3C2D /* AEGetRoutesOp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRoutesOp.h; path = "AE Data Retrieval/AEGetRoutesOp.h"; sourceTree = "<group>"; };
 		1A16D20C1C04E92A003B3C2D /* AEGetRoutesOp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AEGetRoutesOp.m; path = "AE Data Retrieval/AEGetRoutesOp.m"; sourceTree = "<group>"; };
 		1A16D20E1C0E6B93003B3C2D /* AEGetRouteDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEGetRouteDefinition.h; path = "AE Data Retrieval/AEGetRouteDefinition.h"; sourceTree = "<group>"; };
@@ -244,8 +169,10 @@
 		1A34B34A1CBE17A3004CF2F0 /* 75-phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "75-phone.png"; sourceTree = "<group>"; };
 		1A34B34B1CBE17A3004CF2F0 /* 103-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "103-map.png"; sourceTree = "<group>"; };
 		1A34B34C1CBE17A3004CF2F0 /* 112-group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "112-group.png"; sourceTree = "<group>"; };
-		1A413A041C52DD3E00454E0E /* AERouteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AERouteInfoViewController.h; path = Views/Menu/AERouteInfoViewController.h; sourceTree = "<group>"; };
-		1A413A051C52DD3E00454E0E /* AERouteInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AERouteInfoViewController.m; path = Views/Menu/AERouteInfoViewController.m; sourceTree = "<group>"; };
+		1A3AA5C81D9F404000B0D05B /* AnnouncementsPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnnouncementsPost.h; path = "Route Info/AnnouncementsPost.h"; sourceTree = "<group>"; };
+		1A3AA5C91D9F404000B0D05B /* AnnouncementsPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnnouncementsPost.m; path = "Route Info/AnnouncementsPost.m"; sourceTree = "<group>"; };
+		1A3AA5CB1D9F41DE00B0D05B /* RouteWaypoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RouteWaypoints.h; path = "Data Model/RouteWaypoints.h"; sourceTree = "<group>"; };
+		1A3AA5CC1D9F41DE00B0D05B /* RouteWaypoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RouteWaypoints.m; path = "Data Model/RouteWaypoints.m"; sourceTree = "<group>"; };
 		1A4B6F011C27357F00C730EC /* MapControlInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapControlInfo.h; path = "Views/Menu/Menu Item Info/MapControlInfo.h"; sourceTree = "<group>"; };
 		1A4B6F021C27357F00C730EC /* MapControlInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapControlInfo.m; path = "Views/Menu/Menu Item Info/MapControlInfo.m"; sourceTree = "<group>"; };
 		1A4B6F041C27360300C730EC /* AEMenuMapControlTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEMenuMapControlTableViewCell.h; path = Views/Menu/Cells/AEMenuMapControlTableViewCell.h; sourceTree = "<group>"; };
@@ -267,8 +194,6 @@
 		1A6828AB1C49821F0062B49F /* ArrivalPredictionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArrivalPredictionView.h; path = "Views/Map View/ArrivalPredictionView.h"; sourceTree = "<group>"; };
 		1A6828AC1C49821F0062B49F /* ArrivalPredictionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArrivalPredictionView.m; path = "Views/Map View/ArrivalPredictionView.m"; sourceTree = "<group>"; };
 		1A6828AE1C4983960062B49F /* ArrivalPredictionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ArrivalPredictionView.xib; path = "Views/Map View/ArrivalPredictionView.xib"; sourceTree = "<group>"; };
-		1A773E301C81247D0023DCA8 /* AENetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AENetwork.h; path = Utils/AENetwork.h; sourceTree = "<group>"; };
-		1A773E311C81247D0023DCA8 /* AENetwork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AENetwork.m; path = Utils/AENetwork.m; sourceTree = "<group>"; };
 		1A773E351C82C9990023DCA8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = "en.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1A79CB8B1C30DC940091DD62 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CircleCheckmark.h; path = Views/Menu/Cells/CircleCheckmark.h; sourceTree = "<group>"; };
@@ -279,8 +204,6 @@
 		1AC96F9E1D99E60B0079AF7B /* Route.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Route.m; path = "Data Model/Route.m"; sourceTree = "<group>"; };
 		1AC96FA01D99E61D0079AF7B /* Region.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Region.h; path = "Data Model/Region.h"; sourceTree = "<group>"; };
 		1AC96FA11D99E61D0079AF7B /* Region.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Region.m; path = "Data Model/Region.m"; sourceTree = "<group>"; };
-		1AC96FA31D99E6460079AF7B /* RouteWaypoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteWaypoints.h; sourceTree = "<group>"; };
-		1AC96FA41D99E6460079AF7B /* RouteWaypoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteWaypoints.m; sourceTree = "<group>"; };
 		1AC96FA61D99E69F0079AF7B /* Stop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stop.h; path = "Data Model/Stop.h"; sourceTree = "<group>"; };
 		1AC96FA71D99E69F0079AF7B /* Stop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stop.m; path = "Data Model/Stop.m"; sourceTree = "<group>"; };
 		1AC96FA91D99E83D0079AF7B /* Vehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vehicle.h; path = "Data Model/Vehicle.h"; sourceTree = "<group>"; };
@@ -297,8 +220,6 @@
 		1ACBE5A11CC0B10E0044401C /* ASMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASMapView.h; path = Utils/ASMapView.h; sourceTree = "<group>"; };
 		1ACBE5A21CC0B10E0044401C /* ASMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASMapView.m; path = Utils/ASMapView.m; sourceTree = "<group>"; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoConnectionViewController.h; sourceTree = "<group>"; };
-		4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoConnectionViewController.m; sourceTree = "<group>"; };
 		4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuttle_E_moving.png; sourceTree = "<group>"; };
 		4A53A84D1566DDEE00D191AC /* shuttle_E_stopped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuttle_E_stopped.png; sourceTree = "<group>"; };
 		4A53A84E1566DDEE00D191AC /* shuttle_N_moving.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuttle_N_moving.png; sourceTree = "<group>"; };
@@ -326,8 +247,6 @@
 		4A76A6ED1559016100D99B14 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4A76A6EE1559016100D99B14 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		4A76A6F11559016100D99B14 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		4A76A6F61559016100D99B14 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4A76A6F71559016100D99B14 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		4AC8B4E315E03CDC007C6CE3 /* UIUnreadIndicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UIUnreadIndicator.png; sourceTree = "<group>"; };
 		4AC8B4E415E03CDC007C6CE3 /* UIUnreadIndicatorPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UIUnreadIndicatorPressed.png; sourceTree = "<group>"; };
 		4AD1F9FA155C392000978EAA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -369,46 +288,6 @@
 			name = "Route Detail";
 			sourceTree = "<group>";
 		};
-		1A16D1911BFA9E02003B3C2D /* Route Map */ = {
-			isa = PBXGroup;
-			children = (
-				1A16D1921BFA9E02003B3C2D /* ImageAnnotationView.h */,
-				1A16D1931BFA9E02003B3C2D /* ImageAnnotationView.m */,
-				1A16D1941BFA9E02003B3C2D /* MapAnnotation.h */,
-				1A16D1951BFA9E02003B3C2D /* MapAnnotation.m */,
-				1A16D1961BFA9E02003B3C2D /* RouteTabView.h */,
-				1A16D1971BFA9E02003B3C2D /* RouteTabView.m */,
-			);
-			name = "Route Map";
-			path = "Route/Route Map";
-			sourceTree = "<group>";
-		};
-		1A16D1981BFA9E02003B3C2D /* Schedule */ = {
-			isa = PBXGroup;
-			children = (
-				1A16D1991BFA9E02003B3C2D /* RouteStopDetailsViewController.h */,
-				1A16D19A1BFA9E02003B3C2D /* RouteStopDetailsViewController.m */,
-				1A16D19B1BFA9E02003B3C2D /* ScheduleTabView.h */,
-				1A16D19C1BFA9E02003B3C2D /* ScheduleTabView.m */,
-				1A16D19D1BFA9E02003B3C2D /* StopCustomCell.h */,
-				1A16D19E1BFA9E02003B3C2D /* StopCustomCell.m */,
-				1A16D19F1BFA9E02003B3C2D /* StopDepartureTimeCell.h */,
-				1A16D1A01BFA9E02003B3C2D /* StopDepartureTimeCell.m */,
-			);
-			name = Schedule;
-			path = Route/Schedule;
-			sourceTree = "<group>";
-		};
-		1A16D1A11BFA9E02003B3C2D /* Updates */ = {
-			isa = PBXGroup;
-			children = (
-				1A16D1A21BFA9E02003B3C2D /* UpdateTabView.h */,
-				1A16D1A31BFA9E02003B3C2D /* UpdateTabView.m */,
-			);
-			name = Updates;
-			path = Route/Updates;
-			sourceTree = "<group>";
-		};
 		1A16D1D01C023CDF003B3C2D /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,8 +307,6 @@
 				1A16D1D81C023F6F003B3C2D /* Cells */,
 				1A16D1D51C023D59003B3C2D /* AESideMenuTableViewController.h */,
 				1A16D1D61C023D59003B3C2D /* AESideMenuTableViewController.m */,
-				1A413A041C52DD3E00454E0E /* AERouteInfoViewController.h */,
-				1A413A051C52DD3E00454E0E /* AERouteInfoViewController.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -470,12 +347,8 @@
 				1A16D1DA1C023F8C003B3C2D /* AEMenuBannerTableViewCell.m */,
 				1A16D1DC1C024076003B3C2D /* AEMenuFreeLineTableViewCell.h */,
 				1A16D1DD1C024076003B3C2D /* AEMenuFreeLineTableViewCell.m */,
-				1A16D1E21C024154003B3C2D /* AEMenuPaidLineTableViewCell.h */,
-				1A16D1E31C024154003B3C2D /* AEMenuPaidLineTableViewCell.m */,
 				1A16D1E51C024310003B3C2D /* AEMenuItemTableViewCell.h */,
 				1A16D1E61C024310003B3C2D /* AEMenuItemTableViewCell.m */,
-				1A16D2041C0423BE003B3C2D /* AEMenuLoadingTableViewCell.h */,
-				1A16D2051C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m */,
 				1A4B6F041C27360300C730EC /* AEMenuMapControlTableViewCell.h */,
 				1A4B6F051C27360300C730EC /* AEMenuMapControlTableViewCell.m */,
 				1A79CB931C337F1F0091DD62 /* CircleCheckmark.h */,
@@ -495,8 +368,6 @@
 				1A16D1F31C0246B0003B3C2D /* LineInfo.m */,
 				1A16D1F51C025905003B3C2D /* ItemInfo.h */,
 				1A16D1F61C025905003B3C2D /* ItemInfo.m */,
-				1A16D2071C04241C003B3C2D /* LoadingInfo.h */,
-				1A16D2081C04241C003B3C2D /* LoadingInfo.m */,
 				1A4B6F011C27357F00C730EC /* MapControlInfo.h */,
 				1A4B6F021C27357F00C730EC /* MapControlInfo.m */,
 			);
@@ -548,6 +419,8 @@
 		1A52FAC31BF5573E00AF783B /* Route Info */ = {
 			isa = PBXGroup;
 			children = (
+				1A3AA5C81D9F404000B0D05B /* AnnouncementsPost.h */,
+				1A3AA5C91D9F404000B0D05B /* AnnouncementsPost.m */,
 				1A16D1661BFA9DF6003B3C2D /* MessagesDAL.h */,
 				1A16D1671BFA9DF6003B3C2D /* MessagesDAL.m */,
 				1A16D1681BFA9DF6003B3C2D /* RouteDefinitionDAO.h */,
@@ -593,67 +466,8 @@
 				1A16D15E1BFA9DCB003B3C2D /* Reachability.m */,
 				1A16D15F1BFA9DCB003B3C2D /* Utilities.h */,
 				1A16D1601BFA9DCB003B3C2D /* Utilities.m */,
-				1A773E301C81247D0023DCA8 /* AENetwork.h */,
-				1A773E311C81247D0023DCA8 /* AENetwork.m */,
 			);
 			name = Utils;
-			sourceTree = "<group>";
-		};
-		1A9046A41BF50977003D6EDB /* General News */ = {
-			isa = PBXGroup;
-			children = (
-				1A16D1C31BFA9E1E003B3C2D /* AnnouncementCustomCell.h */,
-				1A16D1C41BFA9E1E003B3C2D /* AnnouncementCustomCell.m */,
-				1A16D1C51BFA9E1E003B3C2D /* AnnouncementDetailsViewController.h */,
-				1A16D1C61BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m */,
-				1A16D1C71BFA9E1E003B3C2D /* AnnouncementsAndNews.h */,
-				1A16D1C81BFA9E1E003B3C2D /* AnnouncementsAndNews.m */,
-				1A16D1C91BFA9E1E003B3C2D /* AnnouncementsPost.h */,
-				1A16D1CA1BFA9E1E003B3C2D /* AnnouncementsPost.m */,
-			);
-			name = "General News";
-			sourceTree = "<group>";
-		};
-		1A9046A51BF50982003D6EDB /* All Route Updates */ = {
-			isa = PBXGroup;
-			children = (
-				1A16D1BD1BFA9E16003B3C2D /* AllRouteUpdates.h */,
-				1A16D1BE1BFA9E16003B3C2D /* AllRouteUpdates.m */,
-				1A16D1BF1BFA9E16003B3C2D /* RouteUpdateDetailsViewController.h */,
-				1A16D1C01BFA9E16003B3C2D /* RouteUpdateDetailsViewController.m */,
-			);
-			name = "All Route Updates";
-			sourceTree = "<group>";
-		};
-		1A9046A61BF5098C003D6EDB /* About Anteater Express */ = {
-			isa = PBXGroup;
-			children = (
-				1A16D1AE1BFA9E0D003B3C2D /* AboutUsViewController.h */,
-				1A16D1AF1BFA9E0D003B3C2D /* AboutUsViewController.m */,
-				1A16D1B01BFA9E0D003B3C2D /* ContactUsViewController.h */,
-				1A16D1B11BFA9E0D003B3C2D /* ContactUsViewController.m */,
-				1A16D1B21BFA9E0D003B3C2D /* FaresViewController.h */,
-				1A16D1B31BFA9E0D003B3C2D /* FaresViewController.m */,
-				1A16D1B41BFA9E0D003B3C2D /* HowToRideViewController.h */,
-				1A16D1B51BFA9E0D003B3C2D /* HowToRideViewController.m */,
-				1A16D1B61BFA9E0D003B3C2D /* ServicesViewController.h */,
-				1A16D1B71BFA9E0D003B3C2D /* ServicesViewController.m */,
-			);
-			name = "About Anteater Express";
-			sourceTree = "<group>";
-		};
-		1A9046A71BF5099A003D6EDB /* Route */ = {
-			isa = PBXGroup;
-			children = (
-				1A16D18D1BFA9E02003B3C2D /* MenuViewController.h */,
-				1A16D18E1BFA9E02003B3C2D /* MenuViewController.m */,
-				1A16D18F1BFA9E02003B3C2D /* ParentCustomViewController.h */,
-				1A16D1901BFA9E02003B3C2D /* ParentCustomViewController.m */,
-				1A16D1911BFA9E02003B3C2D /* Route Map */,
-				1A16D1981BFA9E02003B3C2D /* Schedule */,
-				1A16D1A11BFA9E02003B3C2D /* Updates */,
-			);
-			name = Route;
 			sourceTree = "<group>";
 		};
 		1AC96F991D99E0C20079AF7B /* Data Model */ = {
@@ -675,8 +489,8 @@
 				1AC96FA11D99E61D0079AF7B /* Region.m */,
 				1AC96F9D1D99E60B0079AF7B /* Route.h */,
 				1AC96F9E1D99E60B0079AF7B /* Route.m */,
-				1AC96FA31D99E6460079AF7B /* RouteWaypoints.h */,
-				1AC96FA41D99E6460079AF7B /* RouteWaypoints.m */,
+				1A3AA5CB1D9F41DE00B0D05B /* RouteWaypoints.h */,
+				1A3AA5CC1D9F41DE00B0D05B /* RouteWaypoints.m */,
 				1AC96FA61D99E69F0079AF7B /* Stop.h */,
 				1AC96FA71D99E69F0079AF7B /* Stop.m */,
 				1AC96FA91D99E83D0079AF7B /* Vehicle.h */,
@@ -727,23 +541,15 @@
 			isa = PBXGroup;
 			children = (
 				1AC96F991D99E0C20079AF7B /* Data Model */,
-				1A16D20A1C04E8FD003B3C2D /* AE Data Retrieval */,
 				1A16D1D01C023CDF003B3C2D /* Views */,
 				1A52FAC41BF557CF00AF783B /* Utils */,
+				1A16D20A1C04E8FD003B3C2D /* AE Data Retrieval */,
 				1A52FAC31BF5573E00AF783B /* Route Info */,
-				1A9046A71BF5099A003D6EDB /* Route */,
-				1A9046A61BF5098C003D6EDB /* About Anteater Express */,
-				1A9046A51BF50982003D6EDB /* All Route Updates */,
-				1A9046A41BF50977003D6EDB /* General News */,
 				4A76A6ED1559016100D99B14 /* AppDelegate.h */,
 				4A76A6EE1559016100D99B14 /* AppDelegate.m */,
 				4A76A6F01559016100D99B14 /* MainStoryboard_iPhone.storyboard */,
 				1A773E341C82C9990023DCA8 /* Launch Screen.storyboard */,
 				4A76A6E51559016100D99B14 /* Supporting Files */,
-				4A76A6F61559016100D99B14 /* ViewController.h */,
-				4A76A6F71559016100D99B14 /* ViewController.m */,
-				4A4E0C8316E2A103003E0668 /* NoConnectionViewController.h */,
-				4A4E0C8416E2A103003E0668 /* NoConnectionViewController.m */,
 				1A79CB8B1C30DC940091DD62 /* Images.xcassets */,
 			);
 			path = "Anteater Express";
@@ -951,7 +757,6 @@
 				4A76A6EB1559016100D99B14 /* main.m in Sources */,
 				1A16D1841BFA9DF6003B3C2D /* RouteSchedulesDAO.m in Sources */,
 				1A16D1801BFA9DF6003B3C2D /* MessagesDAL.m in Sources */,
-				1A16D1A91BFA9E02003B3C2D /* RouteStopDetailsViewController.m in Sources */,
 				1ACBE5A31CC0B10E0044401C /* ASMapView.m in Sources */,
 				1A16D1F41C0246B0003B3C2D /* LineInfo.m in Sources */,
 				1ACBE59E1CC065860044401C /* ExactTimeTableViewCell.m in Sources */,
@@ -961,14 +766,10 @@
 				1A16D18B1BFA9DF6003B3C2D /* StopArrivalPredictionDAO.m in Sources */,
 				1A16D2101C0E6B93003B3C2D /* AEGetRouteDefinition.m in Sources */,
 				1AC96F9C1D99E1240079AF7B /* AEDataModel.m in Sources */,
-				1A773E321C81247D0023DCA8 /* AENetwork.m in Sources */,
-				4A76A6F81559016100D99B14 /* ViewController.m in Sources */,
-				1A16D1CD1BFA9E1E003B3C2D /* AnnouncementsAndNews.m in Sources */,
 				1A16D1881BFA9DF6003B3C2D /* RouteUpdatesPost.m in Sources */,
 				1A4B6F061C27360300C730EC /* AEMenuMapControlTableViewCell.m in Sources */,
 				1A6828AD1C49821F0062B49F /* ArrivalPredictionView.m in Sources */,
 				1A16D18C1BFA9DF6003B3C2D /* StopArrivalPredictionPost.m in Sources */,
-				1A16D1A71BFA9E02003B3C2D /* MapAnnotation.m in Sources */,
 				1A16D1D71C023D59003B3C2D /* AESideMenuTableViewController.m in Sources */,
 				1A16D1641BFA9DCB003B3C2D /* Reachability.m in Sources */,
 				1A16D1821BFA9DF6003B3C2D /* RouteDefinitionPost.m in Sources */,
@@ -978,54 +779,32 @@
 				1A16D1651BFA9DCB003B3C2D /* Utilities.m in Sources */,
 				1A16D2021C026F10003B3C2D /* NewsAndAboutViewController.m in Sources */,
 				1AC96FB11D99F73E0079AF7B /* Direction.m in Sources */,
-				1AC96FA51D99E6460079AF7B /* RouteWaypoints.m in Sources */,
+				1A3AA5CA1D9F404000B0D05B /* AnnouncementsPost.m in Sources */,
 				1AC96FAE1D99EFE30079AF7B /* UCIShuttlesRequest.m in Sources */,
-				1A16D1C11BFA9E16003B3C2D /* AllRouteUpdates.m in Sources */,
-				1A16D1AC1BFA9E02003B3C2D /* StopDepartureTimeCell.m in Sources */,
 				1A16D1FF1C026EFD003B3C2D /* AllRouteUpdatesViewController.m in Sources */,
 				1A6828A71C47522A0062B49F /* AEGetVehiclesOp.m in Sources */,
 				1AC96FB41D99F82E0079AF7B /* Arrival.m in Sources */,
-				1A16D2061C0423BE003B3C2D /* AEMenuLoadingTableViewCell.m in Sources */,
-				1A16D1CC1BFA9E1E003B3C2D /* AnnouncementDetailsViewController.m in Sources */,
-				1A16D1C21BFA9E16003B3C2D /* RouteUpdateDetailsViewController.m in Sources */,
-				1A16D1BC1BFA9E0D003B3C2D /* ServicesViewController.m in Sources */,
-				1A16D1BB1BFA9E0D003B3C2D /* HowToRideViewController.m in Sources */,
 				1A16D1831BFA9DF6003B3C2D /* RoutesAndAnnounceDAO.m in Sources */,
 				1A16D1DE1C024076003B3C2D /* AEMenuFreeLineTableViewCell.m in Sources */,
-				1A16D2091C04241C003B3C2D /* LoadingInfo.m in Sources */,
 				1A16D1851BFA9DF6003B3C2D /* RouteSchedulesPost.m in Sources */,
-				1A413A061C52DD3E00454E0E /* AERouteInfoViewController.m in Sources */,
 				1AC96F9F1D99E60B0079AF7B /* Route.m in Sources */,
 				1A16D1FA1C026092003B3C2D /* MapViewController.m in Sources */,
 				1A6828AA1C48B56A0062B49F /* AEGetArrivalPredictionsOp.m in Sources */,
 				1A16D1811BFA9DF6003B3C2D /* RouteDefinitionDAO.m in Sources */,
-				1A16D1AA1BFA9E02003B3C2D /* ScheduleTabView.m in Sources */,
-				1A16D1A41BFA9E02003B3C2D /* MenuViewController.m in Sources */,
 				1AC96FA81D99E69F0079AF7B /* Stop.m in Sources */,
 				1AC96FAB1D99E83D0079AF7B /* Vehicle.m in Sources */,
 				1A16D1891BFA9DF6003B3C2D /* RouteVehiclesDAO.m in Sources */,
 				1A16D1871BFA9DF6003B3C2D /* RouteUpdatesDAO.m in Sources */,
-				1A16D1B91BFA9E0D003B3C2D /* ContactUsViewController.m in Sources */,
-				1A16D1A61BFA9E02003B3C2D /* ImageAnnotationView.m in Sources */,
-				1A16D1A51BFA9E02003B3C2D /* ParentCustomViewController.m in Sources */,
-				1A16D1BA1BFA9E0D003B3C2D /* FaresViewController.m in Sources */,
 				1A16D1611BFA9DCB003B3C2D /* ColorConverter.m in Sources */,
-				1A16D1E41C024154003B3C2D /* AEMenuPaidLineTableViewCell.m in Sources */,
 				1A4B6F0F1C28B5C400C730EC /* AEStopAnnotation.m in Sources */,
 				1A4B6F031C27357F00C730EC /* MapControlInfo.m in Sources */,
-				1A16D1CB1BFA9E1E003B3C2D /* AnnouncementCustomCell.m in Sources */,
+				1A3AA5CD1D9F41DE00B0D05B /* RouteWaypoints.m in Sources */,
 				1A4B6F121C29FFAB00C730EC /* AEStopAnnotationView.m in Sources */,
 				1A6828A41C474EAE0062B49F /* AEVehicleAnnotationView.m in Sources */,
-				1A16D1CE1BFA9E1E003B3C2D /* AnnouncementsPost.m in Sources */,
 				1A16D1EE1C0245FF003B3C2D /* MenuInfo.m in Sources */,
 				1A79CB951C337F1F0091DD62 /* CircleCheckmark.m in Sources */,
-				1A16D1A81BFA9E02003B3C2D /* RouteTabView.m in Sources */,
-				4A4E0C8516E2A104003E0668 /* NoConnectionViewController.m in Sources */,
-				1A16D1B81BFA9E0D003B3C2D /* AboutUsViewController.m in Sources */,
 				1A16D1631BFA9DCB003B3C2D /* NameValuePair.m in Sources */,
-				1A16D1AB1BFA9E02003B3C2D /* StopCustomCell.m in Sources */,
 				1AC96FA21D99E61D0079AF7B /* Region.m in Sources */,
-				1A16D1AD1BFA9E02003B3C2D /* UpdateTabView.m in Sources */,
 				1A015EFE1C7C2B1400AB7C8E /* RouteDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

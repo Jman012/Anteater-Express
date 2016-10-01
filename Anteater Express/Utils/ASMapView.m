@@ -17,11 +17,11 @@ typedef enum {
  This indicates the amount of change in views display points via touch that
  triggers a zoom change
  */
-NSInteger const kASMapViewTouchSensitivity = 4;
+NSInteger const kASMapViewTouchSensitivity = 0;
 /*
  The base zoom factor is multiplied via velocity^2 to get the zoom factor
  */
-double const kASMapViewBaseZoom = 2;
+double const kASMapViewBaseZoom = 1.05;
 
 @interface ASMapView() <UIGestureRecognizerDelegate>
 
@@ -38,6 +38,9 @@ double const kASMapViewBaseZoom = 2;
 
 -(void) applyZoom:(BOOL)increaseZoom;
 
+@property (nonatomic, assign) BOOL hasFirstTouch;
+@property (nonatomic, assign) CFAbsoluteTime firstTouchTime;
+
 @end
 
 @implementation ASMapView
@@ -51,37 +54,33 @@ double const kASMapViewBaseZoom = 2;
     });
 }
 
-/*
+
 #pragma mark touch handling
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if ([touches count] == 0) {
+    if ([touches count] != 1) {
         return;
     }
     
-    UITouch* touch = [[touches allObjects] firstObject];
-    CGPoint newLocation = [touch locationInView:self];
+    if (self.hasFirstTouch == false) {
+        self.firstTouchTime = CFAbsoluteTimeGetCurrent();
+        self.hasFirstTouch = true;
+    } else {
+        CFAbsoluteTime now = CFAbsoluteTimeGetCurrent();
+        if (fabs(now - self.firstTouchTime) < 0.4) {
+            self.zoomTouchState = ASMapViewTouchStateZoomMode;
+            self.hasFirstTouch = false;
+        } else {
+            self.firstTouchTime = CFAbsoluteTimeGetCurrent();
+        }
+    }
     
-    if (self.zoomTouchLocation.x == FLT_MAX && self.zoomTouchLocation.y == FLT_MAX) {
-        [self setZoomTouchLocation:newLocation];
-        [self setZoomTouchState:ASMapViewTouchStateNormal];
-    }
-    else {
-        if (self.zoomTouchLocation.x == newLocation.x && self.zoomTouchLocation.y == newLocation.y) {
-            [self setZoomTouchState:ASMapViewTouchStateZoomMode];
-        }
-        else {
-            [self setZoomTouchState:ASMapViewTouchStateNormal];
-        }
-        
-        [self setZoomTouchLocation:CGPointMake(FLT_MAX, FLT_MAX)];
-    }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if ([touches count] == 0) {
+    if ([touches count] != 1 || self.zoomTouchState != ASMapViewTouchStateZoomMode) {
         return;
     }
     
@@ -90,7 +89,7 @@ double const kASMapViewBaseZoom = 2;
     CGPoint newLocation = [touch locationInView:self];
     CGFloat deltaYPoint = newLocation.y - prevLocation.y;
     
-    if (abs(deltaYPoint) > kASMapViewTouchSensitivity) {
+    if (fabs(deltaYPoint) > kASMapViewTouchSensitivity) {
         if (deltaYPoint < 0) {
             [self zoomOut];
         }
@@ -109,7 +108,7 @@ double const kASMapViewBaseZoom = 2;
 {
     [self setZoomTouchState:ASMapViewTouchStateNormal];
 }
- */
+
 
 #pragma mark - Zoom controls
 
@@ -158,66 +157,6 @@ double const kASMapViewBaseZoom = 2;
     }
 }
 
-#pragma mark utility methods for map annotations
-
-/**
- Determine the centroid of the set of the points provided
- */
--(CLLocationCoordinate2D) centerOfCoordinatesIn:(CLLocationCoordinate2D*)coordinates count:(NSInteger)count
-{
-    double xCenter = 0;
-    double yCenter = 0;
-    double zCenter = 0;
-    
-    for (int i=0; i < count; i++) {
-        
-        //convert to radians
-        CLLocationCoordinate2D coord = coordinates[i];
-        double latRadians = [self degreesToRadians:coord.latitude];
-        double lngRadians = [self degreesToRadians:coord.longitude];
-        
-        //convert to cartesian (x,y,z) coordinates
-        double x = cos(latRadians) * cos(lngRadians);
-        double y = cos(latRadians) * sin(lngRadians);
-        double z = sin(latRadians);
-        
-        xCenter = xCenter + x;
-        yCenter = yCenter + y;
-        zCenter = zCenter + z;
-    }
-    
-    //combined weighted cartesian coordinate
-    xCenter = xCenter / count;
-    yCenter = yCenter / count;
-    zCenter = zCenter / count;
-    
-    double lngCenterRadians = atan2(yCenter, xCenter);
-    double hyp = sqrt(pow(xCenter, 2) + pow(yCenter, 2));
-    double latCenterRadians = atan2(zCenter, hyp);
-    
-    double latCenter = [self radiansToDegrees:latCenterRadians];
-    double lngCenter = [self radiansToDegrees:lngCenterRadians];
-    return CLLocationCoordinate2DMake(latCenter, lngCenter);
-}
-
--(double) degreesToRadians:(CLLocationDegrees)degrees
-{
-    return (degrees * M_PI)/180.0;
-}
-
--(CLLocationDegrees) radiansToDegrees:(double)radians
-{
-    return (radians * 180)/M_PI;
-}
 
 @end
-
-
-
-
-
-
-
-
-
 

@@ -16,11 +16,6 @@
 
 @interface MapViewController : GAITrackedViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate, MKMapViewDelegate, CLLocationManagerDelegate, AEDataModelDelegate>
 
-- (void)setAllRoutesArray:(NSArray *)allRoutesArray;
-- (void)showNewRoute:(NSNumber *)theId;
-- (void)removeRoute:(NSNumber *)theId;
-- (void)clearAllRoutes;
-
 - (void)setMapType:(MKMapType)newType;
 
 @end

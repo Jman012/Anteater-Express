@@ -18,7 +18,6 @@
 #import "AEGetVehiclesOp.h"
 #import "AEGetArrivalPredictionsOp.h"
 #import "ColorConverter.h"
-#import "AENetwork.h"
 #import "RouteDetailViewController.h"
 
 #import "AEStopAnnotation.h"
@@ -504,7 +503,7 @@
             // does it, from what I saw.
             renderer.strokeColor = [renderer.strokeColor colorWithAlphaComponent:0.75];
         }
-        renderer.lineWidth = 3.0;
+        renderer.lineWidth = 4.0;
         
         return renderer;
     }

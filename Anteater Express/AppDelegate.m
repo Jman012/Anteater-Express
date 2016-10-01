@@ -8,13 +8,18 @@
 
 #import "AppDelegate.h"
 
-#import "NoConnectionViewController.h"
 #import "Utilities.h"
 #import "AEDataModel.h"
 //#import "GAI.h"
 #import <Google/Analytics.h>
 
 NSString * const AENotificationAppDidBecomeActive = @"AENotificationAppDidBecomeActive";
+
+@interface AppDelegate ()
+
+@property (nonatomic, strong) id<GAITracker> tracker;
+
+@end
 
 @implementation AppDelegate
 
@@ -30,17 +35,12 @@ NSString * const AENotificationAppDidBecomeActive = @"AENotificationAppDidBecome
     // Optional: set debug to YES for extra debugging information.
     [[GAI sharedInstance].logger setLogLevel:kGAILogLevelError];
     // Create tracker instance.
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-3170671-13"];
+    self.tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-3170671-13"];
     
     // Override point for customization after application launch.
-    
-//    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHue:236.0/360.0 saturation:0.69 brightness:0.40 alpha:1.0]];
-//    [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
 
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor]}];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    
-    AEDataModel.shared;
 
     return YES;
 }

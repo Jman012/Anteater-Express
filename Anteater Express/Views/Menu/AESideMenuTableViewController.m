@@ -19,14 +19,11 @@
 #import "BannerItemInfo.h"
 #import "LineInfo.h"
 #import "ItemInfo.h"
-#import "LoadingInfo.h"
 #import "MapControlInfo.h"
 
 #import "AEMenuBannerTableViewCell.h"
 #import "AEMenuFreeLineTableViewCell.h"
-#import "AEMenuPaidLineTableViewCell.h"
 #import "AEMenuItemTableViewCell.h"
-#import "AEMenuLoadingTableViewCell.h"
 #import "AEMenuMapControlTableViewCell.h"
 
 #import "AEGetRoutesOp.h"
@@ -352,23 +349,11 @@ const NSUInteger kSectionLinks =      3;
         [freeLineCell setActiveLine:lineInfo.numActive != 0];
         freeLineCell.color = lineInfo.color;
         
-    } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdPaidLineCell]) {
-        LineInfo *lineInfo = (LineInfo *)menuInfo;
-        AEMenuPaidLineTableViewCell *paidLineCell = (AEMenuPaidLineTableViewCell *)cell;
-        paidLineCell.userInteractionEnabled = YES;
-        [paidLineCell setLineName:lineInfo.text];
-        [paidLineCell setChecked:lineInfo.selected];
-        
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdItemCell]) {
         ItemInfo *itemInfo = (ItemInfo *)menuInfo;
         AEMenuItemTableViewCell *itemCell = (AEMenuItemTableViewCell *)cell;
         itemCell.userInteractionEnabled = YES;
         itemCell.textLabel.text = itemInfo.text;
-        
-    } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdLoadingCell]) {
-        AEMenuLoadingTableViewCell *loadingCell = (AEMenuLoadingTableViewCell *)cell;
-        loadingCell.userInteractionEnabled = NO;
-        [loadingCell.activityIndicatorView startAnimating];
         
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdMapControlCell]) {
         MapControlInfo *mapControlInfo = (MapControlInfo *)menuInfo;

@@ -81,10 +81,6 @@
     }];
 }
 
-+ (Route *)requestRouteForId:(NSNumber *)routeId error:(NSError **)error {
-    
-}
-
 + (void)requestWaypointsForRouteId:(NSNumber *)routeId completion:(void (^)(RouteWaypoints *waypoints, NSError *error))completionHandler {
     [UCIShuttlesRequest sendRequest:[NSString stringWithFormat:@"/Route/%@/Waypoints", routeId] completion:^(NSArray *waypointsJson, NSError *error) {
         
@@ -157,10 +153,6 @@
         }
         
     }];
-}
-
-+ (NSArray<Direction*> *)requestDirectionsForRouteId:(NSNumber *)routeId error:(NSError **)error {
-
 }
 
 + (void)requestStopsForRouteId:(NSNumber *)routeId directionId:(NSNumber *)directionId completion:(void (^)(NSArray<Stop*> *stops, NSError *error))completionHandler {
