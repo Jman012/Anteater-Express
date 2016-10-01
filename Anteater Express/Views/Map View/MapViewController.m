@@ -174,8 +174,7 @@
     self.mapView.showsUserLocation = YES;
     self.mapView.delegate = self;
     // Start out on Aldrich Park's center. Later it'll move to the users location
-    
-    [self zoomToLocation:CLLocationCoordinate2DMake(UCI_LATITUDE, UCI_LONGITUDE) animated:false userLoc:false];
+    [self resetMapRect:false];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 
@@ -188,8 +187,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    [self resetMapRect:false];
     
     [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 }
