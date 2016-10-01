@@ -252,7 +252,7 @@
     
     Route *route = [aeDataModel routeForId:routeId];
     if ([aeDataModel vehiclesForRouteId:routeId] != nil) {
-        [self refreshVehicles:[aeDataModel vehiclesForRouteId:routeId] forRoute:route];
+//        [self refreshVehicles:[aeDataModel vehiclesForRouteId:routeId] forRoute:route];
     }
     
     if ([aeDataModel wayPointsForRouteId:routeId] != nil) {
@@ -453,7 +453,6 @@
     if (self.vehicleForRouteAndVehicleId[route.id] == nil) {
         self.vehicleForRouteAndVehicleId[route.id] = [NSMutableDictionary dictionary];
     }
-    
     
     NSMutableSet *visited = [NSMutableSet setWithCapacity:vehicleList.count];
     for (Vehicle *vehicle in vehicleList) {
