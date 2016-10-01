@@ -10,7 +10,6 @@
 
 @interface ColorConverter : NSObject
 
-- (UIColor *) colorWithHexString: (NSString *) stringToConvert;
 + (UIColor *)colorWithHexString:(NSString *)stringToConvert;
 
 @end

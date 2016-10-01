@@ -150,7 +150,7 @@ bool    isSingleRouteBool = true;
 
 -(int) unreadMessages
 { 
-    return [viewedIdList count];
+    return (int)[viewedIdList count];
 }
 
 

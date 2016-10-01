@@ -8,7 +8,6 @@
 
 #import "HttpPostExecute.h"
 #import "NameValuePair.h"
-#import "AENetwork.h"
 #define SC_INTERNALS_SERVER_ERROR 500
 
 NSTimeInterval const CONNECTION_TIMEOUT = 110;
@@ -63,9 +62,6 @@ NSString* servletURL;
     NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         if (error != nil) {
-            dispatch_async(dispatch_get_main_queue(), ^() {
-                [[NSNotificationCenter defaultCenter] postNotificationName:AENetworkInternetError object:AENetworkInternetError];
-            });
             dispatch_semaphore_signal(semaphore);
             return;
         }
@@ -73,18 +69,12 @@ NSString* servletURL;
         if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
             if (httpResponse.statusCode != 200) {
-                dispatch_async(dispatch_get_main_queue(), ^() {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:AENetworkServerError object:AENetworkServerError];
-                });
                 dispatch_semaphore_signal(semaphore);
                 return;
             }
         }
         
         [self setResponseData:data];
-        dispatch_async(dispatch_get_main_queue(), ^() {
-            [[NSNotificationCenter defaultCenter] postNotificationName:AENetworkOk object:AENetworkOk];
-        });
         dispatch_semaphore_signal(semaphore);
         return;
         
