@@ -19,6 +19,7 @@
 #import "AEGetArrivalPredictionsOp.h"
 #import "ColorConverter.h"
 #import "RouteDetailViewController.h"
+#import "NSString+Count.h"
 
 #import "AEStopAnnotation.h"
 #import "AEVehicleAnnotation.h"
@@ -603,7 +604,7 @@
         __block UIStackView *stackView = [[UIStackView alloc] init];
         stackView.axis = UILayoutConstraintAxisVertical;
         stackView.distribution = UIStackViewDistributionEqualSpacing;
-        stackView.alignment = UIStackViewAlignmentLeading;
+        stackView.alignment = UIStackViewAlignmentFill;
         stackView.spacing = 4;
         stackView.translatesAutoresizingMaskIntoConstraints = NO;
         
@@ -615,6 +616,7 @@
                 ArrivalPredictionView *arrivalsView = [elements firstObject];
 
                 arrivalsView.textLabel.text = [stopAnnotation formattedSubtitleForArrivalList:arrivalsList abbreviation:route.shortName];
+                arrivalsView.textLabel.numberOfLines = 1 + [arrivalsView.textLabel.text occurrenceCountOfCharacter:'\n'];
                 arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:route.color];
                 arrivalsView.tag = routeId.integerValue;
                 
@@ -629,8 +631,11 @@
             
         }];
         
+        [stackView setContentCompressionResistancePriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
+        [stackView setContentHuggingPriority:1 forAxis:UILayoutConstraintAxisHorizontal];
         
         self.selectedStopAnnotationView.detailCalloutAccessoryView = stackView;
+                
     }
 }
 

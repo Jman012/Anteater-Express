@@ -44,6 +44,7 @@
 		1A34B34F1CBE17A3004CF2F0 /* 112-group.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A34B34C1CBE17A3004CF2F0 /* 112-group.png */; };
 		1A3AA5CA1D9F404000B0D05B /* AnnouncementsPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AA5C91D9F404000B0D05B /* AnnouncementsPost.m */; };
 		1A3AA5CD1D9F41DE00B0D05B /* RouteWaypoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AA5CC1D9F41DE00B0D05B /* RouteWaypoints.m */; };
+		1A3AA5D01D9F53CC00B0D05B /* NSString+Count.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A3AA5CF1D9F53CC00B0D05B /* NSString+Count.m */; };
 		1A4B6F031C27357F00C730EC /* MapControlInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F021C27357F00C730EC /* MapControlInfo.m */; };
 		1A4B6F061C27360300C730EC /* AEMenuMapControlTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F051C27360300C730EC /* AEMenuMapControlTableViewCell.m */; };
 		1A4B6F0F1C28B5C400C730EC /* AEStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A4B6F0E1C28B5C400C730EC /* AEStopAnnotation.m */; };
@@ -173,6 +174,8 @@
 		1A3AA5C91D9F404000B0D05B /* AnnouncementsPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnnouncementsPost.m; path = "Route Info/AnnouncementsPost.m"; sourceTree = "<group>"; };
 		1A3AA5CB1D9F41DE00B0D05B /* RouteWaypoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RouteWaypoints.h; path = "Data Model/RouteWaypoints.h"; sourceTree = "<group>"; };
 		1A3AA5CC1D9F41DE00B0D05B /* RouteWaypoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RouteWaypoints.m; path = "Data Model/RouteWaypoints.m"; sourceTree = "<group>"; };
+		1A3AA5CE1D9F53CC00B0D05B /* NSString+Count.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Count.h"; path = "Utils/NSString+Count.h"; sourceTree = "<group>"; };
+		1A3AA5CF1D9F53CC00B0D05B /* NSString+Count.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Count.m"; path = "Utils/NSString+Count.m"; sourceTree = "<group>"; };
 		1A4B6F011C27357F00C730EC /* MapControlInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapControlInfo.h; path = "Views/Menu/Menu Item Info/MapControlInfo.h"; sourceTree = "<group>"; };
 		1A4B6F021C27357F00C730EC /* MapControlInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapControlInfo.m; path = "Views/Menu/Menu Item Info/MapControlInfo.m"; sourceTree = "<group>"; };
 		1A4B6F041C27360300C730EC /* AEMenuMapControlTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AEMenuMapControlTableViewCell.h; path = Views/Menu/Cells/AEMenuMapControlTableViewCell.h; sourceTree = "<group>"; };
@@ -466,6 +469,8 @@
 				1A16D15E1BFA9DCB003B3C2D /* Reachability.m */,
 				1A16D15F1BFA9DCB003B3C2D /* Utilities.h */,
 				1A16D1601BFA9DCB003B3C2D /* Utilities.m */,
+				1A3AA5CE1D9F53CC00B0D05B /* NSString+Count.h */,
+				1A3AA5CF1D9F53CC00B0D05B /* NSString+Count.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -798,6 +803,7 @@
 				1A16D1611BFA9DCB003B3C2D /* ColorConverter.m in Sources */,
 				1A4B6F0F1C28B5C400C730EC /* AEStopAnnotation.m in Sources */,
 				1A4B6F031C27357F00C730EC /* MapControlInfo.m in Sources */,
+				1A3AA5D01D9F53CC00B0D05B /* NSString+Count.m in Sources */,
 				1A3AA5CD1D9F41DE00B0D05B /* RouteWaypoints.m in Sources */,
 				1A4B6F121C29FFAB00C730EC /* AEStopAnnotationView.m in Sources */,
 				1A6828A41C474EAE0062B49F /* AEVehicleAnnotationView.m in Sources */,
