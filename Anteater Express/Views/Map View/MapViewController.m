@@ -608,26 +608,24 @@
         stackView.spacing = 4;
         stackView.translatesAutoresizingMaskIntoConstraints = NO;
         
-        [arrivalsDict enumerateKeysAndObjectsUsingBlock:^(NSNumber *routeId, NSArray<Arrival*> *arrivalsList, BOOL *stop) {
-            if ([AEDataModel.shared.selectedRoutes containsObject:routeId]) {
-                Route *route = [AEDataModel.shared routeForId:routeId];
+        [stopAnnotation.routes enumerateObjectsUsingBlock:^(Route *route, NSUInteger idx, BOOL *stop) {
+            NSArray<Arrival*> *arrivalsList = arrivalsDict[route.id];
                 
-                NSArray *elements = [[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil];
-                ArrivalPredictionView *arrivalsView = [elements firstObject];
+            NSArray *elements = [[NSBundle mainBundle] loadNibNamed:@"ArrivalPredictionView" owner:self options:nil];
+            ArrivalPredictionView *arrivalsView = [elements firstObject];
 
-                arrivalsView.textLabel.text = [stopAnnotation formattedSubtitleForArrivalList:arrivalsList abbreviation:route.shortName];
-                arrivalsView.textLabel.numberOfLines = 1 + [arrivalsView.textLabel.text occurrenceCountOfCharacter:'\n'];
-                arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:route.color];
-                arrivalsView.tag = routeId.integerValue;
-                
-                UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(calloutAnnotationViewWasTapped:)];
-                tapRecognizer.numberOfTouchesRequired = 1;
-                tapRecognizer.numberOfTapsRequired = 1;
-                [arrivalsView addGestureRecognizer:tapRecognizer];
-                
-                
-                [stackView addArrangedSubview:arrivalsView];
-            }
+            arrivalsView.textLabel.text = [stopAnnotation formattedSubtitleForArrivalList:arrivalsList abbreviation:route.shortName];
+            arrivalsView.textLabel.numberOfLines = 1 + [arrivalsView.textLabel.text occurrenceCountOfCharacter:'\n'];
+            arrivalsView.colorView.backgroundColor = [ColorConverter colorWithHexString:route.color];
+            arrivalsView.tag = route.id.integerValue;
+            
+            UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(calloutAnnotationViewWasTapped:)];
+            tapRecognizer.numberOfTouchesRequired = 1;
+            tapRecognizer.numberOfTapsRequired = 1;
+            [arrivalsView addGestureRecognizer:tapRecognizer];
+            
+            
+            [stackView addArrangedSubview:arrivalsView];
             
         }];
         

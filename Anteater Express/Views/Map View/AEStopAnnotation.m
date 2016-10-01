@@ -59,6 +59,10 @@
     
     subtitle = [subtitle stringByAppendingString:@" Line"];
     
+    if (arrivalList == nil) {
+        return subtitle;
+    }
+    
     [arrivalList enumerateObjectsUsingBlock:^(Arrival *arrival, NSUInteger idx, BOOL *stopInner) {
         subtitle = [subtitle stringByAppendingString:@"\n"];
         subtitle = [subtitle stringByAppendingString:@"  Bus "];
