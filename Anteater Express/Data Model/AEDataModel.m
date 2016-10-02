@@ -36,7 +36,8 @@
 @property (nonatomic, strong) NSMutableSet *gettingStopsById;
 @property (nonatomic, strong) NSMutableSet *gettingArrivalsById;
 
-@property (nonatomic, strong) NSTimer *vehicleTimer;
+@property (nonatomic, strong) NSTimer *selectedVehiclesTimer;
+@property (nonatomic, strong) NSTimer *allVehiclesTimer;
 @property (nonatomic, strong) NSTimer *routesTimer;
 
 @end
@@ -102,7 +103,10 @@
     [self refreshRoutes];
     
     // Refresh the selected routes' vehicles every 5 seconds, refresh all routes every 10 minutes.
-    self.vehicleTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refreshVehiclesForSelectedRoutes) userInfo:nil repeats:true];
+    self.selectedVehiclesTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refreshVehiclesForSelectedRoutes) userInfo:nil repeats:true];
+    // All vehicles (for the side menu) every 3 minutes
+    self.selectedVehiclesTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 * 60.0 target:self selector:@selector(refreshVehiclesForAllRoutes) userInfo:nil repeats:true];
+    // Route list every 10 minutes.
     self.routesTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 * 60.0 target:self selector:@selector(refreshRoutes) userInfo:nil repeats:true];
 }
 
@@ -312,6 +316,12 @@
 - (void)refreshVehiclesForSelectedRoutes {
     for (NSNumber *routeId in self.selectedRouteIDsSet) {
         Route *route = self.routeForRouteId[routeId];
+        [self refreshVehiclesForRoute:route];
+    }
+}
+
+- (void)refreshVehiclesForAllRoutes {
+    for (Route *route in self.routeList) {
         [self refreshVehiclesForRoute:route];
     }
 }
