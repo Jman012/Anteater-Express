@@ -1,8 +1,12 @@
 PODS:
-  - FirebaseAnalytics (3.4.2):
+  - FirebaseAnalytics (3.4.3):
+    - FirebaseCore (~> 3.4)
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
+    - GoogleUtilities (~> 1.3)
+  - FirebaseCore (3.4.3):
+    - GoogleInterchangeUtilities (~> 1.2)
     - GoogleUtilities (~> 1.2)
   - FirebaseInstanceID (1.0.8)
   - FRHyperLabel (1.0.3)
@@ -12,12 +16,13 @@ PODS:
   - Google/Core (3.0.3):
     - FirebaseAnalytics (~> 3.2)
   - GoogleAnalytics (3.17.0)
-  - GoogleInterchangeUtilities (1.2.1):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleSymbolUtilities (1.1.1)
-  - GoogleUtilities (1.3.1):
-    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleInterchangeUtilities (1.2.2):
+    - GoogleSymbolUtilities (~> 1.1)
+  - GoogleSymbolUtilities (1.1.2)
+  - GoogleUtilities (1.3.2):
+    - GoogleSymbolUtilities (~> 1.1)
   - HexColors (2.2.1)
+  - SideMenu (2.0.3)
   - SWRevealViewController (2.3.0)
   - TSMessages (0.9.12):
     - HexColors (~> 2.2.0)
@@ -25,22 +30,25 @@ PODS:
 DEPENDENCIES:
   - FRHyperLabel
   - Google/Analytics
+  - SideMenu
   - SWRevealViewController (~> 2.3)
   - TSMessages (~> 0.9)
 
 SPEC CHECKSUMS:
-  FirebaseAnalytics: 3f5358d9104adf159cc8d99b7b501e50099a39ad
+  FirebaseAnalytics: 02d0aed8c6246a9c8683ac3e9825c67ceb657bde
+  FirebaseCore: 5a885548bbc5f0c410b04f8e9ac9d73ff1221907
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   FRHyperLabel: 99d08d3667880b4c430071c9afbcb93aaaa34b37
   Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
-  GoogleInterchangeUtilities: def8415a862effc67d549d5b5b0b9c7a2f97d4de
-  GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
-  GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
+  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
+  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   HexColors: abfd172e329dab59888614ccba6f216cec59289d
+  SideMenu: f179260f85c68ed9b283b4a505600f2e6cbdfb10
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
   TSMessages: c8cc7b80f2a833af533872cd02010cac061532cc
 
-PODFILE CHECKSUM: 6932c48e376b55d20061db2635e1ead486033afb
+PODFILE CHECKSUM: 6ce912748d3e5118aa4423c26c73defe62da7034
 
 COCOAPODS: 1.0.1

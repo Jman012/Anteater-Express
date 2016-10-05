@@ -99,7 +99,7 @@
 		4AD1F9FB155C392000978EAA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD1F9FA155C392000978EAA /* CoreLocation.framework */; };
 		4AD1F9FE155C393100978EAA /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD1F9FD155C393100978EAA /* MapKit.framework */; };
 		4AE5283316E348A6003FCA0E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AE5283216E348A6003FCA0E /* CoreData.framework */; };
-		A03896D89C0F51895FC6B1D2 /* libPods-Anteater Express.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 877D8E1C9AA3DB72B063C764 /* libPods-Anteater Express.a */; };
+		93B7E7DF2089E4A01243C74D /* Pods_Anteater_Express.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D5C8B9B9860959990152F3F /* Pods_Anteater_Express.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -222,6 +222,7 @@
 		1ACBE59F1CC0ADD40044401C /* AnteaterExpress_logo_title_isolated_wide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AnteaterExpress_logo_title_isolated_wide.png; sourceTree = "<group>"; };
 		1ACBE5A11CC0B10E0044401C /* ASMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASMapView.h; path = Utils/ASMapView.h; sourceTree = "<group>"; };
 		1ACBE5A21CC0B10E0044401C /* ASMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASMapView.m; path = Utils/ASMapView.m; sourceTree = "<group>"; };
+		1D5C8B9B9860959990152F3F /* Pods_Anteater_Express.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Anteater_Express.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A4E0C4916D09149003E0668 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4A53A84C1566DDEE00D191AC /* shuttle_E_moving.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuttle_E_moving.png; sourceTree = "<group>"; };
 		4A53A84D1566DDEE00D191AC /* shuttle_E_stopped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuttle_E_stopped.png; sourceTree = "<group>"; };
@@ -255,7 +256,6 @@
 		4AD1F9FA155C392000978EAA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		4AD1F9FD155C393100978EAA /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4AE5283216E348A6003FCA0E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		877D8E1C9AA3DB72B063C764 /* libPods-Anteater Express.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Anteater Express.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DFF9142DA392017210201F9 /* Pods-Anteater Express.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.debug.xcconfig"; sourceTree = "<group>"; };
 		C8076CAE719BBF4CBF437DB5 /* Pods-Anteater Express.appstore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.appstore.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.appstore.xcconfig"; sourceTree = "<group>"; };
 		F28E800220469B1D3166B46A /* Pods-Anteater Express.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Anteater Express.release.xcconfig"; path = "Pods/Target Support Files/Pods-Anteater Express/Pods-Anteater Express.release.xcconfig"; sourceTree = "<group>"; };
@@ -273,7 +273,7 @@
 				4A76A6DF1559016100D99B14 /* UIKit.framework in Frameworks */,
 				4A76A6E11559016100D99B14 /* Foundation.framework in Frameworks */,
 				4A76A6E31559016100D99B14 /* CoreGraphics.framework in Frameworks */,
-				A03896D89C0F51895FC6B1D2 /* libPods-Anteater Express.a in Frameworks */,
+				93B7E7DF2089E4A01243C74D /* Pods_Anteater_Express.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,7 +537,7 @@
 				4A76A6DE1559016100D99B14 /* UIKit.framework */,
 				4A76A6E01559016100D99B14 /* Foundation.framework */,
 				4A76A6E21559016100D99B14 /* CoreGraphics.framework */,
-				877D8E1C9AA3DB72B063C764 /* libPods-Anteater Express.a */,
+				1D5C8B9B9860959990152F3F /* Pods_Anteater_Express.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
