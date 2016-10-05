@@ -24,6 +24,7 @@ static UIImage *uncheckedImage = nil;
 @implementation AEMenuFreeLineTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     self.checked = false;
     self.circleCheckmark.checkMarkStyle = CircleCheckmarkStyleOpenCircle;

@@ -19,5 +19,4 @@ extern NSString* const VIEWED_ANNOUNCEMENTS;
 + (NSString *) dateDisplayString: (NSString *) dateFromJson;
 + (NSString *)dateDisplayStringFromDate:(NSDate *)date;
 + (int) getCurrentDayOfWeek;
-+ (NSInteger) checkNetworkStatus;
 @end
