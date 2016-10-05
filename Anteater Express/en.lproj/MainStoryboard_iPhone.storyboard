@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="yDL-ck-Xfm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xaA-LI-9UO">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -11,7 +11,7 @@
         <!--Side Menu Table View Controller-->
         <scene sceneID="p6o-er-hkG">
             <objects>
-                <tableViewController id="VNV-Gy-eN8" customClass="AESideMenuTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AESideMenuTableViewController" id="VNV-Gy-eN8" customClass="AESideMenuTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="aes-I8-iDf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -228,19 +228,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tGV-0S-xCr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1183" y="1544"/>
-        </scene>
-        <!--Reveal View Controller-->
-        <scene sceneID="ox5-Lh-ftA">
-            <objects>
-                <viewController id="yDL-ck-Xfm" customClass="SWRevealViewController" sceneMemberID="viewController">
-                    <connections>
-                        <segue destination="VNV-Gy-eN8" kind="custom" identifier="sw_rear" customClass="SWRevealViewControllerSegueSetController" id="QmD-a6-exw"/>
-                        <segue destination="xaA-LI-9UO" kind="custom" identifier="sw_front" customClass="SWRevealViewControllerSegueSetController" id="cgG-9W-g7b"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jtI-Ni-xV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1183" y="716"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yRi-AC-Z5s">
@@ -490,7 +477,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Anteater Express" id="xRl-hf-2db">
                         <barButtonItem key="backBarButtonItem" title=" " id="CCR-SM-XCs"/>
-                        <barButtonItem key="leftBarButtonItem" image="HamburgerMenuIcon" id="5rG-D3-O0c"/>
+                        <barButtonItem key="leftBarButtonItem" image="HamburgerMenuIcon" id="5rG-D3-O0c">
+                            <connections>
+                                <action selector="sideMenuButtonDidPress:" destination="ZXf-fr-uEJ" id="vXt-Ix-SSV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="locationButton" destination="3Th-My-7m8" id="gE2-Kk-T0t"/>

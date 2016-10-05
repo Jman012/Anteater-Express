@@ -8,8 +8,9 @@
 
 #import "AESideMenuTableViewController.h"
 
-#import <SWRevealViewController/SWRevealViewController.h>
+//#import <SWRevealViewController/SWRevealViewController.h>
 #import <MapKit/MapKit.h>
+#import <SideMenu/SideMenu-Swift.h>
 
 #import "AEDataModel.h"
 #import "RoutesAndAnnounceDAO.h"
@@ -112,7 +113,7 @@ const NSUInteger kSectionLinks =      3;
     [self.tableView addSubview:self.refreshControl];
     
     
-    self.revealViewController.rearViewRevealOverdraw = 0.0f;
+//    self.revealViewController.rearViewRevealOverdraw = 0.0f;
 
     [self constructMenu];
     
@@ -370,7 +371,7 @@ const NSUInteger kSectionLinks =      3;
     MenuInfo *menuInfo = self.menuSections[indexPath.section][indexPath.row];
     if ([menuInfo.cellIdentifier isEqualToString:kCellIdBannerCell]) {
         BannerItemInfo *bannerInfo = (BannerItemInfo *)menuInfo;
-        return [bannerInfo preferredCellHeightForWidth:self.revealViewController.rearViewRevealWidth];
+        return [bannerInfo preferredCellHeightForWidth:SideMenuManager.menuWidth];
 
     } else {
         return 44.0f;
