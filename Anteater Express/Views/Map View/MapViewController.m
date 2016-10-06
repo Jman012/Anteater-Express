@@ -117,6 +117,8 @@
     [SideMenuManager menuAddPanGestureToPresentToView:self.navigationController.navigationBar];
     [SideMenuManager setMenuPresentMode:MenuPresentModeMenuSlideIn];
     [SideMenuManager setMenuFadeStatusBar:false];
+    UIScreenEdgePanGestureRecognizer *edgeRec = [SideMenuManager menuAddScreenEdgePanGesturesToPresentToView:self.mapView forMenu:UIRectEdgeLeft].firstObject;
+    edgeRec.delegate = self;
 
     
     //[self setupRevealButton];
@@ -725,20 +727,24 @@
 
 #pragma mark - UIGestureRecognizerDelegate
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    CGPoint location = [touch locationInView:self.view];
-    CGRect boundingRect = self.mapView.bounds;
-    if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-        boundingRect.origin.x += 30;
-        boundingRect.size.width -= 30;
-    }
-    
-    // If the touch began in the leftmost 30 points, fail so that the reveal pan can work.
-    return self.mapView.userInteractionEnabled && CGRectContainsPoint(boundingRect, location);
-}
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+//    CGPoint location = [touch locationInView:self.view];
+//    CGRect boundingRect = self.mapView.bounds;
+//    if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+//        boundingRect.origin.x += 30;
+//        boundingRect.size.width -= 30;
+//    }
+//    
+//    // If the touch began in the leftmost 30 points, fail so that the reveal pan can work.
+//    return self.mapView.userInteractionEnabled && CGRectContainsPoint(boundingRect, location);
+//}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return true;
 }
 
 @end
