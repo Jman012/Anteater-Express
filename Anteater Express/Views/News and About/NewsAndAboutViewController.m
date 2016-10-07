@@ -8,8 +8,6 @@
 
 #import "NewsAndAboutViewController.h"
 
-#import <SWRevealViewController/SWRevealViewController.h>
-
 @interface NewsAndAboutViewController ()
 
 //@property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;
