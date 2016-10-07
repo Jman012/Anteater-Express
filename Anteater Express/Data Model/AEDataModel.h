@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
+
 #import "Region.h"
 #import "Route.h"
 #import "RouteWaypoints.h"
@@ -31,6 +33,8 @@
 - (void)aeDataModel:(AEDataModel *)aeDataModel didRefreshArrivals:(NSDictionary<NSNumber*,NSArray<Arrival*>*> *)arrivalsDict forStop:(Stop *)stop;
 
 - (void)aeDataModelDidGetErrorRefreshingRoutes:(AEDataModel *)aeDataModel;
+- (void)aeDataModel:(AEDataModel *)aeDataModel didSetMapType:(MKMapType)mapType;
+
 
 @end
 
@@ -57,6 +61,8 @@
 - (RouteWaypoints *)wayPointsForRouteId:(NSNumber *)routeId;
 - (NSArray<NSNumber*> *)stopsForRouteId:(NSNumber *)routeId;
 - (Stop *)stopForStopId:(NSNumber *)stopId;
+
+- (void)setMapType:(MKMapType)type;
 
 /* Hard coded values for the transition from Tomcat server to UCIShuttles.com */
 @property(nonatomic, strong) NSDictionary *routeDescriptions;

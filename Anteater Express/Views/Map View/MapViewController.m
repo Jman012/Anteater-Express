@@ -194,6 +194,10 @@
     self.screenName = [NSString stringWithFormat:@"Main Map View - %lu routes", (unsigned long)AEDataModel.shared.selectedRoutes.count];
 }
 
+- (void)aeDataModel:(AEDataModel *)aeDataModel didSetMapType:(MKMapType)mapType {
+    [self setMapType:mapType];
+}
+
 - (void)setMapType:(MKMapType)newType {
     // Called from the side menu, when the user wants
     // to change to satellite or standard.

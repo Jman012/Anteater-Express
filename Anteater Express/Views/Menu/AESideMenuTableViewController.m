@@ -281,16 +281,14 @@ const NSUInteger kSectionLinks =      3;
     MapControlInfo *mapControlInfo = [self.menuSections[kSectionMapControl] firstObject];
     mapControlInfo.selection = control.selectedSegmentIndex;
     
-    UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
-    MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
     switch (mapControlInfo.selection) {
         case 0: {
-            [mapVC setMapType:MKMapTypeStandard];
+            [AEDataModel.shared setMapType:MKMapTypeStandard];
             break;
         }
         
         case 1: {
-            [mapVC setMapType:MKMapTypeHybrid];
+            [AEDataModel.shared setMapType:MKMapTypeHybrid];
             break;
         }
         default:
