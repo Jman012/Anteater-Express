@@ -9,7 +9,7 @@ pod 'Google/Analytics'
 pod 'SWRevealViewController', '~> 2.3'
 pod 'TSMessages', '~> 0.9'
 pod 'FRHyperLabel'
-pod 'SideMenu'
+pod 'SideMenu', :git => 'https://github.com/Jman012/SideMenu.git'
 
 end
 

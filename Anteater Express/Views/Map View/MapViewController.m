@@ -9,7 +9,6 @@
 #import "MapViewController.h"
 
 #import <MapKit/MapKit.h>
-//#import <SWRevealViewController/SWRevealViewController.h>
 #import <TSMessages/TSMessage.h>
 #import <SideMenu/SideMenu-Swift.h>
 
@@ -121,8 +120,6 @@
     edgeRec.delegate = self;
 
     
-    //[self setupRevealButton];
-    
     self.locationButtonBusImage = [[UIImage imageNamed:@"shuttle_E_moving"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.locationButtonLocationImage = [[UIImage imageNamed:@"Location"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [self.locationButton setImage:self.locationButtonBusImage forState:UIControlStateNormal];
@@ -168,19 +165,6 @@
     [titleView addSubview:titleImage];
     self.navigationItem.titleView = titleView;
     
-    // Setup some complicated gestures so that we can differentiate between moving the map
-    // and pulling the side menu out. See also the methods further down under UIGestureRecognizerDelegate
-//    [[self.mapView.subviews[0] gestureRecognizers] enumerateObjectsUsingBlock:^(UIGestureRecognizer * gesture, NSUInteger idx, BOOL *stop){
-//        if ([gesture isMemberOfClass:[UIPanGestureRecognizer class]]) {
-//            // We set the delegate for the map view gestures to ourself, so we can cancel
-//            // any pans starting from the leftmost 30 points.
-//            [gesture setDelegate:self];
-//            // And if we tell it to fail, only then can the reveal pan gesture recognizer succeed.
-//            [self.revealViewController.panGestureRecognizer requireGestureRecognizerToFail:gesture];
-//        }
-//    }];
-    
-//    self.revealViewController.delegate = self;
     
     [self.mapView setMapType:MKMapTypeStandard];
     self.mapView.showsUserLocation = YES;
@@ -197,19 +181,6 @@
 
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-//    [self.navigationController.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    // So if another view is pushed, don't swipe to the side menu.
-//    [self.navigationController.view removeGestureRecognizer:self.revealViewController.panGestureRecognizer];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -222,17 +193,6 @@
 - (void)resetScreenName {
     self.screenName = [NSString stringWithFormat:@"Main Map View - %lu routes", (unsigned long)AEDataModel.shared.selectedRoutes.count];
 }
-
-//- (void)setupRevealButton {
-//    // Set up the connections for the hamburger menu button to show the side menu
-//    SWRevealViewController *revealViewController = self.revealViewController;
-//    if (revealViewController)
-//    {
-//        [self.revealButton setTarget: self.revealViewController];
-//        [self.revealButton setAction: @selector(revealToggle:)];
-//        [[self.revealButton valueForKey:@"view"] addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-//    }
-//}
 
 - (void)setMapType:(MKMapType)newType {
     // Called from the side menu, when the user wants
@@ -708,36 +668,7 @@
     [self.mapView setRegion:mapRegion animated:animated];
 }
 
-#pragma mark - SWRevealViewController
-
-//- (void)revealController:(SWRevealViewController *)revealController didMoveToPosition:(FrontViewPosition)position {
-//    // When the side menu is being shown, deisable user interaction on the map so that
-//    // They can't move it around, and the whole of it can be used to drag the side
-//    // menu closed.
-//    switch (position) {
-//        case FrontViewPositionLeft:
-//            self.mapView.userInteractionEnabled = YES;
-//            break;
-//            
-//        default:
-//            self.mapView.userInteractionEnabled = NO;
-//            break;
-//    }
-//}
-
 #pragma mark - UIGestureRecognizerDelegate
-
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-//    CGPoint location = [touch locationInView:self.view];
-//    CGRect boundingRect = self.mapView.bounds;
-//    if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-//        boundingRect.origin.x += 30;
-//        boundingRect.size.width -= 30;
-//    }
-//    
-//    // If the touch began in the leftmost 30 points, fail so that the reveal pan can work.
-//    return self.mapView.userInteractionEnabled && CGRectContainsPoint(boundingRect, location);
-//}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;

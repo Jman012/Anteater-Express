@@ -8,7 +8,6 @@
 
 #import "AESideMenuTableViewController.h"
 
-//#import <SWRevealViewController/SWRevealViewController.h>
 #import <MapKit/MapKit.h>
 #import <SideMenu/SideMenu-Swift.h>
 
@@ -113,7 +112,6 @@ const NSUInteger kSectionLinks =      3;
     [self.tableView addSubview:self.refreshControl];
     
     
-//    self.revealViewController.rearViewRevealOverdraw = 0.0f;
 
     [self constructMenu];
     
@@ -410,13 +408,12 @@ const NSUInteger kSectionLinks =      3;
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdItemCell]) {
         ItemInfo *itemInfo = (ItemInfo *)menuInfo;
         
-        UINavigationController *frontNavController = (UINavigationController *)self.revealViewController.frontViewController;
+        UISideMenuNavigationController *frontNavController = SideMenuManager.menuLeftNavigationController;
         
-        // TODO: Cache these views somehow.
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
         UIViewController *destVC = [storyboard instantiateViewControllerWithIdentifier:itemInfo.storyboardId];
         
-        [self.revealViewController revealToggleAnimated:YES];
+        [frontNavController dismissViewControllerAnimated:true completion:nil];
         
         [frontNavController pushViewController:destVC animated:YES];
         
@@ -427,14 +424,14 @@ const NSUInteger kSectionLinks =      3;
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(nonnull NSIndexPath *)indexPath {
     if (indexPath.section == kSectionLines) {
-        UINavigationController *frontNavController = (UINavigationController *)self.revealViewController.frontViewController;
+        UINavigationController *frontNavController = SideMenuManager.menuLeftNavigationController;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
         RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
         
         LineInfo *routeLineInfo = self.menuSections[kSectionLines][indexPath.row];
         [destVC setRoute:routeLineInfo.route];
         
-        [self.revealViewController revealToggleAnimated:YES];
+        [frontNavController dismissViewControllerAnimated:true completion:nil];
         [frontNavController pushViewController:destVC animated:YES];
     }
 }

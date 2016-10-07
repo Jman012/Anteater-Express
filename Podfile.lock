@@ -30,9 +30,18 @@ PODS:
 DEPENDENCIES:
   - FRHyperLabel
   - Google/Analytics
-  - SideMenu
+  - SideMenu (from `https://github.com/Jman012/SideMenu.git`)
   - SWRevealViewController (~> 2.3)
   - TSMessages (~> 0.9)
+
+EXTERNAL SOURCES:
+  SideMenu:
+    :git: https://github.com/Jman012/SideMenu.git
+
+CHECKOUT OPTIONS:
+  SideMenu:
+    :commit: 8f9326ed2c893fc4a9e31b6fbb93dff08e3a9ba1
+    :git: https://github.com/Jman012/SideMenu.git
 
 SPEC CHECKSUMS:
   FirebaseAnalytics: 02d0aed8c6246a9c8683ac3e9825c67ceb657bde
@@ -49,6 +58,6 @@ SPEC CHECKSUMS:
   SWRevealViewController: 6d3fd97f70112fd7cef9de14df4260eacce4c63a
   TSMessages: c8cc7b80f2a833af533872cd02010cac061532cc
 
-PODFILE CHECKSUM: 6ce912748d3e5118aa4423c26c73defe62da7034
+PODFILE CHECKSUM: 3b38db5393ef424dc6d473c4a0ce45f0bd694834
 
 COCOAPODS: 1.0.1
