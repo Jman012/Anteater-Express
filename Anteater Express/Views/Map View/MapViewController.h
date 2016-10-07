@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import <SWRevealViewController/SWRevealViewController.h>
 #import <Google/Analytics.h>
 #import "ASMapView.h"
 
 #import "AEDataModel.h"
 
-@interface MapViewController : GAITrackedViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, SWRevealViewControllerDelegate, MKMapViewDelegate, CLLocationManagerDelegate, AEDataModelDelegate>
+@interface MapViewController : GAITrackedViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, MKMapViewDelegate, CLLocationManagerDelegate, AEDataModelDelegate>
 
 - (void)setMapType:(MKMapType)newType;
 

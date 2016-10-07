@@ -145,6 +145,18 @@
     return self.stopForStopId[stopId];
 }
 
+#pragma mark - Map
+
+- (void)setMapType:(MKMapType)type {
+    for (id<AEDataModelDelegate> del in self.delegates) {
+        if ([del respondsToSelector:@selector(aeDataModel:didSetMapType:)]) {
+            dispatch_async(dispatch_get_main_queue(), ^() {
+                [del aeDataModel:self didSetMapType:type];
+            });
+        }
+    }
+}
+
 #pragma mark - Selected Routes
 
 - (void)selectRoute:(Route *)route {

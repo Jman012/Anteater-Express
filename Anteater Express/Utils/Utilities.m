@@ -9,61 +9,12 @@
 #import "Utilities.h"
 #import <arpa/inet.h>
 
-#import "Reachability.h"
 
 @implementation Utilities
 
 NSString* const VIEWED_ROUTE_UPDATES = @"viewedRouteUpdates";
 NSString* const VIEWED_ANNOUNCEMENTS = @"viewedAnnouncements";
 
-+(NSInteger) checkNetworkStatus
-{
-    NSInteger returnValue = 0;
-    //NSString *serverIP = @"apps.shuttle.uci.edu";
-    //const char *serverIPChar = [serverIP cStringUsingEncoding:NSASCIIStringEncoding];
-    
-    //struct sockaddr_in address;
-    //address.sin_len = sizeof(address);
-    //address.sin_family = AF_INET;
-    //address.sin_port = htons(8080);
-    //address.sin_addr.s_addr = inet_addr("128.200.237.7");
-    
-    Reachability* internetReachable = [Reachability reachabilityForInternetConnection];
-    NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
-    switch (internetStatus)
-    {
-        case NotReachable:
-        {
-            //NSLog(@"The internet is down.");
-            returnValue = 1;
-            break;
-        }
-        case ReachableViaWiFi:
-        {
-            //NSLog(@"The internet is working via WIFI.");
-            returnValue = 0;
-            
-            break;
-        }
-        case ReachableViaWWAN:
-        {
-            //NSLog(@"The internet is working via WWAN.");
-            returnValue = 0;
-            
-            break;
-        }
-    }
-    if (returnValue == 0) {
-        NSString *connected = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://apps.shuttle.uci.edu:8080/"] encoding: NSUTF8StringEncoding error:nil];
-        
-        //NSLog(@"checking connection");
-        if(connected == NULL)
-        {
-            returnValue = 2;
-        }
-    }
-    return returnValue;
-}
 
 + (NSString *)dateDisplayStringFromDate:(NSDate *)date {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

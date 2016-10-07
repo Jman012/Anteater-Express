@@ -8,8 +8,6 @@
 
 #import "AllRouteUpdatesViewController.h"
 
-#import <SWRevealViewController/SWRevealViewController.h>
-
 @interface AllRouteUpdatesViewController ()
 
 //@property (nonatomic, strong) IBOutlet UIBarButtonItem *revealButton;

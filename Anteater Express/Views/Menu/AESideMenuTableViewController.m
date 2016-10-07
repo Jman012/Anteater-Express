@@ -8,8 +8,8 @@
 
 #import "AESideMenuTableViewController.h"
 
-#import <SWRevealViewController/SWRevealViewController.h>
 #import <MapKit/MapKit.h>
+#import <SideMenu/SideMenu-Swift.h>
 
 #import "AEDataModel.h"
 #import "RoutesAndAnnounceDAO.h"
@@ -112,7 +112,6 @@ const NSUInteger kSectionLinks =      3;
     [self.tableView addSubview:self.refreshControl];
     
     
-    self.revealViewController.rearViewRevealOverdraw = 0.0f;
 
     [self constructMenu];
     
@@ -282,16 +281,14 @@ const NSUInteger kSectionLinks =      3;
     MapControlInfo *mapControlInfo = [self.menuSections[kSectionMapControl] firstObject];
     mapControlInfo.selection = control.selectedSegmentIndex;
     
-    UINavigationController *navVC = (UINavigationController *)self.revealViewController.frontViewController;
-    MapViewController *mapVC = (MapViewController *)[[navVC viewControllers] firstObject];
     switch (mapControlInfo.selection) {
         case 0: {
-            [mapVC setMapType:MKMapTypeStandard];
+            [AEDataModel.shared setMapType:MKMapTypeStandard];
             break;
         }
         
         case 1: {
-            [mapVC setMapType:MKMapTypeHybrid];
+            [AEDataModel.shared setMapType:MKMapTypeHybrid];
             break;
         }
         default:
@@ -370,7 +367,7 @@ const NSUInteger kSectionLinks =      3;
     MenuInfo *menuInfo = self.menuSections[indexPath.section][indexPath.row];
     if ([menuInfo.cellIdentifier isEqualToString:kCellIdBannerCell]) {
         BannerItemInfo *bannerInfo = (BannerItemInfo *)menuInfo;
-        return [bannerInfo preferredCellHeightForWidth:self.revealViewController.rearViewRevealWidth];
+        return [bannerInfo preferredCellHeightForWidth:SideMenuManager.menuWidth];
 
     } else {
         return 44.0f;
@@ -409,13 +406,12 @@ const NSUInteger kSectionLinks =      3;
     } else if ([menuInfo.cellIdentifier isEqualToString:kCellIdItemCell]) {
         ItemInfo *itemInfo = (ItemInfo *)menuInfo;
         
-        UINavigationController *frontNavController = (UINavigationController *)self.revealViewController.frontViewController;
+        UISideMenuNavigationController *frontNavController = SideMenuManager.menuLeftNavigationController;
         
-        // TODO: Cache these views somehow.
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
         UIViewController *destVC = [storyboard instantiateViewControllerWithIdentifier:itemInfo.storyboardId];
         
-        [self.revealViewController revealToggleAnimated:YES];
+        [frontNavController dismissViewControllerAnimated:true completion:nil];
         
         [frontNavController pushViewController:destVC animated:YES];
         
@@ -426,14 +422,14 @@ const NSUInteger kSectionLinks =      3;
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(nonnull NSIndexPath *)indexPath {
     if (indexPath.section == kSectionLines) {
-        UINavigationController *frontNavController = (UINavigationController *)self.revealViewController.frontViewController;
+        UINavigationController *frontNavController = SideMenuManager.menuLeftNavigationController;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:[NSBundle mainBundle]];
         RouteDetailViewController *destVC = (RouteDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"RouteDetailView"];
         
         LineInfo *routeLineInfo = self.menuSections[kSectionLines][indexPath.row];
         [destVC setRoute:routeLineInfo.route];
         
-        [self.revealViewController revealToggleAnimated:YES];
+        [frontNavController dismissViewControllerAnimated:true completion:nil];
         [frontNavController pushViewController:destVC animated:YES];
     }
 }
