@@ -354,7 +354,7 @@
             [self.gettingVehiclesById removeObject:route.id];
             for (id<AEDataModelDelegate> del in self.delegates) {
                 if ([del respondsToSelector:@selector(aeDataModel:didRefreshVehicles:forRoute:)]) {
-                    dispatch_async(dispatch_get_main_queue(), ^() {
+                    dispatch_sync(dispatch_get_main_queue(), ^() {
                         [del aeDataModel:self didRefreshVehicles:@[] forRoute:route];
                     });
                 }
@@ -366,7 +366,7 @@
         self.vehiclesForRouteId[route.id] = [NSMutableArray arrayWithArray:vehicles];
         for (id<AEDataModelDelegate> del in self.delegates) {
             if ([del respondsToSelector:@selector(aeDataModel:didRefreshVehicles:forRoute:)]) {
-                dispatch_async(dispatch_get_main_queue(), ^() {
+                dispatch_sync(dispatch_get_main_queue(), ^() {
                     [del aeDataModel:self didRefreshVehicles:vehicles forRoute:route];
                 });
             }
@@ -391,7 +391,7 @@
             [self.gettingWaypointsById removeObject:route.id];
             for (id<AEDataModelDelegate> del in self.delegates) {
                 if ([del respondsToSelector:@selector(aeDataModel:didRefreshWaypoints:forRoute:)]) {
-                    dispatch_async(dispatch_get_main_queue(), ^() {
+                    dispatch_sync(dispatch_get_main_queue(), ^() {
                         [del aeDataModel:self didRefreshWaypoints:nil forRoute:route];
                     });
                 }
@@ -402,7 +402,7 @@
         self.waypointsForRouteId[route.id] = waypoints;
         for (id<AEDataModelDelegate> del in self.delegates) {
             if ([del respondsToSelector:@selector(aeDataModel:didRefreshWaypoints:forRoute:)]) {
-                dispatch_async(dispatch_get_main_queue(), ^() {
+                dispatch_sync(dispatch_get_main_queue(), ^() {
                     [del aeDataModel:self didRefreshWaypoints:waypoints forRoute:route];
                 });
             }
